@@ -23,7 +23,7 @@ type CustomerTableProps = {
 
 export const CustomerTable = ({
   customers = [],
-  isCustomersLoading,
+  isCustomersLoading = false,
   refetchCustomers,
 }: CustomerTableProps) => {
   return (
