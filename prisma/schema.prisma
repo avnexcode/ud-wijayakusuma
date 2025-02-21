@@ -1,0 +1,137 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+enum LoginProvider {
+    CREDENTIALS
+}
+
+model Profile {
+    id       String        @id
+    name     String        @db.VarChar(100)
+    email    String        @db.VarChar(150)
+    provider LoginProvider @default(CREDENTIALS)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("profiles")
+}
+
+model Customer {
+    id      String  @id @default(cuid())
+    name    String  @unique @db.VarChar(150)
+    email   String? @unique @db.VarChar(150)
+    address String  @db.VarChar(255)
+    phone   String  @unique @db.VarChar(20)
+    orders  Order[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("customers")
+}
+
+model Product {
+    id          String  @id @default(cuid())
+    name        String  @db.VarChar(150)
+    slug        String  @unique
+    price       String  @db.VarChar(50)
+    description String? @db.Text
+
+    category_id String
+    category    Category @relation(fields: [category_id], references: [id], onDelete: Restrict)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    Order      Order[]
+
+    @@map("products")
+}
+
+model Category {
+    id          String  @id @default(cuid())
+    name        String  @unique @db.VarChar(150)
+    slug        String  @unique
+    description String? @db.Text
+
+    products Product[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("categories")
+}
+
+enum OrderStatus {
+    PENDING
+    SUCCESS
+}
+
+enum OrderCategory {
+    WHOLESALE // grosir
+    RETAIL // ecer
+}
+
+model Order {
+    id          String        @id @default(cuid())
+    label       String        @unique @db.VarChar(100)
+    description String?       @db.Text
+    total       String        @db.VarChar(50)
+    status      OrderStatus   @default(PENDING)
+    category    OrderCategory @default(RETAIL)
+
+    customer_id    String
+    product_id     String
+    transaction_id String?
+    customer       Customer     @relation(fields: [customer_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+    product        Product      @relation(fields: [product_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
+    transaction    Transaction?
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("orders")
+}
+
+enum TransactionStatus {
+    UNPAID
+    PARTIALLY_PAID
+    PAID
+}
+
+model Transaction {
+    id           String            @id @default(cuid())
+    total_amount String
+    amount_paid  String?
+    amount_due   String?
+    status       TransactionStatus @default(UNPAID)
+
+    order_id        String          @unique
+    order           Order           @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    payment_records PaymentRecord[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("transactions")
+}
+
+model PaymentRecord {
+    id     String @id @default(cuid())
+    amount String
+
+    transaction_id String
+    transaction    Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    @@map("payment_records")
+}
