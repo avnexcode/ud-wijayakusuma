@@ -76,20 +76,14 @@ export const CreatePaymentRecordForm = ({
         )}
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
-        </DialogHeader>
+        <DialogHeader />
         <Form {...form}>
           <CreatePaymentRecordFormInner
             formId="create-payment-record-form"
             onSubmit={onSubmit}
           />
         </Form>
-        <DialogFooter>
+        <DialogFooter className="mt-5">
           <Button
             form="create-payment-record-form"
             disabled={isCreatePaymentRecordPending}

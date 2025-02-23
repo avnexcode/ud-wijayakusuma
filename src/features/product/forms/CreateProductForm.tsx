@@ -42,10 +42,6 @@ export const CreateProductForm = () => {
 
   return (
     <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
           <CreateProductFormInner

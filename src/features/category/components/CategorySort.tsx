@@ -6,22 +6,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type CustomerSortParams = "name" | "created_at";
-export type CustomerOrderParams = "asc" | "desc";
+export type CategorySortParams = "name" | "created_at";
+export type CategoryOrderParams = "asc" | "desc";
 
-type CustomerSortProps = {
+type CategorySortProps = {
   currentSort?: string;
   currentOrder?: string;
-  onSortChange: (sort: CustomerSortParams) => void;
-  onOrderChange: (order: CustomerOrderParams) => void;
+  onSortChange: (sort: CategorySortParams) => void;
+  onOrderChange: (order: CategoryOrderParams) => void;
 };
 
-export const CustomerSort = ({
+export const CategorySort = ({
   currentSort = "created_at",
   currentOrder = "desc",
   onSortChange,
   onOrderChange,
-}: CustomerSortProps) => {
+}: CategorySortProps) => {
   return (
     <div className="flex gap-2">
       <Select value={currentSort} onValueChange={onSortChange}>

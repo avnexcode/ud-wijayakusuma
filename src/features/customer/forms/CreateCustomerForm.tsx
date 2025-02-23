@@ -51,10 +51,6 @@ export const CreateCustomerForm = () => {
 
   return (
     <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>Buat Data Pelanggan</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
           <CreateCustomerFormInner

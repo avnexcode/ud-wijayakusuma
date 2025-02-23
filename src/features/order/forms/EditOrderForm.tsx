@@ -27,12 +27,16 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
       total: "",
       product_id: "",
       customer_id: "",
+      sending_at: new Date(),
       category: "WHOLESALE",
     },
     resolver: zodResolver(updateOrderFormSchema),
   });
 
-  const { data: order } = api.order.getById.useQuery({ id: orderId });
+  const { data: order } = api.order.getById.useQuery(
+    { id: orderId },
+    { enabled: !!orderId },
+  );
 
   const { mutate: updateOrder, isPending: isUpdateOrderPending } =
     api.order.update.useMutation({

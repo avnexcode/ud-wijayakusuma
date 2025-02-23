@@ -1,5 +1,5 @@
-import { useFormContext } from "react-hook-form";
-import type { UpdateOrderFormSchema } from "../types";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   FormControl,
   FormField,
@@ -8,6 +8,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -18,7 +23,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { CustomerSelect } from "@/features/customer/components";
 import { ProductSelect } from "@/features/product/components";
+import { cn } from "@/lib/utils";
 import { OrderCategory } from "@prisma/client";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useFormContext } from "react-hook-form";
+import type { UpdateOrderFormSchema } from "../types";
 
 type EditOrderFormInnerProps = {
   formId: string;
@@ -80,13 +90,44 @@ export const EditOrderFormInner = ({
       />
       <FormField
         control={form.control}
-        name="description"
+        name="sending_at"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>Deskripsi</FormLabel>
-            <FormControl>
-              <Textarea placeholder="Masukkan deskripsi pesanan" {...field} />
-            </FormControl>
+          <FormItem className="flex flex-col">
+            <FormLabel>Tanggal Pengiriman</FormLabel>
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-[280px] pl-3 text-left font-normal",
+                      !field.value && "text-muted-foreground",
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {field.value ? (
+                      format(new Date(field.value), "PPP")
+                    ) : (
+                      <span>Pilih tanggal pengiriman</span>
+                    )}
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={field.value}
+                  onSelect={(date) => {
+                    console.log("Selected date:", date);
+                    field.onChange(date);
+                  }}
+                  disabled={(date) =>
+                    date < new Date(new Date().setHours(0, 0, 0, 0))
+                  }
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
             <FormMessage />
           </FormItem>
         )}
@@ -115,6 +156,19 @@ export const EditOrderFormInner = ({
                 </SelectItem>
               </SelectContent>
             </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Deskripsi</FormLabel>
+            <FormControl>
+              <Textarea placeholder="Masukkan deskripsi pesanan" {...field} />
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}

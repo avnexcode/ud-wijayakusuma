@@ -47,7 +47,9 @@ export const transactionRouter = createTRPCRouter({
             },
           }),
           orderBy: {
-            [sort]: order,
+            order: {
+              [sort]: order,
+            },
           },
           include: {
             order: {
