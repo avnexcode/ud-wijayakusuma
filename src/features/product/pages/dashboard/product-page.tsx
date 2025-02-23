@@ -81,10 +81,10 @@ export const ProductPage = () => {
           <DashboardProductSection>
             <header className="flex flex-col gap-y-5 py-10">
               <div className="flex items-center gap-x-5">
-                <Link href={"/dashboard/Product/create"}>
+                <Link href={"/dashboard/product/create"}>
                   <Button className="min-w-[150px]">
                     <CirclePlus />
-                    Tambahkan Pelanggan
+                    Tambahkan Product
                   </Button>
                 </Link>
 
