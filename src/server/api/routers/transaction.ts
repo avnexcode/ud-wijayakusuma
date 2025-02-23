@@ -1,5 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { queryParams } from "@/server/validations/api.validation";
+import { errorFilter } from "@/server/filters";
+import { queryParams } from "@/server/validations";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -69,11 +70,7 @@ export const transactionRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch transactions",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -104,13 +101,7 @@ export const transactionRouter = createTRPCRouter({
 
         return transaction;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch transaction",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 });

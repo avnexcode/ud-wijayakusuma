@@ -86,7 +86,7 @@ export const CategorySelect = <T extends FieldValues>({
                   </SelectItem>
                 ),
                 fallback: (
-                  <SelectItem value={"empty"}>
+                  <SelectItem value={"none"}>
                     Tidak ada data kategori tersedia
                   </SelectItem>
                 ),

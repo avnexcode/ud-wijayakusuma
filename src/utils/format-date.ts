@@ -52,12 +52,12 @@ const DAYS_ID = [
  * @returns String date yang sudah diformat
  */
 export const formatDate = (
-  date: Date | string | number,
+  date?: Date | string | number,
   formatType: DateFormat = "medium",
 ): string => {
   try {
     // Konversi input ke Date object
-    const dateObject = new Date(date);
+    const dateObject = date ? new Date(date) : new Date();
 
     // Validasi date
     if (isNaN(dateObject.getTime())) {

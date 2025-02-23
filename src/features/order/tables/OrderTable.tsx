@@ -15,6 +15,7 @@ import { DeleteOrderDialog } from "../components/action/DeleteOrderDialog";
 import { OrderTableBodySkeleton } from "../components/skeleton/OrderTableSkeleton";
 import type { OrderWithRelations } from "../types";
 import { convertCurrency } from "@/utils/convert-currency";
+import { formatDate } from "@/utils";
 
 type OrderTableProps = {
   orders?: OrderWithRelations[];
@@ -38,6 +39,7 @@ export const OrderTable = ({
           <TableHead>Produk</TableHead>
           <TableHead className="w-[150px]">Total Pesanan</TableHead>
           <TableHead>Total Harga</TableHead>
+          <TableHead>Tanggal Pengiriman</TableHead>
           <TableHead className="w-[200px]">Aksi</TableHead>
         </TableRow>
       </TableHeader>
@@ -57,6 +59,9 @@ export const OrderTable = ({
               <TableCell className="capitalize">{order.total}</TableCell>
               <TableCell className="capitalize">
                 {convertCurrency(order.transaction?.total_amount ?? "")}
+              </TableCell>
+              <TableCell className="capitalize">
+                {formatDate(order.sending_at)}
               </TableCell>
               <TableCell className="space-x-1">
                 <Link href={`/dashboard/order/${order.id}/detail`}>

@@ -1,9 +1,10 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { queryParams } from "@/server/validations/api.validation";
+import { errorFilter } from "@/server/filters";
 import {
   createOrderRequest,
   updateOrderRequest,
-} from "@/server/validations/order.validation";
+  queryParams,
+} from "@/server/validations";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -94,11 +95,7 @@ export const orderRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch orders",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -121,13 +118,7 @@ export const orderRouter = createTRPCRouter({
 
         return order;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch order",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -135,6 +126,8 @@ export const orderRouter = createTRPCRouter({
     .input(createOrderRequest)
     .mutation(async ({ ctx, input }) => {
       await ctx.db.$transaction(async (db) => {
+        console.log("Raw input sending_at:", input.sending_at);
+        console.log("Formatted sending_at:", new Date(input.sending_at));
         try {
           const existingOrder = await db.order.count({
             where: { label: input.label },
@@ -180,14 +173,7 @@ export const orderRouter = createTRPCRouter({
 
           return order;
         } catch (error) {
-          console.log("ERROR FROM TRPC CREATE ORDER : ", error);
-          if (error instanceof TRPCError) throw error;
-
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Sebuah kesalahan telah terjadi",
-            cause: error,
-          });
+          return errorFilter(error);
         }
       });
     }),
@@ -277,14 +263,7 @@ export const orderRouter = createTRPCRouter({
 
           return updatedOrder;
         } catch (error) {
-          console.log("ERROR FROM TRPC UPDATE ORDER : ", error);
-          if (error instanceof TRPCError) throw error;
-
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Terjadi kesalahan saat memperbarui pesanan",
-            cause: error,
-          });
+          return errorFilter(error);
         }
       });
     }),
@@ -315,13 +294,7 @@ export const orderRouter = createTRPCRouter({
 
           return order.id;
         } catch (error) {
-          if (error instanceof TRPCError) throw error;
-
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to delete order",
-            cause: error,
-          });
+          return errorFilter(error);
         }
       });
     }),

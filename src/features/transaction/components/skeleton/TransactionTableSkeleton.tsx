@@ -2,7 +2,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,32 +9,35 @@ import {
 } from "@/components/ui/table";
 import { renderElements } from "@/utils/render-elements";
 
+export const TransactionTableCellSkeleton = () => {
+  return <Skeleton className="h-3 w-full" />;
+};
+
 export const TransactionTableSkeleton = () => {
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[50px]">
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[150px]">
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[100px]">
-            <Skeleton className="h-3 w-full" />
+            <TransactionTableCellSkeleton />
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -60,25 +62,25 @@ export const TransactionTableItemSkeleton = () => {
   return (
     <TableRow>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <TransactionTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <TransactionTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <TransactionTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <TransactionTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <TransactionTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <TransactionTableCellSkeleton />
       </TableCell>
-      <TableCell>
-        <Skeleton className="h-3 w-full" />
+      <TableCell className="flex items-center gap-2">
+        <Skeleton className="h-8 w-[40px]" />
       </TableCell>
     </TableRow>
   );

@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/utils";
@@ -67,10 +60,6 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
 
   return (
     <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
           <EditOrderFormInner formId="update-order-form" onSubmit={onSubmit} />

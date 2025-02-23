@@ -91,7 +91,7 @@ export const ProductSelect = <T extends FieldValues>({
                   </SelectItem>
                 ),
                 fallback: (
-                  <SelectItem value={""}>Tidak ada data produk</SelectItem>
+                  <SelectItem value={"none"}>Tidak ada data produk</SelectItem>
                 ),
               })}
             </SelectContent>

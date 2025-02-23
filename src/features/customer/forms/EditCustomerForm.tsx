@@ -19,6 +19,7 @@ import type { UpdateCustomerFormSchema } from "../types";
 import { CreateCustomerFormInner } from "./CreateCustomerFormInner";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { EditCustomerFormSkeleton } from "../components/skeleton";
 
 type EditCustomerFormProps = {
   customerId: string;
@@ -27,10 +28,11 @@ type EditCustomerFormProps = {
 export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const { data: customer } = api.customer.getById.useQuery(
-    { id: customerId },
-    { enabled: !!customerId },
-  );
+  const { data: customer, isLoading: isCustomerLoading } =
+    api.customer.getById.useQuery(
+      { id: customerId },
+      { enabled: !!customerId },
+    );
 
   const form = useForm<UpdateCustomerFormSchema>({
     defaultValues: {
@@ -69,12 +71,12 @@ export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
     }
   }, [form, customer]);
 
+  if (isCustomerLoading) {
+    return <EditCustomerFormSkeleton />;
+  }
+
   return (
     <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>Perbarui Data Pelanggan</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
           <CreateCustomerFormInner
@@ -83,7 +85,8 @@ export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
           />
         </Form>
       </CardContent>
-      <CardFooter className="mt-10 place-content-end">
+      <CardFooter className="mt-10 place-content-end space-x-5">
+        <Button onClick={() => router.back()}>Batal</Button>
         <Button
           form="update-customer-form"
           disabled={isUpdateCustomerPending || !form.formState.isDirty}

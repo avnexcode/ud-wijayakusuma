@@ -15,7 +15,6 @@ export const CustomerLimit = ({
   currentLimit,
   onLimitChange,
 }: CustomerLimitProps) => {
-  console.log("CONSOLE From CustomerLimit Component");
   return (
     <Select
       value={currentLimit.toString()}

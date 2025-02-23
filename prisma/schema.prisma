@@ -93,6 +93,7 @@ model Order {
     customer       Customer     @relation(fields: [customer_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
     product        Product      @relation(fields: [product_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
     transaction    Transaction?
+    sending_at     DateTime
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt

@@ -1,4 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { errorFilter } from "@/server/filters";
 import {
   createPaymentRecordRequest,
   updatePaymentRecordRequest,
@@ -27,15 +28,10 @@ export const paymentRecordRouter = createTRPCRouter({
 
         return paymentRecord;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch payment record",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
+
   create: publicProcedure
     .input(createPaymentRecordRequest)
     .mutation(async ({ ctx, input }) => {
@@ -87,13 +83,7 @@ export const paymentRecordRouter = createTRPCRouter({
 
           return paymentRecord;
         } catch (error) {
-          if (error instanceof TRPCError) throw error;
-
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to create payment record",
-            cause: error,
-          });
+          return errorFilter(error);
         }
       });
     }),
@@ -163,13 +153,7 @@ export const paymentRecordRouter = createTRPCRouter({
 
           return updatedPaymentRecord;
         } catch (error) {
-          if (error instanceof TRPCError) throw error;
-
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to update payment record",
-            cause: error,
-          });
+          return errorFilter(error);
         }
       });
     }),
@@ -226,13 +210,7 @@ export const paymentRecordRouter = createTRPCRouter({
 
           return paymentRecord.id;
         } catch (error) {
-          if (error instanceof TRPCError) throw error;
-
-          throw new TRPCError({
-            code: "INTERNAL_SERVER_ERROR",
-            message: "Failed to delete payment record",
-            cause: error,
-          });
+          return errorFilter(error);
         }
       });
     }),

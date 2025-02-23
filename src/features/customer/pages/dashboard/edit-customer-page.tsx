@@ -9,12 +9,12 @@ import { useParams } from "next/navigation";
 
 export const EditCustomerPage = () => {
   const params: { id: string } = useParams();
-  const id = params?.id;
+  const customerId = params?.id;
   return (
     <PageContainer>
       <SectionContainer padded>
         <DashboardSection title="Dashboard - Pelanggan">
-          <EditCustomerForm customerId={id} />
+          <EditCustomerForm customerId={customerId} />
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

@@ -13,7 +13,7 @@ import { type Customer } from "@prisma/client";
 import { ScanEye, SquarePen } from "lucide-react";
 import Link from "next/link";
 import { DeleteCustomerDialog } from "../components/action/DeleteCustomerDialog";
-import { CustomerTableBodySkeleton } from "../components/skeleton/CustomerTableSkeleton";
+import { CustomerTableBodySkeleton } from "../components/skeleton";
 
 type CustomerTableProps = {
   customers?: Customer[];

@@ -1,22 +1,15 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useForm } from "react-hook-form";
-import type { CreateOrderFormSchema } from "../types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createOrderFormSchema } from "../schemas";
-import { Form } from "@/components/ui/form";
-import { CreateOrderFormInner } from "./CreateOrderFormInner";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
 import { api } from "@/utils/api";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { createOrderFormSchema } from "../schemas";
+import type { CreateOrderFormSchema } from "../types";
+import { CreateOrderFormInner } from "./CreateOrderFormInner";
 
 export const CreateOrderForm = () => {
   const router = useRouter();
@@ -27,6 +20,7 @@ export const CreateOrderForm = () => {
       total: "",
       product_id: "",
       customer_id: "",
+      sending_at: new Date(),
       category: "WHOLESALE",
     },
     resolver: zodResolver(createOrderFormSchema),
@@ -39,14 +33,12 @@ export const CreateOrderForm = () => {
       },
     });
 
-  const onSubmit = (values: CreateOrderFormSchema) => createOrder(values);
+  const onSubmit = (values: CreateOrderFormSchema) => {
+    createOrder({ ...values, sending_at: new Date(values.sending_at) });
+  };
 
   return (
     <Card className="border-none shadow-none">
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
           <CreateOrderFormInner

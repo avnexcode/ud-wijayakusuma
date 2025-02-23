@@ -6,14 +6,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export type SortParams = "name" | "created_at" | "price";
-export type OrderParams = "asc" | "desc";
+export type CustomerSortParams = "name" | "created_at";
+export type CustomerOrderParams = "asc" | "desc";
 
 type CustomerSortProps = {
   currentSort?: string;
   currentOrder?: string;
-  onSortChange: (sort: SortParams) => void;
-  onOrderChange: (order: OrderParams) => void;
+  onSortChange: (sort: CustomerSortParams) => void;
+  onOrderChange: (order: CustomerOrderParams) => void;
 };
 
 export const CustomerSort = ({
@@ -22,7 +22,6 @@ export const CustomerSort = ({
   onSortChange,
   onOrderChange,
 }: CustomerSortProps) => {
-  console.log("CONSOLE From CustomerSort Component");
   return (
     <div className="flex gap-2">
       <Select value={currentSort} onValueChange={onSortChange}>
@@ -30,10 +29,8 @@ export const CustomerSort = ({
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="name">Name</SelectItem>
-          <SelectItem value="price">Price</SelectItem>
-          <SelectItem value="discount">Discount</SelectItem>
-          <SelectItem value="created_at">Created At</SelectItem>
+          <SelectItem value="name">Nama</SelectItem>
+          <SelectItem value="created_at">Dibuat</SelectItem>
         </SelectContent>
       </Select>
 
@@ -42,8 +39,6 @@ export const CustomerSort = ({
           <SelectValue placeholder="Sort Order" />
         </SelectTrigger>
         {currentSort === "name" && <SelectSortText />}
-        {currentSort === "price" && <SelectSortNumber />}
-        {currentSort === "discount" && <SelectSortNumber />}
         {currentSort === "created_at" && <SelectSortDate />}
       </Select>
     </div>

@@ -17,8 +17,9 @@ export const createOrderFormSchema = z.object({
   total: z.string().min(1).max(50),
   status: z.enum(orderStatus).default("PENDING"),
   category: z.enum(orderCategory).default("WHOLESALE"),
-  product_id: z.string().min(1),
+  sending_at: z.coerce.date(),
   customer_id: z.string().min(1),
+  product_id: z.string().min(1),
 });
 
 export const updateOrderFormSchema = createOrderFormSchema.partial();

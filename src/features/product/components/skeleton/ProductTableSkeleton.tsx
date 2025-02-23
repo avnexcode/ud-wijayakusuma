@@ -10,6 +10,10 @@ import {
 } from "@/components/ui/table";
 import { renderElements } from "@/utils/render-elements";
 
+export const ProductTableCellSkeleton = () => {
+  return <Skeleton className="h-3 w-full" />;
+};
+
 export const ProductTableSkeleton = () => {
   return (
     <Table>
@@ -17,19 +21,19 @@ export const ProductTableSkeleton = () => {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[50px]">
-            <Skeleton className="h-3 w-full" />
+            <ProductTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <ProductTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <ProductTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <ProductTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[200px]">
-            <Skeleton className="h-3 w-full" />
+            <ProductTableCellSkeleton />
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -47,19 +51,21 @@ export const ProductTableBodySkeleton = () => {
         render: () => (
           <TableRow>
             <TableCell>
-              <Skeleton className="h-3 w-full" />
+              <ProductTableCellSkeleton />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-3 w-full" />
+              <ProductTableCellSkeleton />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-3 w-full" />
+              <ProductTableCellSkeleton />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-3 w-full" />
+              <ProductTableCellSkeleton />
             </TableCell>
-            <TableCell>
-              <Skeleton className="h-3 w-full" />
+            <TableCell className="flex items-center gap-2">
+              <Skeleton className="h-8 w-[40px]" />
+              <Skeleton className="h-8 w-[40px]" />
+              <Skeleton className="h-8 w-[40px]" />
             </TableCell>
           </TableRow>
         ),

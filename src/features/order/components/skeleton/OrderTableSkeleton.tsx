@@ -2,7 +2,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,32 +9,38 @@ import {
 } from "@/components/ui/table";
 import { renderElements } from "@/utils/render-elements";
 
+export const OrderTableCellSkeleton = () => {
+  return <Skeleton className="h-3 w-full" />;
+};
+
 export const OrderTableSkeleton = () => {
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[50px]">
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[150px]">
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
+          </TableHead>
+          <TableHead>
+            <OrderTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[200px]">
-            <Skeleton className="h-3 w-full" />
+            <OrderTableCellSkeleton />
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -60,25 +65,30 @@ export const OrderTableItemSkeleton = () => {
   return (
     <TableRow>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <OrderTableCellSkeleton />
+      </TableCell>
+      <TableCell className="flex items-center gap-2">
+        <Skeleton className="h-8 w-[40px]" />
+        <Skeleton className="h-8 w-[40px]" />
+        <Skeleton className="h-8 w-[40px]" />
       </TableCell>
     </TableRow>
   );

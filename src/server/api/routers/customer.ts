@@ -1,9 +1,10 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { queryParams } from "@/server/validations/api.validation";
+import { errorFilter } from "@/server/filters";
 import {
   createCustomerRequest,
+  queryParams,
   updateCustomerRequest,
-} from "@/server/validations/customer.validation";
+} from "@/server/validations";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -60,11 +61,7 @@ export const customerRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch customers",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -87,13 +84,7 @@ export const customerRouter = createTRPCRouter({
 
         return customer;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch customer",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -142,13 +133,7 @@ export const customerRouter = createTRPCRouter({
 
         return customer;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to create customer",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -215,13 +200,7 @@ export const customerRouter = createTRPCRouter({
 
         return customer;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to update customer",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -248,13 +227,7 @@ export const customerRouter = createTRPCRouter({
 
         return customer.id;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to delete customer",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 });

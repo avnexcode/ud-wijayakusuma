@@ -9,19 +9,23 @@ import {
 } from "@/components/ui/table";
 import { renderElements } from "@/utils/render-elements";
 
+export const CategoryTableCellSkeleton = () => {
+  return <Skeleton className="h-3 w-full" />;
+};
+
 export const CategoryTableSkeleton = () => {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[50px]">
-            <Skeleton className="h-3 w-full" />
+            <CategoryTableCellSkeleton />
           </TableHead>
           <TableHead>
-            <Skeleton className="h-3 w-full" />
+            <CategoryTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[200px]">
-            <Skeleton className="h-3 w-full" />
+            <CategoryTableCellSkeleton />
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -46,13 +50,15 @@ export const CategoryTableItemSkeleton = () => {
   return (
     <TableRow>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <CategoryTableCellSkeleton />
       </TableCell>
       <TableCell>
-        <Skeleton className="h-3 w-full" />
+        <CategoryTableCellSkeleton />
       </TableCell>
-      <TableCell>
-        <Skeleton className="h-3 w-full" />
+      <TableCell className="flex items-center gap-2">
+        <Skeleton className="h-8 w-[40px]" />
+        <Skeleton className="h-8 w-[40px]" />
+        <Skeleton className="h-8 w-[40px]" />
       </TableCell>
     </TableRow>
   );

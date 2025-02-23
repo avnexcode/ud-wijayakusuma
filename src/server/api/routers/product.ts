@@ -1,9 +1,10 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { queryParams } from "@/server/validations/api.validation";
+import { errorFilter } from "@/server/filters";
 import {
   createProductRequest,
+  queryParams,
   updateProductRequest,
-} from "@/server/validations/product.validation";
+} from "@/server/validations";
 import { generateSlug } from "@/utils/slug-generator";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -62,11 +63,7 @@ export const productRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch products",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -87,13 +84,7 @@ export const productRouter = createTRPCRouter({
 
         return product;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch product",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -137,13 +128,7 @@ export const productRouter = createTRPCRouter({
 
         return product;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to create product ",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -190,13 +175,7 @@ export const productRouter = createTRPCRouter({
 
         return product;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to update product ",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -221,13 +200,7 @@ export const productRouter = createTRPCRouter({
 
         return product.id;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to delete product ",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 });

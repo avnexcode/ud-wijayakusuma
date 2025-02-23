@@ -21,7 +21,6 @@ export const CustomerPagination = ({
   limit,
   onPageChange,
 }: CustomerPaginationProps) => {
-  console.log("CONSOLE From CustomerPagination Component");
   const totalPages = Math.ceil(total / limit);
 
   if (totalPages <= 1) return null;

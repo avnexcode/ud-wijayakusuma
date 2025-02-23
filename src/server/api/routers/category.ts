@@ -1,12 +1,13 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { queryParams } from "@/server/validations/api.validation";
 import { generateSlug } from "@/utils/slug-generator";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
   createCategoryRequest,
+  queryParams,
   updateCategoryRequest,
-} from "../../validations/category.validation";
+} from "../../validations";
+import { errorFilter } from "@/server/filters";
 
 export const categoryRouter = createTRPCRouter({
   getAll: publicProcedure
@@ -55,11 +56,7 @@ export const categoryRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch categories",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -80,13 +77,7 @@ export const categoryRouter = createTRPCRouter({
 
         return category;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch Category",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -130,13 +121,7 @@ export const categoryRouter = createTRPCRouter({
 
         return category;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to create  category",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -186,13 +171,7 @@ export const categoryRouter = createTRPCRouter({
 
         return category;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to update  category",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 
@@ -217,13 +196,7 @@ export const categoryRouter = createTRPCRouter({
 
         return category.id;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
-
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to delete  category",
-          cause: error,
-        });
+        return errorFilter(error);
       }
     }),
 });

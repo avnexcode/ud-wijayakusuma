@@ -14,8 +14,8 @@ import {
   CustomerLimit,
   CustomerSearch,
   CustomerSort,
-  type OrderParams,
-  type SortParams,
+  type CustomerOrderParams,
+  type CustomerSortParams,
 } from "../../components";
 import { CustomerPagination } from "../../components/CustomerPagination";
 import { CustomerTable } from "../../tables";
@@ -26,8 +26,8 @@ export const CustomerPage = () => {
   const queryParams = {
     search: router.query.search as string,
     page: Number(router.query.page) || 1,
-    sort: (router.query.sort as SortParams) || undefined,
-    order: (router.query.order as OrderParams) || undefined,
+    sort: (router.query.sort as CustomerSortParams) || undefined,
+    order: (router.query.order as CustomerOrderParams) || undefined,
     limit: Number(router.query.limit) || 15,
   };
 

@@ -2,6 +2,7 @@ import {
   Sidebar as SidebarComponent,
   SidebarContent,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -11,11 +12,15 @@ import { LogOut } from "lucide-react";
 import { sidebarMenu } from "./sidebar-menu";
 import { SidebarGroup } from "./SidebarGroup";
 import { SidebarGroup as SidebarGroupComponent } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function Sidebar() {
   return (
     <SidebarComponent collapsible="icon">
       <SidebarContent>
+        <SidebarHeader className="text-nowrap py-4 text-center text-xl font-bold">
+          <Link href={"/"}>UD WIJAYAKUSUMA</Link>
+        </SidebarHeader>
         {renderElements({
           of: sidebarMenu,
           keyExtractor: (sidebar) => sidebar.label,

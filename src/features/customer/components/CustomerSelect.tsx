@@ -89,8 +89,8 @@ export const CustomerSelect = <T extends FieldValues>({
                   </SelectItem>
                 ),
                 fallback: (
-                  <SelectItem value={""}>
-                    Tidak ada data kategori tersedia
+                  <SelectItem value={"none"}>
+                    Tidak ada data pelanggan tersedia
                   </SelectItem>
                 ),
               })}
