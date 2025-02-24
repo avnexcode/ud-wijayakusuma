@@ -10,7 +10,6 @@ import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import {
   CategoryLimit,
   CategoryPagination,
@@ -36,28 +35,11 @@ export const CategoryPage = () => {
     data: categories,
     isLoading: isCategoriesLoading,
     refetch: refetchCategories,
-  } = api.category.getAll.useQuery(
-    {
-      params: {
-        ...queryParams,
-        search: queryParams.search ?? "",
-      },
+  } = api.category.getAll.useQuery({
+    params: {
+      ...queryParams,
     },
-    {
-      enabled: router.isReady,
-    },
-  );
-
-  useEffect(() => {
-    void refetchCategories();
-  }, [
-    refetchCategories,
-    queryParams.limit,
-    queryParams.page,
-    queryParams.search,
-    queryParams.sort,
-    queryParams.order,
-  ]);
+  });
 
   const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
     void router.push(

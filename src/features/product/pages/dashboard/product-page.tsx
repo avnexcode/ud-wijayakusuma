@@ -10,7 +10,6 @@ import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import {
   ProductLimit,
   ProductPagination,
@@ -36,28 +35,11 @@ export const ProductPage = () => {
     data: products,
     isLoading: isProductsLoading,
     refetch: refetchProducts,
-  } = api.product.getAll.useQuery(
-    {
-      params: {
-        ...queryParams,
-        search: queryParams.search ?? "",
-      },
+  } = api.product.getAll.useQuery({
+    params: {
+      ...queryParams,
     },
-    {
-      enabled: router.isReady,
-    },
-  );
-
-  useEffect(() => {
-    void refetchProducts();
-  }, [
-    refetchProducts,
-    queryParams.limit,
-    queryParams.page,
-    queryParams.search,
-    queryParams.sort,
-    queryParams.order,
-  ]);
+  });
 
   const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
     void router.push(

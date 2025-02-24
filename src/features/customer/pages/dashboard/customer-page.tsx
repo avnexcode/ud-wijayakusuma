@@ -9,7 +9,6 @@ import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import {
   CustomerLimit,
   CustomerSearch,
@@ -35,33 +34,15 @@ export const CustomerPage = () => {
     data: customers,
     isLoading: isCustomersLoading,
     refetch: refetchCustomers,
-  } = api.customer.getAll.useQuery(
-    {
-      params: {
-        ...queryParams,
-        search: queryParams.search ?? "",
-      },
+  } = api.customer.getAll.useQuery({
+    params: {
+      ...queryParams,
     },
-    {
-      enabled: router.isReady,
-    },
-  );
-
-  useEffect(() => {
-    void refetchCustomers();
-  }, [
-    refetchCustomers,
-    queryParams.limit,
-    queryParams.page,
-    queryParams.search,
-    queryParams.sort,
-    queryParams.order,
-  ]);
+  });
 
   const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
     void router.push(
       {
-        href: router.asPath,
         pathname: router.pathname,
         query: {
           ...router.query,

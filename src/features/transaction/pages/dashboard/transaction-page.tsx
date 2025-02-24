@@ -6,7 +6,6 @@ import {
 } from "@/components/layouts";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import {
   TransactionLimit,
   TransactionPagination,
@@ -29,32 +28,12 @@ export const TransactionPage = () => {
     limit: Number(router.query.limit) || 15,
   };
 
-  const {
-    data: transactions,
-    isLoading: isTransactionsLoading,
-    refetch: refetchTransactions,
-  } = api.transaction.getAll.useQuery(
-    {
+  const { data: transactions, isLoading: isTransactionsLoading } =
+    api.transaction.getAll.useQuery({
       params: {
         ...queryParams,
-        search: queryParams.search ?? "",
       },
-    },
-    {
-      enabled: router.isReady,
-    },
-  );
-
-  useEffect(() => {
-    void refetchTransactions();
-  }, [
-    refetchTransactions,
-    queryParams.limit,
-    queryParams.page,
-    queryParams.search,
-    queryParams.sort,
-    queryParams.order,
-  ]);
+    });
 
   const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
     void router.push(

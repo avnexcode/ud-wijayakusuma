@@ -8,20 +8,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { api, formatDate, renderElements } from "@/utils";
+import type { OrderWithRelations } from "@/features/order/types";
+import { formatDate, renderElements } from "@/utils";
 import { type OrderCategory, type OrderStatus } from "@prisma/client";
 import { CalendarIcon, ScanEye } from "lucide-react";
 import Link from "next/link";
 import { LobbyOrderTableBodySkeleton } from "../components/skeleton";
 
-export const LobbyOrderTable = () => {
-  const { data: orders, isLoading: isOrdersLoading } =
-    api.order.getAll.useQuery({
-      params: {
-        limit: 100,
-      },
-    });
+type LobbyOrderTableProps = {
+  orders?: OrderWithRelations[];
+  isOrdersLoading: boolean;
+};
 
+export const LobbyOrderTable = ({
+  orders,
+  isOrdersLoading,
+}: LobbyOrderTableProps) => {
   const getStatusColor = (status: OrderStatus) => {
     const colors: Record<OrderStatus, string> = {
       PENDING: "bg-yellow-500",
@@ -72,7 +74,7 @@ export const LobbyOrderTable = () => {
       {isOrdersLoading && <LobbyOrderTableBodySkeleton />}
       <TableBody>
         {renderElements({
-          of: orders?.data,
+          of: orders,
           keyExtractor: (order) => order.id,
           render: (order, index) => (
             <TableRow>

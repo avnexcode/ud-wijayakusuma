@@ -4,8 +4,18 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export const DashboardPage = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (Object.keys(router.query).length > 0) {
+      void router.replace({ pathname: router.pathname, query: {} }, undefined, {
+        shallow: true,
+      });
+    }
+  }, [router]);
   return (
     <PageContainer>
       <SectionContainer padded>
