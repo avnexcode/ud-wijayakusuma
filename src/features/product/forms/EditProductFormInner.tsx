@@ -35,7 +35,7 @@ export const EditProductFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Name Produk<span className="text-red-500">*</span>
+              Name Produk <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan nama produk" {...field} />
@@ -50,7 +50,7 @@ export const EditProductFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Harga Produk<span className="text-red-500">*</span>
+              Harga Produk <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input
@@ -79,7 +79,7 @@ export const EditProductFormInner = ({
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Deskripsi Produk</FormLabel>
+            <FormLabel>Deskripsi</FormLabel>
             <FormControl>
               <Textarea placeholder="Masukkan deskripsi produk" {...field} />
             </FormControl>

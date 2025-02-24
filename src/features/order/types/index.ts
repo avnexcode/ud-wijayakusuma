@@ -27,3 +27,29 @@ export type OrderWithRelations = Prisma.OrderGetPayload<{
     };
   };
 }>;
+
+export type OrderWithAllRelations = Prisma.OrderGetPayload<{
+  include: {
+    customer: {
+      select: {
+        name: true;
+        phone: true;
+        email: true;
+        address: true;
+      };
+    };
+    product: {
+      select: {
+        name: true;
+      };
+    };
+    transaction: {
+      select: {
+        total_amount: true;
+        amount_due: true;
+        amount_paid: true;
+        status: true;
+      };
+    };
+  };
+}>;

@@ -1,25 +1,18 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { api } from "@/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast as sonner } from "sonner";
+import { EditCustomerFormSkeleton } from "../components/skeleton";
 import { updateCustomerFormSchema } from "../schemas";
 import type { UpdateCustomerFormSchema } from "../types";
 import { CreateCustomerFormInner } from "./CreateCustomerFormInner";
-import { useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { EditCustomerFormSkeleton } from "../components/skeleton";
 
 type EditCustomerFormProps = {
   customerId: string;

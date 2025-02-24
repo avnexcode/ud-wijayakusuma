@@ -21,7 +21,7 @@ export const DashboardSection = forwardRef<
     ));
 
   return (
-    <section ref={ref} className={cn(sectionClassName)}>
+    <section className={cn(sectionClassName)}>
       <header className="mb-20 space-y-3">
         <Heading size={"h3"}>{props.title}</Heading>
         {props.description && (
@@ -30,7 +30,9 @@ export const DashboardSection = forwardRef<
           </p>
         )}
       </header>
-      <main className={cn("flex flex-col", className)}>{children}</main>
+      <main ref={ref} className={cn("flex flex-col", className)}>
+        {children}
+      </main>
     </section>
   );
 });

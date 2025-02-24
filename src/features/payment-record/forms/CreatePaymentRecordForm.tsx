@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -7,19 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 import { api } from "@/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast as sonner } from "sonner";
 import { createPaymentRecordFormSchema } from "../schemas";
 import type { CreatePaymentRecordFormSchema } from "../types";
 import { CreatePaymentRecordFormInner } from "./CreatePaymentRecordFormInner";
-import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type CreatePaymentRecordFormProps = {
   isAddPaymentDisabled: boolean;
@@ -76,7 +76,13 @@ export const CreatePaymentRecordForm = ({
         )}
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader />
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. This will permanently delete your
+            account and remove your data from our servers.
+          </DialogDescription>
+        </DialogHeader>
         <Form {...form}>
           <CreatePaymentRecordFormInner
             formId="create-payment-record-form"

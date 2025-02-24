@@ -7,7 +7,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const CustomerCardSkeleton = () => {
+export const ProductCardSkeleton = () => {
   return (
     <Card className="w-full border-none shadow-none">
       <CardHeader className="space-y-2">
@@ -16,28 +16,18 @@ export const CustomerCardSkeleton = () => {
       <Separator />
       <CardContent className="space-y-6 py-5">
         <div className="space-y-2">
-          <Skeleton className="h-5 w-40" /> {/* Informasi Kontak label */}
-          <div className="space-y-3">
-            <div className="flex items-center">
-              <Skeleton className="mr-2 h-4 w-4 rounded-full" />{" "}
-              {/* Email icon */}
-              <Skeleton className="h-5 w-56" /> {/* Email content */}
-            </div>
-            <div className="flex items-center">
-              <Skeleton className="mr-2 h-4 w-4 rounded-full" />{" "}
-              {/* Phone icon */}
-              <Skeleton className="h-5 w-40" /> {/* Phone content */}
-            </div>
-          </div>
+          <Skeleton className="h-5 w-20" /> {/* Harga label */}
+          <Skeleton className="h-7 w-36" /> {/* Price content */}
         </div>
 
         <div className="space-y-2">
-          <Skeleton className="h-5 w-24" /> {/* Alamat label */}
-          <div className="flex items-start">
-            <Skeleton className="mr-2 h-4 w-4 flex-shrink-0 rounded-full" />{" "}
-            {/* Address icon */}
-            <Skeleton className="h-16 w-full" /> {/* Address content */}
-          </div>
+          <Skeleton className="h-5 w-28" /> {/* Kategori label */}
+          <Skeleton className="h-5 w-48" /> {/* Category content */}
+        </div>
+
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-36" /> {/* Deskripsi label */}
+          <Skeleton className="h-16 w-full" /> {/* Description content */}
         </div>
       </CardContent>
       <Separator />

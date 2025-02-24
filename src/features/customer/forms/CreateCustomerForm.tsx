@@ -1,23 +1,16 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { useForm } from "react-hook-form";
-import type { CreateCustomerFormSchema } from "../types";
-import { createCustomerFormSchema } from "../schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "@/utils/api";
-import { CreateCustomerFormInner } from "./CreateCustomerFormInner";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { toast as sonner } from "sonner";
-import { useRouter } from "next/router";
 import { useToast } from "@/hooks/use-toast";
+import { api } from "@/utils/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { toast as sonner } from "sonner";
+import { createCustomerFormSchema } from "../schemas";
+import type { CreateCustomerFormSchema } from "../types";
+import { CreateCustomerFormInner } from "./CreateCustomerFormInner";
 
 export const CreateCustomerForm = () => {
   const router = useRouter();

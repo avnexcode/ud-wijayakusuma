@@ -85,7 +85,7 @@ export const OrderTable = ({
           isLoading: isOrdersLoading,
           fallback: (
             <TableRow>
-              <TableCell colSpan={7} className="text-center">
+              <TableCell colSpan={8} className="text-center">
                 Tidak ada data pesanan
               </TableCell>
             </TableRow>

@@ -16,14 +16,12 @@ export const TransactionSearch = ({
   const [search, setSearch] = useState(initialSearch);
   const debouncedSearch = useDebounce(search, 1000);
 
-  //
   useEffect(() => {
     const searchParam = router.query.search as string;
     if (searchParam !== undefined && searchParam !== search) {
       setSearch(searchParam);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.search]);
+  }, [router.query.search, search]);
 
   useEffect(() => {
     if (debouncedSearch !== initialSearch) {

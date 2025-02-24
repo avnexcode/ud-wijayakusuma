@@ -6,15 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type {
-  OrderOrderParams,
-  OrderSortParams,
-} from "@/features/order/components";
 import {
   OrderLimit,
   OrderPagination,
   OrderSearch,
   OrderSort,
+  type OrderOrderParams,
+  type OrderSortParams,
 } from "@/features/order/components";
 import { useUpdateQuery } from "@/hooks";
 import { api } from "@/utils";

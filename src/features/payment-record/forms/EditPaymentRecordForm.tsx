@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,14 +12,13 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast as sonner } from "sonner";
 import { updatePaymentRecordFormSchema } from "../schemas";
 import type { UpdatePaymentRecordFormSchema } from "../types";
 import { EditPaymentRecordFormInner } from "./EditPaymentRecordFormInner";
-import { Button } from "@/components/ui/button";
-import { Loader2, SquarePen } from "lucide-react";
 
 type EditPaymentRecordFormProps = {
   paymentRecordId: string;
@@ -39,15 +39,14 @@ export const EditPaymentRecordForm = ({
     resolver: zodResolver(updatePaymentRecordFormSchema),
   });
 
-  const { data: paymentRecord, isLoading: isPaymentRecordLoading } =
-    api.paymentRecord.getById.useQuery(
-      {
-        id: paymentRecordId,
-      },
-      {
-        enabled: !!paymentRecordId,
-      },
-    );
+  const { data: paymentRecord } = api.paymentRecord.getById.useQuery(
+    {
+      id: paymentRecordId,
+    },
+    {
+      enabled: !!paymentRecordId,
+    },
+  );
 
   useEffect(() => {
     if (paymentRecord) {

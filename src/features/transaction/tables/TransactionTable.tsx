@@ -63,7 +63,7 @@ export const TransactionTable = ({
               </TableCell>
               <TableCell className="capitalize">
                 {transaction.amount_paid
-                  ? convertCurrency(transaction.amount_paid)
+                  ? convertCurrency(transaction.amount_paid ?? "")
                   : "-"}
               </TableCell>
               <TableCell className="capitalize">

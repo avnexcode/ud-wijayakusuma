@@ -39,7 +39,10 @@ export const CategoryPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard Kategori Produk">
+        <DashboardSection
+          title="Dashboard - Kategori "
+          description="Halaman ini menampilkan daftar semua kategori produk yang tersedia. Pengguna dapat menambah, mengedit, atau menghapus kategori untuk mengorganisir produk yang ada."
+        >
           <DashboardProductSection>
             <header className="flex flex-col gap-y-5 py-10">
               <div className="flex items-center gap-x-5">

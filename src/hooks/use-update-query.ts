@@ -28,5 +28,6 @@ export const useUpdateQuery = <
       { scroll: false },
     );
   };
+
   return { queryParams, handleUpdateQuery };
 };

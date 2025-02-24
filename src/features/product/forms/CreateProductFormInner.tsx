@@ -34,10 +34,10 @@ export const CreateProductFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Name<span className="text-red-500">*</span>
+              Name <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan nama" {...field} />
+              <Input placeholder="Masukkan nama produk" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -49,11 +49,11 @@ export const CreateProductFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Harga<span className="text-red-500">*</span>
+              Harga <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input
-                placeholder="Masukkan nama"
+                placeholder="Masukkan harga produk"
                 {...field}
                 onChange={(e) => {
                   inputHandle("onChange", "number", e);
@@ -78,7 +78,7 @@ export const CreateProductFormInner = ({
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Deskripsi Produk</FormLabel>
+            <FormLabel>Deskripsi</FormLabel>
             <FormControl>
               <Textarea placeholder="Masukkan deskripsi produk" {...field} />
             </FormControl>

@@ -36,7 +36,7 @@ export const CustomerSelect = <T extends FieldValues>({
   const { data: customers, isLoading: isCustomersLoading } =
     api.customer.getAll.useQuery({
       params: {
-        limit: 100,
+        limit: 1000,
       },
     });
   const [isReady, setIsReady] = useState<boolean>(false);

@@ -131,7 +131,7 @@ export const CreateOrderFormInner = ({
         control={form.control}
         name="sending_at"
         render={({ field }) => (
-          <FormItem className="flex flex-col">
+          <FormItem className="flex flex-col gap-1">
             <FormLabel>Tanggal Pengiriman</FormLabel>
             <Popover>
               <PopoverTrigger asChild>

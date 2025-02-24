@@ -119,8 +119,8 @@ export const LobbyOrderTable = ({
           isLoading: isOrdersLoading,
           fallback: (
             <TableRow>
-              <TableCell colSpan={5} className="py-8 text-center text-zinc-500">
-                Tidak ada data order
+              <TableCell colSpan={9} className="py-8 text-center text-zinc-500">
+                Tidak ada data pesanan
               </TableCell>
             </TableRow>
           ),

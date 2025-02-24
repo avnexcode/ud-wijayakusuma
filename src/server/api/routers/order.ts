@@ -104,9 +104,33 @@ export const orderRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { db } = ctx;
       const { id } = input;
+
       try {
         const order = await db.order.findUnique({
           where: { id },
+          include: {
+            customer: {
+              select: {
+                name: true,
+                phone: true,
+                email: true,
+                address: true,
+              },
+            },
+            product: {
+              select: {
+                name: true,
+              },
+            },
+            transaction: {
+              select: {
+                total_amount: true,
+                status: true,
+                amount_due: true,
+                amount_paid: true,
+              },
+            },
+          },
         });
 
         if (!order) {
@@ -126,8 +150,6 @@ export const orderRouter = createTRPCRouter({
     .input(createOrderRequest)
     .mutation(async ({ ctx, input }) => {
       await ctx.db.$transaction(async (db) => {
-        console.log("Raw input sending_at:", input.sending_at);
-        console.log("Formatted sending_at:", new Date(input.sending_at));
         try {
           const existingOrder = await db.order.count({
             where: { label: input.label },

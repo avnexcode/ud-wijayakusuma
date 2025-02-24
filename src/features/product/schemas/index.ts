@@ -8,7 +8,8 @@ export const createProductFormSchema = z.object({
   price: z
     .string()
     .min(1, { message: "Harga tidak boleh kosong" })
-    .max(50, { message: "Harga tidak boleh lebih dari 50 karakter" }),
+    .max(50, { message: "Harga tidak boleh lebih dari 50 karakter" })
+    .regex(/^\d+$/, { message: "Harga produk hanya boleh berisi angka" }),
   description: z
     .string()
     .max(255, { message: "Deskripsi tidak boleh lebih dari 255 karakter" })

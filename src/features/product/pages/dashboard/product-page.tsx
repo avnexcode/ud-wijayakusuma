@@ -39,7 +39,10 @@ export const ProductPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard Produk">
+        <DashboardSection
+          title="Dashboard - Produk"
+          description="Halaman ini menampilkan daftar semua produk yang tersedia dalam sistem. Pengguna dapat melihat informasi seperti nama produk, kategori, harga, stok, dan status produk. Terdapat fitur pencarian, filter, dan tombol untuk menambah produk baru atau mengedit produk yang sudah ada."
+        >
           <DashboardProductSection>
             <header className="flex flex-col gap-y-5 py-10">
               <div className="flex items-center gap-x-5">
@@ -56,22 +59,20 @@ export const ProductPage = () => {
                 />
               </div>
 
-              <div>
-                <div className="flex items-center gap-5">
-                  <ProductLimit
-                    currentLimit={queryParams.limit}
-                    onLimitChange={(limit) =>
-                      handleUpdateQuery({ limit, page: 1 })
-                    }
-                  />
+              <div className="flex items-center gap-5">
+                <ProductLimit
+                  currentLimit={queryParams.limit}
+                  onLimitChange={(limit) =>
+                    handleUpdateQuery({ limit, page: 1 })
+                  }
+                />
 
-                  <ProductSort
-                    currentSort={queryParams.sort}
-                    currentOrder={queryParams.order}
-                    onSortChange={(sort) => handleUpdateQuery({ sort })}
-                    onOrderChange={(order) => handleUpdateQuery({ order })}
-                  />
-                </div>
+                <ProductSort
+                  currentSort={queryParams.sort}
+                  currentOrder={queryParams.order}
+                  onSortChange={(sort) => handleUpdateQuery({ sort })}
+                  onOrderChange={(order) => handleUpdateQuery({ order })}
+                />
               </div>
             </header>
             <main>

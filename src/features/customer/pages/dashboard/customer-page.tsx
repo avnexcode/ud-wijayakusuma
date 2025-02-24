@@ -58,22 +58,18 @@ export const CustomerPage = () => {
               />
             </div>
 
-            <div>
-              <div className="flex items-center gap-5">
-                <CustomerLimit
-                  currentLimit={queryParams.limit}
-                  onLimitChange={(limit) =>
-                    handleUpdateQuery({ limit, page: 1 })
-                  }
-                />
+            <div className="flex items-center gap-5">
+              <CustomerLimit
+                currentLimit={queryParams.limit}
+                onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
+              />
 
-                <CustomerSort
-                  currentSort={queryParams.sort}
-                  currentOrder={queryParams.order}
-                  onSortChange={(sort) => handleUpdateQuery({ sort })}
-                  onOrderChange={(order) => handleUpdateQuery({ order })}
-                />
-              </div>
+              <CustomerSort
+                currentSort={queryParams.sort}
+                currentOrder={queryParams.order}
+                onSortChange={(sort) => handleUpdateQuery({ sort })}
+                onOrderChange={(order) => handleUpdateQuery({ order })}
+              />
             </div>
           </header>
           <main>

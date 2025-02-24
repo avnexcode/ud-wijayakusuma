@@ -12,6 +12,7 @@ import { toast as sonner } from "sonner";
 import { updateOrderFormSchema } from "../schemas";
 import type { UpdateOrderFormSchema } from "../types";
 import { EditOrderFormInner } from "./EditOrderFormInner";
+import { EditOrderFormSkeleton } from "../components/skeleton";
 
 type EditOrderFormProps = {
   orderId: string;
@@ -20,6 +21,7 @@ type EditOrderFormProps = {
 export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
   const { toast } = useToast();
   const router = useRouter();
+
   const form = useForm<UpdateOrderFormSchema>({
     defaultValues: {
       label: "",
@@ -33,7 +35,7 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
     resolver: zodResolver(updateOrderFormSchema),
   });
 
-  const { data: order } = api.order.getById.useQuery(
+  const { data: order, isLoading: isOrderLoading } = api.order.getById.useQuery(
     { id: orderId },
     { enabled: !!orderId },
   );
@@ -62,6 +64,10 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
     }
   }, [form, order]);
 
+  if (isOrderLoading) {
+    return <EditOrderFormSkeleton />;
+  }
+
   return (
     <Card className="border-none shadow-none">
       <CardContent>
@@ -69,7 +75,8 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
           <EditOrderFormInner formId="update-order-form" onSubmit={onSubmit} />
         </Form>
       </CardContent>
-      <CardFooter className="place-content-end">
+      <CardFooter className="mt-10 place-content-end gap-5">
+        <Button onClick={() => router.back()}>Batal</Button>
         <Button
           form="update-order-form"
           disabled={isUpdateOrderPending || !form.formState.isDirty}

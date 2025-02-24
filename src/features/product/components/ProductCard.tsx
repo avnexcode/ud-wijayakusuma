@@ -6,16 +6,16 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { formatDate } from "@/utils";
-import { type Customer } from "@prisma/client";
-import { CalendarIcon, Mail, MapPin, MoveLeft, Phone } from "lucide-react";
+import { convertCurrency, formatDate } from "@/utils";
+import { CalendarIcon, MoveLeft, Tag } from "lucide-react";
 import { useRouter } from "next/router";
+import type { ProductWithRelations } from "../types";
 
-type CustomerCardProps = {
-  customer?: Customer;
+type ProductCardProps = {
+  product?: ProductWithRelations;
 };
 
-export const CustomerCard = ({ customer }: CustomerCardProps) => {
+export const ProductCard = ({ product }: ProductCardProps) => {
   const router = useRouter();
   return (
     <Card className="w-full border-none shadow-none">
@@ -23,8 +23,7 @@ export const CustomerCard = ({ customer }: CustomerCardProps) => {
         <div className="flex justify-between">
           <div>
             <h2 className="text-2xl font-bold">
-              Nama pelanggan:{" "}
-              <span className="capitalize">{customer?.name}</span>
+              Nama produk: <span className="capitalize">{product?.name}</span>
             </h2>
           </div>
         </div>
@@ -32,27 +31,29 @@ export const CustomerCard = ({ customer }: CustomerCardProps) => {
       <Separator />
       <CardContent className="space-y-6 py-5">
         <div className="space-y-2">
+          <h3 className="text-lg font-medium text-muted-foreground">Harga</h3>
+          <p className="text-xl font-semibold">
+            {convertCurrency(product?.price ?? "")}
+          </p>
+        </div>
+
+        <div className="space-y-2">
           <h3 className="text-lg font-medium text-muted-foreground">
-            Informasi Kontak
+            Kategori
           </h3>
-          <div className="space-y-3">
-            <div className="flex items-center">
-              <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
-              <span>{customer?.email ?? "Tidak ada email"}</span>
-            </div>
-            <div className="flex items-center">
-              <Phone className="mr-2 h-4 w-4 text-muted-foreground" />
-              <span>{customer?.phone}</span>
-            </div>
+          <div className="flex items-center">
+            <Tag className="mr-2 h-4 w-4" />
+            <span>{product?.category?.name ?? "Tidak ada kategori"}</span>
           </div>
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-lg font-medium text-muted-foreground">Alamat</h3>
-          <div className="flex items-start">
-            <MapPin className="mr-2 mt-1 h-4 w-4 flex-shrink-0 text-muted-foreground" />
-            <p className="">{customer?.address}</p>
-          </div>
+          <h3 className="text-lg font-medium text-muted-foreground">
+            Deskripsi
+          </h3>
+          <p className="">
+            {product?.description ? product.description : "Tidak ada deskripsi"}
+          </p>
         </div>
       </CardContent>
       <Separator />
@@ -69,11 +70,11 @@ export const CustomerCard = ({ customer }: CustomerCardProps) => {
         <div className="flex w-full flex-col items-center justify-end space-y-1 text-base md:flex-row md:space-x-4 md:space-y-0">
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Dibuat: {formatDate(customer?.created_at)}
+            Dibuat: {formatDate(product?.created_at)}
           </div>
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Diperbarui: {formatDate(customer?.updated_at)}
+            Diperbarui: {formatDate(product?.updated_at)}
           </div>
         </div>
       </CardFooter>

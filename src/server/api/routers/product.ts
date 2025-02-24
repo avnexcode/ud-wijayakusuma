@@ -73,6 +73,13 @@ export const productRouter = createTRPCRouter({
       try {
         const product = await ctx.db.product.findUnique({
           where: { id: input.id },
+          include: {
+            category: {
+              select: {
+                name: true,
+              },
+            },
+          },
         });
 
         if (!product) {

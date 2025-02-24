@@ -13,8 +13,11 @@ export const EditCategoryPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Edit Kategori Produk">
-          <EditCategoryForm CategoryId={id} />
+        <DashboardSection
+          title="Dashboard - Form Edit Kategori"
+          description="Halaman ini digunakan untuk mengubah informasi kategori yang sudah ada. Pengguna dapat mengedit nama kategori dan deskripsi sebelum menyimpan perubahan."
+        >
+          <EditCategoryForm categoryId={id} />
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

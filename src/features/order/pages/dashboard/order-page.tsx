@@ -38,7 +38,10 @@ export const OrderPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard Pemesanan">
+        <DashboardSection
+          title="Dashboard - Pesanan"
+          description="Halaman ini menampilkan daftar pesanan yang telah dibuat oleh pelanggan. Informasi yang ditampilkan meliputi nomor pesanan, nama pelanggan, status pesanan, total harga, dan tanggal pemesanan."
+        >
           <header className="flex flex-col gap-y-5 py-10">
             <div className="flex items-center gap-x-5">
               <Link href={"/dashboard/order/create"}>

@@ -9,8 +9,11 @@ import { CreateCategoryForm } from "../../forms";
 export const CreateCategoryPage = () => {
   return (
     <PageContainer>
-      <SectionContainer>
-        <DashboardSection title="Buat Kategori Produk">
+      <SectionContainer padded>
+        <DashboardSection
+          title="Dashboard - Form Tambah Kategori"
+          description="Halaman ini memungkinkan pengguna untuk menambahkan kategori baru dengan memasukkan nama dan deskripsi kategori sebelum menyimpannya."
+        >
           <CreateCategoryForm />
         </DashboardSection>
       </SectionContainer>

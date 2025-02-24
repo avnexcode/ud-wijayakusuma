@@ -4,35 +4,30 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { CreatePaymentRecordForm } from "@/features/payment-record/forms/CreatePaymentRecordForm";
 import { PaymentRecordTable } from "@/features/payment-record/tables";
 import { api } from "@/utils/api";
 import { useParams } from "next/navigation";
 import { TransactionCard } from "../../components/TransactionCard";
 import type { TransactionWithRelations } from "../../types";
-import { CreatePaymentRecordForm } from "@/features/payment-record/forms/CreatePaymentRecordForm";
 
 export const DetailTransactionPage = () => {
   const params: { id: string } = useParams();
-  const transactionId = params?.id;
+  const id = params?.id;
 
   const {
     data: transaction,
     isLoading: isTransactionLoading,
     refetch: refetchTransaction,
-  } = api.transaction.getById.useQuery(
-    {
-      id: transactionId,
-    },
-    {
-      enabled: !!transactionId,
-    },
-  );
+  } = api.transaction.getById.useQuery({ id: id }, { enabled: !!id });
+
   return (
     <PageContainer>
       <SectionContainer padded>
         <DashboardSection
-          title="Detail Transaksi"
-          className="flex flex-col gap-10"
+          title="Dashboard - Detail Transaksi"
+          description="asdd"
+          className="gap-10"
         >
           <TransactionCard
             transaction={transaction as TransactionWithRelations}
@@ -42,7 +37,7 @@ export const DetailTransactionPage = () => {
             <CreatePaymentRecordForm
               isLoading={isTransactionLoading}
               isAddPaymentDisabled={transaction?.status === "PAID"}
-              transaction_id={transactionId}
+              transaction_id={id}
               refetchTransaction={refetchTransaction}
             />
             <PaymentRecordTable

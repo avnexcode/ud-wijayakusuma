@@ -14,7 +14,10 @@ export const EditProductPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Edit Produk">
+        <DashboardSection
+          title="Dashboard - Form Edit Produk"
+          description="Halaman ini digunakan untuk memperbarui informasi produk yang sudah ada. Pengguna dapat mengubah nama produk, deskripsi, harga, stok, dan kategori. Setelah perubahan dilakukan, pengguna dapat menyimpan atau membatalkan perubahan."
+        >
           <EditProductForm productId={id} />
         </DashboardSection>
       </SectionContainer>

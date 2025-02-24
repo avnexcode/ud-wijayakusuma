@@ -12,7 +12,7 @@ const orderCategory = Object.values(OrderCategory) as [
 ];
 
 export const createOrderRequest = z.object({
-  label: z.string().min(1).max(100),
+  label: z.string().min(1).max(100).toLowerCase(),
   description: z.string().optional(),
   total: z.string().min(1).max(50),
   status: z.enum(orderStatus).default("PENDING"),

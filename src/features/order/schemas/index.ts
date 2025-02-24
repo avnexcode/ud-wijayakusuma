@@ -15,7 +15,8 @@ export const createOrderFormSchema = z.object({
   label: z
     .string()
     .min(1, { message: "Label tidak boleh kosong" })
-    .max(100, { message: "Label tidak boleh lebih dari 100 karakter" }),
+    .max(100, { message: "Label tidak boleh lebih dari 100 karakter" })
+    .toLowerCase(),
 
   description: z
     .string()
@@ -25,7 +26,8 @@ export const createOrderFormSchema = z.object({
   total: z
     .string()
     .min(1, { message: "Total pesanan tidak boleh kosong" })
-    .max(50, { message: "Total pesanan tidak boleh lebih dari 50 karakter" }),
+    .max(50, { message: "Total pesanan tidak boleh lebih dari 50 karakter" })
+    .regex(/^\d+$/, { message: "Total pesanan hanya boleh berisi angka" }),
 
   status: z
     .enum(orderStatus, {

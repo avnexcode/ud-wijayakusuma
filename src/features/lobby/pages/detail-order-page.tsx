@@ -1,4 +1,6 @@
 import { PageContainer, SectionContainer } from "@/components/layouts";
+import { OrderCard } from "@/features/order/components";
+import { OrderCardSkeleton } from "@/features/order/components/skeleton";
 import { api } from "@/utils";
 import { useParams } from "next/navigation";
 
@@ -12,7 +14,7 @@ export const DetailOrder = () => {
   return (
     <PageContainer withHeader>
       <SectionContainer padded>
-        <h1>{order?.label}</h1>
+        {isOrderLoading ? <OrderCardSkeleton /> : <OrderCard order={order} />}
       </SectionContainer>
     </PageContainer>
   );

@@ -32,7 +32,7 @@ export const CreateCategoryFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Name Kategori<span className="text-red-500">*</span>
+              Name Kategori <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan nama kategori" {...field} />
@@ -46,7 +46,7 @@ export const CreateCategoryFormInner = ({
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Deskripsi Kategori</FormLabel>
+            <FormLabel>Deskripsi</FormLabel>
             <FormControl>
               <Textarea
                 placeholder="Masukkan deskripsi kategori produk"
