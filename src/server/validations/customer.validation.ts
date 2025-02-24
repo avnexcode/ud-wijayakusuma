@@ -11,6 +11,7 @@ export const createCustomerRequest = z.object({
   phone: z
     .string()
     .min(1)
+    .min(10)
     .max(20)
     .regex(/^\d+$/, "Phone number must contain only numbers"),
 });

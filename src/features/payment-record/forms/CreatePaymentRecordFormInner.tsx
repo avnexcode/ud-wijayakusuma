@@ -8,6 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 import type { CreatePaymentRecordFormSchema } from "../types";
+import { inputHandle } from "@/utils";
 
 type CreatePaymentRecordFormInnerProps = {
   formId: string;
@@ -35,7 +36,17 @@ export const CreatePaymentRecordFormInner = ({
               Masukkan Nominal<span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan nominal" {...field} />
+              <Input
+                placeholder="Masukkan nominal"
+                {...field}
+                onChange={(e) => {
+                  inputHandle("onChange", "number", e);
+                  field.onChange(e);
+                }}
+                onPaste={(e) => {
+                  inputHandle("onPaste", "number", e);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

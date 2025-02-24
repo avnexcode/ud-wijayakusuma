@@ -8,6 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 import type { CreateCustomerFormSchema } from "../types";
+import { inputHandle } from "@/utils";
 
 type CreateCustomerFormInnerProps = {
   formId: string;
@@ -32,7 +33,7 @@ export const CreateCustomerFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Name Pelanggan<span className="text-red-500">*</span>
+              Name Pelanggan <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan nama pelanggan" {...field} />
@@ -47,7 +48,7 @@ export const CreateCustomerFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Alamat Pelanggan<span className="text-red-500">*</span>
+              Alamat Pelanggan <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan alamat pelanggan" {...field} />
@@ -62,10 +63,20 @@ export const CreateCustomerFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              No Handphone Pelanggan<span className="text-red-500">*</span>
+              No Handphone Pelanggan <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan no hp pelanggan" {...field} />
+              <Input
+                placeholder="Masukkan no hp pelanggan"
+                {...field}
+                onChange={(e) => {
+                  inputHandle("onChange", "number", e);
+                  field.onChange(e);
+                }}
+                onPaste={(e) => {
+                  inputHandle("onPaste", "number", e);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

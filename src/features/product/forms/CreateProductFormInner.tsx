@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import type { CreateProductFormSchema } from "../types";
 import { CategorySelect } from "@/features/category/components";
+import { inputHandle } from "@/utils";
 
 type CreateProductFormInnerProps = {
   formId: string;
@@ -51,7 +52,17 @@ export const CreateProductFormInner = ({
               Harga<span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan nama" {...field} />
+              <Input
+                placeholder="Masukkan nama"
+                {...field}
+                onChange={(e) => {
+                  inputHandle("onChange", "number", e);
+                  field.onChange(e);
+                }}
+                onPaste={(e) => {
+                  inputHandle("onPaste", "number", e);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -6,6 +6,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { inputHandle } from "@/utils";
 import { useFormContext } from "react-hook-form";
 import type { CreateCustomerFormSchema } from "../types";
 
@@ -65,7 +66,17 @@ export const EditCustomerFormInner = ({
               No Handphone Pelanggan<span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan no hp pelanggan" {...field} />
+              <Input
+                placeholder="Masukkan no hp pelanggan"
+                {...field}
+                onChange={(e) => {
+                  inputHandle("onChange", "number", e);
+                  field.onChange(e);
+                }}
+                onPaste={(e) => {
+                  inputHandle("onPaste", "number", e);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

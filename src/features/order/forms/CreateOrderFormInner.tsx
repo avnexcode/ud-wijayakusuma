@@ -29,6 +29,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import type { CreateOrderFormSchema } from "../types";
+import { inputHandle } from "@/utils";
 
 type CreateOrderFormInnerProps = {
   formId: string;
@@ -82,7 +83,17 @@ export const CreateOrderFormInner = ({
               Total Pesanan <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan total pesanan" {...field} />
+              <Input
+                placeholder="Masukkan total pesanan"
+                {...field}
+                onChange={(e) => {
+                  inputHandle("onChange", "number", e);
+                  field.onChange(e);
+                }}
+                onPaste={(e) => {
+                  inputHandle("onPaste", "number", e);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

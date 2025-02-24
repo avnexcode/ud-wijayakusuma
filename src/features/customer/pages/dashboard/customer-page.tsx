@@ -38,7 +38,11 @@ export const CustomerPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard Pelanggan" className="gap-y-5">
+        <DashboardSection
+          title="Dashboard - Pelanggan"
+          description="Halaman ini menampilkan daftar seluruh pelanggan yang terdaftar dalam sistem. Pengguna dapat melihat informasi dasar seperti nama, email, alamat, dan nomor telepon pelanggan. Selain itu, tersedia fitur pencarian, filter, dan tombol untuk menambahkan pelanggan baru atau melihat detail lebih lanjut."
+          className="gap-y-5"
+        >
           <header className="flex flex-col gap-y-5 py-10">
             <div className="flex items-center gap-x-5">
               <Link href={"/dashboard/customer/create"}>

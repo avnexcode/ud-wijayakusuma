@@ -12,14 +12,39 @@ const orderCategory = Object.values(OrderCategory) as [
 ];
 
 export const createOrderFormSchema = z.object({
-  label: z.string().min(1).max(100),
-  description: z.string().optional(),
-  total: z.string().min(1).max(50),
-  status: z.enum(orderStatus).default("PENDING"),
-  category: z.enum(orderCategory).default("WHOLESALE"),
-  sending_at: z.coerce.date(),
-  customer_id: z.string().min(1),
-  product_id: z.string().min(1),
-});
+  label: z
+    .string()
+    .min(1, { message: "Label tidak boleh kosong" })
+    .max(100, { message: "Label tidak boleh lebih dari 100 karakter" }),
 
+  description: z
+    .string()
+    .max(255, { message: "Deskripsi tidak boleh lebih dari 255 karakter" })
+    .optional(),
+
+  total: z
+    .string()
+    .min(1, { message: "Total pesanan tidak boleh kosong" })
+    .max(50, { message: "Total pesanan tidak boleh lebih dari 50 karakter" }),
+
+  status: z
+    .enum(orderStatus, {
+      errorMap: () => ({ message: "Status pesanan tidak valid" }),
+    })
+    .default("PENDING"),
+
+  category: z
+    .enum(orderCategory, {
+      errorMap: () => ({ message: "Kategori pesanan tidak valid" }),
+    })
+    .default("WHOLESALE"),
+
+  sending_at: z.coerce.date({
+    errorMap: () => ({ message: "Format tanggal pengiriman tidak valid" }),
+  }),
+
+  customer_id: z.string().min(1, { message: "Pelanggan tidak boleh kosong" }),
+
+  product_id: z.string().min(1, { message: "Produk tidak boleh kosong" }),
+});
 export const updateOrderFormSchema = createOrderFormSchema.partial();

@@ -13,7 +13,10 @@ export const DetailCustomerPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard - Pelanggan">
+        <DashboardSection
+          title="Dashboard - Detail Pelanggan"
+          description="Halaman ini menampilkan informasi lengkap tentang seorang pelanggan tertentu. Detail yang disajikan mencakup data pribadi, riwayat transaksi atau pesanan, serta opsi untuk mengedit atau menghapus pelanggan dari sistem. Halaman ini memungkinkan admin untuk mengelola informasi pelanggan secara lebih mendalam."
+        >
           <CustomerCard customerId={customerId} />
         </DashboardSection>
       </SectionContainer>

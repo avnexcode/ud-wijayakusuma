@@ -1,27 +1,38 @@
 import { cn } from "@/lib/utils";
 import { Heading } from "../ui/heading";
+import { forwardRef } from "react";
 
 type DashboardSectionProps = {
-  children: React.ReactNode;
   title: string;
   description?: string;
-  className?: string;
   sectionClassName?: string;
 };
 
-export const DashboardSection = ({
-  children,
-  className,
-  sectionClassName,
-  ...props
-}: DashboardSectionProps) => {
+export const DashboardSection = forwardRef<
+  HTMLElement,
+  React.HTMLAttributes<HTMLElement> & DashboardSectionProps
+>(({ children, className, sectionClassName, ...props }, ref) => {
+  const formattedDescription = props.description
+    ?.split(".")
+    .map((text, index) => (
+      <span key={index} className="block">
+        {text.trim()}
+      </span>
+    ));
+
   return (
-    <section className={cn(sectionClassName)}>
-      <header className="mb-20">
+    <section ref={ref} className={cn(sectionClassName)}>
+      <header className="mb-20 space-y-3">
         <Heading size={"h3"}>{props.title}</Heading>
-        {props.description && <p>{props.description}</p>}
+        {props.description && (
+          <p className="text-base text-muted-foreground">
+            {formattedDescription}
+          </p>
+        )}
       </header>
       <main className={cn("flex flex-col", className)}>{children}</main>
     </section>
   );
-};
+});
+
+DashboardSection.displayName = "DashboardSection";

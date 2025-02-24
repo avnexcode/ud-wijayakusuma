@@ -4,7 +4,8 @@ export const createCustomerFormSchema = z.object({
   name: z
     .string()
     .min(1, { message: "Nama tidak boleh kosong" })
-    .max(150, { message: "Nama tidak boleh lebih dari 150 karakter" }),
+    .max(150, { message: "Nama tidak boleh lebih dari 150 karakter" })
+    .toLowerCase(),
 
   email: z
     .string()
@@ -25,8 +26,9 @@ export const createCustomerFormSchema = z.object({
   phone: z
     .string()
     .min(1, { message: "Nomor telepon tidak boleh kosong" })
+    .min(10, { message: "Nomor telepon tidak sesuai" })
     .max(20, { message: "Nomor telepon tidak boleh lebih dari 20 karakter" })
-    .regex(/^\d+$/, { message: "Nomor telepon hanya boleh berisi angka" }), // Validasi hanya angka
+    .regex(/^\d+$/, { message: "Nomor telepon hanya boleh berisi angka" }),
 });
 
 export const updateCustomerFormSchema = createCustomerFormSchema.partial();
