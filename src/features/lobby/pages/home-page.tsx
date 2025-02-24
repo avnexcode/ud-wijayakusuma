@@ -16,19 +16,15 @@ import {
   OrderSearch,
   OrderSort,
 } from "@/features/order/components";
+import { useUpdateQuery } from "@/hooks";
 import { api } from "@/utils";
-import { useRouter } from "next/router";
 import { LobbyOrderTable } from "../tables";
 export const HomePage = () => {
-  const router = useRouter();
+  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+    OrderSortParams,
+    OrderOrderParams
+  >();
 
-  const queryParams = {
-    search: router.query.search as string,
-    page: Number(router.query.page) || 1,
-    sort: (router.query.sort as OrderSortParams) || undefined,
-    order: (router.query.order as OrderOrderParams) || undefined,
-    limit: Number(router.query.limit) || 15,
-  };
   const { data: orders, isLoading: isOrdersLoading } =
     api.order.getAll.useQuery({
       params: {
@@ -36,20 +32,6 @@ export const HomePage = () => {
       },
     });
 
-  const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
-    void router.push(
-      {
-        href: router.asPath,
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          ...newParams,
-        },
-      },
-      undefined,
-      { scroll: false },
-    );
-  };
   return (
     <PageContainer withHeader>
       <SectionContainer padded>

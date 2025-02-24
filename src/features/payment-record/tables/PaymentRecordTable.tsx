@@ -15,6 +15,7 @@ import { PaymentRecordTableBodySkeleton } from "../components/skeleton";
 import { EditPaymentRecordForm } from "../forms/EditPaymentRecordForm";
 import type { PaymentRecordWithRelations } from "../types";
 import { DeletePaymentRecordDialog } from "../components/action";
+import { CalendarIcon } from "lucide-react";
 
 type PaymentRecordTableProps = {
   paymentRecords?: PaymentRecord[] | PaymentRecordWithRelations[];
@@ -49,7 +50,8 @@ export const PaymentRecordTable = ({
               <TableCell className="capitalize">
                 {convertCurrency(paymentRecord.amount)}
               </TableCell>
-              <TableCell className="w-[300px] capitalize">
+              <TableCell className="flex w-[300px] items-center gap-2 capitalize">
+                <CalendarIcon className="h-4 w-4" />
                 {formatDate(paymentRecord.created_at)}
               </TableCell>
               <TableCell className="w-[100px] space-x-1 whitespace-nowrap">

@@ -5,10 +5,10 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
+import { useUpdateQuery } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import {
   CustomerLimit,
   CustomerSearch,
@@ -20,15 +20,10 @@ import { CustomerPagination } from "../../components/CustomerPagination";
 import { CustomerTable } from "../../tables";
 
 export const CustomerPage = () => {
-  const router = useRouter();
-
-  const queryParams = {
-    search: router.query.search as string,
-    page: Number(router.query.page) || 1,
-    sort: (router.query.sort as CustomerSortParams) || undefined,
-    order: (router.query.order as CustomerOrderParams) || undefined,
-    limit: Number(router.query.limit) || 15,
-  };
+  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+    CustomerSortParams,
+    CustomerOrderParams
+  >();
 
   const {
     data: customers,
@@ -39,20 +34,6 @@ export const CustomerPage = () => {
       ...queryParams,
     },
   });
-
-  const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
-    void router.push(
-      {
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          ...newParams,
-        },
-      },
-      undefined,
-      { scroll: false },
-    );
-  };
 
   return (
     <PageContainer>

@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { renderElements } from "@/utils/render-elements";
-import { ScanEye, SquarePen } from "lucide-react";
+import { CalendarIcon, ScanEye, SquarePen } from "lucide-react";
 import Link from "next/link";
 import { DeleteOrderDialog } from "../components/action/DeleteOrderDialog";
 import { OrderTableBodySkeleton } from "../components/skeleton/OrderTableSkeleton";
@@ -60,7 +60,8 @@ export const OrderTable = ({
               <TableCell className="capitalize">
                 {convertCurrency(order.transaction?.total_amount ?? "")}
               </TableCell>
-              <TableCell className="capitalize">
+              <TableCell className="flex items-center gap-2 capitalize">
+                <CalendarIcon className="h-4 w-4" />
                 {formatDate(order.sending_at)}
               </TableCell>
               <TableCell className="space-x-1">

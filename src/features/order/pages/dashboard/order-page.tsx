@@ -5,10 +5,10 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
+import { useUpdateQuery } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import {
   OrderLimit,
   OrderPagination,
@@ -20,15 +20,10 @@ import {
 import { OrderTable } from "../../tables";
 
 export const OrderPage = () => {
-  const router = useRouter();
-
-  const queryParams = {
-    search: router.query.search as string,
-    page: Number(router.query.page) || 1,
-    sort: (router.query.sort as OrderSortParams) || undefined,
-    order: (router.query.order as OrderOrderParams) || undefined,
-    limit: Number(router.query.limit) || 15,
-  };
+  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+    OrderSortParams,
+    OrderOrderParams
+  >();
 
   const {
     data: orders,
@@ -39,21 +34,6 @@ export const OrderPage = () => {
       ...queryParams,
     },
   });
-
-  const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
-    void router.push(
-      {
-        href: router.asPath,
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          ...newParams,
-        },
-      },
-      undefined,
-      { scroll: false },
-    );
-  };
 
   return (
     <PageContainer>
