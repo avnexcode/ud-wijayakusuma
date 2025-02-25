@@ -20,7 +20,10 @@ export const DetailOrderPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard - Detail Pesanan">
+        <DashboardSection
+          title="Dashboard - Detail Pesanan"
+          description="Halaman ini memberikan informasi lebih rinci mengenai suatu pesanan, termasuk daftar produk yang dipesan, jumlah, harga per item, metode pembayaran, dan status pengiriman."
+        >
           {isOrderLoading ? <OrderCardSkeleton /> : <OrderCard order={order} />}
         </DashboardSection>
       </SectionContainer>

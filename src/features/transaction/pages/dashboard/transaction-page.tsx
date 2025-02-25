@@ -33,7 +33,10 @@ export const TransactionPage = () => {
   return (
     <PageContainer>
       <SectionContainer padded>
-        <DashboardSection title="Dashboard Transaksi">
+        <DashboardSection
+          title="Dashboard Transaksi"
+          description="Halaman ini menampilkan daftar transaksi pembayaran yang dilakukan oleh pelanggan. Informasi yang tersedia meliputi ID transaksi, metode pembayaran, jumlah pembayaran, status pembayaran, dan waktu transaksi."
+        >
           <header className="flex flex-col gap-y-5 py-10">
             <div className="flex items-center gap-x-5">
               <TransactionSearch

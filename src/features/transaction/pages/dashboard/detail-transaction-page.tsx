@@ -26,7 +26,7 @@ export const DetailTransactionPage = () => {
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Detail Transaksi"
-          description="asdd"
+          description="Halaman ini menampilkan informasi detail mengenai suatu transaksi tertentu, termasuk rincian pembayaran, status, metode pembayaran, serta referensi ke pesanan terkait."
           className="gap-10"
         >
           <TransactionCard
