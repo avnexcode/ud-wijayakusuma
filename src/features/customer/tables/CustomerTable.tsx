@@ -33,8 +33,8 @@ export const CustomerTable = ({
         <TableRow>
           <TableHead className="w-[50px]">No</TableHead>
           <TableHead>Nama</TableHead>
-          <TableHead>No Handphone</TableHead>
-          <TableHead>Email</TableHead>
+          <TableHead className="w-[400px]">No Handphone</TableHead>
+          <TableHead className="w-[400px]">Email</TableHead>
           <TableHead className="w-[200px]">Aksi</TableHead>
         </TableRow>
       </TableHeader>

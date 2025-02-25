@@ -35,11 +35,11 @@ export const OrderTable = ({
         <TableRow>
           <TableHead className="w-[50px]">No</TableHead>
           <TableHead>Label</TableHead>
-          <TableHead>Pelanggan</TableHead>
-          <TableHead>Produk</TableHead>
+          <TableHead className="w-[400px]">Pelanggan</TableHead>
+          <TableHead className="w-[400px]">Produk</TableHead>
           <TableHead className="w-[150px]">Total Pesanan</TableHead>
-          <TableHead>Total Harga</TableHead>
-          <TableHead>Tanggal Pengiriman</TableHead>
+          <TableHead className="w-[300px]">Total Harga</TableHead>
+          <TableHead className="w-[300px]">Tanggal Pengiriman</TableHead>
           <TableHead className="w-[200px]">Aksi</TableHead>
         </TableRow>
       </TableHeader>

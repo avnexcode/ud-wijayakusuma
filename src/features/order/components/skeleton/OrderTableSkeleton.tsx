@@ -24,19 +24,19 @@ export const OrderTableSkeleton = () => {
           <TableHead>
             <OrderTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[400px]">
             <OrderTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[400px]">
             <OrderTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[150px]">
             <OrderTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[300px]">
             <OrderTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[300px]">
             <OrderTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[200px]">

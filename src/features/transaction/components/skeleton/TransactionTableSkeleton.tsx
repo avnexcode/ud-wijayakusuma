@@ -24,13 +24,13 @@ export const TransactionTableSkeleton = () => {
           <TableHead>
             <TransactionTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[400px]">
             <TransactionTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[400px]">
             <TransactionTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[400px]">
             <TransactionTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[150px]">

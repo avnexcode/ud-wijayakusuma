@@ -26,10 +26,10 @@ export const ProductTableSkeleton = () => {
           <TableHead>
             <ProductTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[300px]">
             <ProductTableCellSkeleton />
           </TableHead>
-          <TableHead>
+          <TableHead className="w-[300px]">
             <ProductTableCellSkeleton />
           </TableHead>
           <TableHead className="w-[200px]">

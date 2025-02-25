@@ -40,9 +40,9 @@ export const TransactionTable = ({
         <TableRow>
           <TableHead className="w-[50px]">No</TableHead>
           <TableHead>Label Pesanan</TableHead>
-          <TableHead>Total</TableHead>
-          <TableHead>Dibayar</TableHead>
-          <TableHead>Sisa</TableHead>
+          <TableHead className="w-[400px]">Total</TableHead>
+          <TableHead className="w-[400px]">Dibayar</TableHead>
+          <TableHead className="w-[400px]">Sisa</TableHead>
           <TableHead className="w-[150px]">Status</TableHead>
           <TableHead className="w-[100px]">Aksi</TableHead>
         </TableRow>

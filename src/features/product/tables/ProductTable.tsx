@@ -34,8 +34,8 @@ export const ProductTable = ({
         <TableRow>
           <TableHead className="w-[50px]">No</TableHead>
           <TableHead>Nama</TableHead>
-          <TableHead>Harga</TableHead>
-          <TableHead>Kategori</TableHead>
+          <TableHead className="w-[300px]">Harga</TableHead>
+          <TableHead className="w-[300px]">Kategori</TableHead>
           <TableHead className="w-[200px]">Aksi</TableHead>
         </TableRow>
       </TableHeader>
