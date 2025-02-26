@@ -14,8 +14,12 @@ import { useForm } from "react-hook-form";
 import { registerFormSchema } from "../schemas";
 import type { RegisterFormSchema } from "../types";
 import { RegisterFormInner } from "./RegisterFormInner";
+import { api } from "@/utils";
+import { toast as sonner } from "sonner";
+import { useToast } from "@/hooks";
 
 export const RegisterForm = () => {
+  const { toast } = useToast();
   const form = useForm<RegisterFormSchema>({
     defaultValues: {
       name: "",
@@ -26,9 +30,24 @@ export const RegisterForm = () => {
     resolver: zodResolver(registerFormSchema),
   });
 
-  const onSubmit = (values: RegisterFormSchema) => console.log(values);
+  const { mutate: register, isPending: isRegisterPending } =
+    api.auth.register.useMutation({
+      onSuccess: () => {
+        form.reset();
+        sonner.success("Pendaftaran berhasil");
+      },
+      onError: () => {
+        form.setValue("password", "");
+        form.setValue("confirm_password", "");
+        toast({
+          title: "Error",
+          variant: "destructive",
+          description: "Pendaftaran gagal",
+        });
+      },
+    });
 
-  const isRegisterPending = false;
+  const onSubmit = (values: RegisterFormSchema) => register(values);
 
   return (
     <Card className="w-full max-w-3xl">

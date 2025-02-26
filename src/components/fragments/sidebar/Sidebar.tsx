@@ -13,8 +13,15 @@ import { sidebarMenu } from "./sidebar-menu";
 import { SidebarGroup } from "./SidebarGroup";
 import { SidebarGroup as SidebarGroupComponent } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/router";
 
 export function Sidebar() {
+  const router = useRouter();
+  const logout = async () => {
+    await supabase.auth.signOut();
+    void router.replace("/login");
+  };
   return (
     <SidebarComponent collapsible="icon">
       <SidebarContent>
@@ -32,7 +39,7 @@ export function Sidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton className="py-5">
+                <SidebarMenuButton className="py-5" onClick={logout}>
                   <LogOut />
                   Logout
                 </SidebarMenuButton>

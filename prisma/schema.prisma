@@ -15,7 +15,7 @@ enum LoginProvider {
 model User {
     id       String        @id
     name     String        @db.VarChar(100)
-    email    String        @db.VarChar(150)
+    email    String        @unique @db.VarChar(150)
     provider LoginProvider @default(CREDENTIALS)
 
     created_at DateTime @default(now())

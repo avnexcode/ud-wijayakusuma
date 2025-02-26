@@ -45,7 +45,7 @@ export const sidebarMenu = [
       {
         title: "Pengguna",
         url: "/dashboard/user",
-        icon: "User",
+        icon: "Users",
       },
     ],
   },

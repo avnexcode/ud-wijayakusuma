@@ -7,15 +7,15 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
-    SUPABASE_SECRET_JWT: z.string().optional(),
+    SUPABASE_SERVICE_ROLE_KEY: z.string(),
+    SUPABASE_SECRET_JWT: z.string(),
   },
 
   client: {
-    NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
-    NEXT_PUBLIC_APP_NAME: z.string().optional(),
-    NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().optional(),
+    NEXT_PUBLIC_BASE_URL: z.string().url(),
+    NEXT_PUBLIC_APP_NAME: z.string(),
+    NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
   },
 
   runtimeEnv: {

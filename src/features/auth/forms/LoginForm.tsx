@@ -14,8 +14,14 @@ import type { LoginFormSchema } from "../types";
 import { LoginFormInner } from "./LoginFormInner";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { SupabaseAuthErrorCode } from "@/utils";
+import type { AuthError } from "@supabase/supabase-js";
+import { useRouter } from "next/router";
+import { supabase } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 export const LoginForm = () => {
+  const router = useRouter();
   const form = useForm<LoginFormSchema>({
     defaultValues: {
       email: "",
@@ -24,9 +30,32 @@ export const LoginForm = () => {
     resolver: zodResolver(loginFormSchema),
   });
 
-  const onSubmit = (values: LoginFormSchema) => console.log(values);
+  const onSubmit = async (values: LoginFormSchema) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword(values);
+      if (error) throw error;
+      toast.success("Login berhasil!");
+      void router.replace("/dashboard");
+    } catch (error) {
+      switch ((error as AuthError).code) {
+        case SupabaseAuthErrorCode.invalid_credentials:
+          toast.error("Email atau password salah. Silakan coba lagi");
+          break;
+        case SupabaseAuthErrorCode.email_not_confirmed:
+          form.setError("email", {
+            message:
+              "Email Anda belum diverifikasi. Silakan periksa kotak masuk Anda untuk tautan verifikasi.",
+          });
+          break;
+        default:
+          toast.error(
+            "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.",
+          );
+      }
+    }
+  };
 
-  const isLoginPending = false;
+  const isLoginPending = form.formState.isSubmitting;
 
   return (
     <Card className="w-full max-w-3xl">

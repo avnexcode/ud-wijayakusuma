@@ -5,10 +5,13 @@ const passwordSchema = z
   .min(1, "Password tidak boleh kosong.")
   .min(8, "Password harus minimal 8 karakter.")
   .max(150, "Password tidak boleh lebih dari 150 karakter.")
-  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, {
-    message:
-      "Password harus mengandung minimal satu huruf besar, satu huruf kecil, satu angka, dan satu karakter khusus.",
-  });
+  .regex(/[a-z]/, "Password harus mengandung minimal satu huruf kecil.")
+  .regex(/[A-Z]/, "Password harus mengandung minimal satu huruf besar.")
+  .regex(/\d/, "Password harus mengandung minimal satu angka.")
+  .regex(
+    /[@$!%*?&]/,
+    "Password harus mengandung minimal satu karakter khusus (@$!%*?&).",
+  );
 
 const emailSchema = z
   .string()
