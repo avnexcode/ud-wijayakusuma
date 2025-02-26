@@ -39,12 +39,12 @@ export const sidebarMenu = [
       },
       {
         title: "Reset Password",
-        url: "/dashboard/reset-password",
+        url: "/settings/reset-password",
         icon: "KeyRound",
       },
       {
         title: "Pengguna",
-        url: "/dashboard/user",
+        url: "/settings/user",
         icon: "Users",
       },
     ],

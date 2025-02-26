@@ -27,9 +27,15 @@ export const LoginFormInner = ({ formId, onSubmit }: LoginFormInnerProps) => {
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>
+              Email <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan alamat email" {...field} />
+              <Input
+                type="email"
+                placeholder="Masukkan alamat email"
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -40,7 +46,9 @@ export const LoginFormInner = ({ formId, onSubmit }: LoginFormInnerProps) => {
         name="password"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>
+              Password <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan password" {...field} />
             </FormControl>

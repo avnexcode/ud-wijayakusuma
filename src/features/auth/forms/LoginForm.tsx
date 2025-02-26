@@ -18,10 +18,13 @@ import { SupabaseAuthErrorCode } from "@/utils";
 import type { AuthError } from "@supabase/supabase-js";
 import { useRouter } from "next/router";
 import { supabase } from "@/lib/supabase/client";
-import { toast } from "sonner";
+import { toast as sonner } from "sonner";
+import { useToast } from "@/hooks";
 
 export const LoginForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<LoginFormSchema>({
     defaultValues: {
       email: "",
@@ -34,12 +37,16 @@ export const LoginForm = () => {
     try {
       const { error } = await supabase.auth.signInWithPassword(values);
       if (error) throw error;
-      toast.success("Login berhasil!");
+      sonner.success("Login berhasil!");
       void router.replace("/dashboard");
     } catch (error) {
       switch ((error as AuthError).code) {
         case SupabaseAuthErrorCode.invalid_credentials:
-          toast.error("Email atau password salah. Silakan coba lagi");
+          toast({
+            title: "Error",
+            variant: "destructive",
+            description: "Email atau password salah. Silakan coba lagi",
+          });
           break;
         case SupabaseAuthErrorCode.email_not_confirmed:
           form.setError("email", {
@@ -48,9 +55,12 @@ export const LoginForm = () => {
           });
           break;
         default:
-          toast.error(
-            "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.",
-          );
+          toast({
+            title: "Error",
+            variant: "destructive",
+            description:
+              "Terjadi kesalahan yang tidak terduga. Silakan coba lagi nanti.",
+          });
       }
     }
   };

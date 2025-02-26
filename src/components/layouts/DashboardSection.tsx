@@ -12,13 +12,15 @@ export const DashboardSection = forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement> & DashboardSectionProps
 >(({ children, className, sectionClassName, ...props }, ref) => {
-  const formattedDescription = props.description
-    ?.split(".")
-    .map((text, index) => (
+  const formatDescription = (text: string) => {
+    return text?.split(".").map((text, index) => (
       <span key={index} className="block">
         {text.trim()}
       </span>
     ));
+  };
+  const formattedDescription =
+    props.description && formatDescription(props.description);
 
   return (
     <section className={cn(sectionClassName)}>
@@ -26,7 +28,7 @@ export const DashboardSection = forwardRef<
         <Heading size={"h3"}>{props.title}</Heading>
         {props.description && (
           <p className="text-base text-muted-foreground">
-            {formattedDescription}
+            {props.description && formattedDescription}
           </p>
         )}
       </header>

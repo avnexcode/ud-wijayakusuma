@@ -15,13 +15,17 @@ import { SidebarGroup as SidebarGroupComponent } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 export function Sidebar() {
   const router = useRouter();
+  const pathname = usePathname();
+
   const logout = async () => {
     await supabase.auth.signOut();
     void router.replace("/login");
   };
+
   return (
     <SidebarComponent collapsible="icon">
       <SidebarContent>
@@ -32,7 +36,11 @@ export function Sidebar() {
           of: sidebarMenu,
           keyExtractor: (sidebar) => sidebar.label,
           render: (sidebar) => (
-            <SidebarGroup label={sidebar.label} menu={sidebar.menu} />
+            <SidebarGroup
+              label={sidebar.label}
+              menu={sidebar.menu}
+              pathname={pathname}
+            />
           ),
         })}
         <SidebarGroupComponent className="absolute bottom-5 w-full">

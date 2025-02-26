@@ -1,24 +1,19 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { useToast } from "@/hooks";
+import { api } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast as sonner } from "sonner";
 import { registerFormSchema } from "../schemas";
 import type { RegisterFormSchema } from "../types";
 import { RegisterFormInner } from "./RegisterFormInner";
-import { api } from "@/utils";
-import { toast as sonner } from "sonner";
-import { useToast } from "@/hooks";
+import { useRouter } from "next/router";
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<RegisterFormSchema>({
     defaultValues: {
@@ -35,6 +30,7 @@ export const RegisterForm = () => {
       onSuccess: () => {
         form.reset();
         sonner.success("Pendaftaran berhasil");
+        void router.replace("/settings/user");
       },
       onError: () => {
         form.setValue("password", "");
@@ -50,11 +46,7 @@ export const RegisterForm = () => {
   const onSubmit = (values: RegisterFormSchema) => register(values);
 
   return (
-    <Card className="w-full max-w-3xl">
-      <CardHeader>
-        <CardTitle>Register</CardTitle>
-        <CardDescription>Silahkan buat akun untuk memulai</CardDescription>
-      </CardHeader>
+    <Card className="w-full border-none shadow-none">
       <CardContent>
         <Form {...form}>
           <RegisterFormInner formId="register-form" onSubmit={onSubmit} />
@@ -63,11 +55,11 @@ export const RegisterForm = () => {
       <CardFooter className="mt-10 place-content-end">
         <Button form="register-form" disabled={isRegisterPending}>
           {!isRegisterPending ? (
-            "Register"
+            "Daftarkan"
           ) : (
             <>
               <Loader2 className="animate-spin" />
-              Registering...
+              Mendaftarkan...
             </>
           )}
         </Button>

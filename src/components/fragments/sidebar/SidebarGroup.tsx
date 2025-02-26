@@ -8,6 +8,7 @@ import { renderElements } from "@/utils/render-elements";
 import { SidebarItem } from "./SidebarItem";
 
 type SidebarGroupProps = {
+  pathname: string;
   label: string;
   menu: {
     title: string;
@@ -26,7 +27,12 @@ export const SidebarGroup = (props: SidebarGroupProps) => {
             of: props.menu,
             keyExtractor: (menu) => menu.title,
             render: (menu) => (
-              <SidebarItem icon={menu.icon} title={menu.title} url={menu.url} />
+              <SidebarItem
+                icon={menu.icon}
+                title={menu.title}
+                url={menu.url}
+                pathname={props.pathname}
+              />
             ),
           })}
         </SidebarMenu>

@@ -14,23 +14,21 @@ import { api } from "@/utils/api";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
-type DeleteCustomerDialogProps = {
-  customerId: string;
-  refetchCustomers: () => void;
+type DeleteUserDialogProps = {
+  userId: string;
+  refetchUsers: () => void;
 };
 
-export const DeleteCustomerDialog = ({
-  customerId,
-  refetchCustomers,
-}: DeleteCustomerDialogProps) => {
-  const { mutate: deleteCustomer } = api.customer.delete.useMutation({
+export const DeleteUserDialog = ({
+  userId,
+  refetchUsers,
+}: DeleteUserDialogProps) => {
+  const { mutate: deleteUser } = api.user.delete.useMutation({
     onSuccess: () => {
-      toast.success("Berhasil menghapus data pelanggan");
-      refetchCustomers();
+      toast.success("Berhasil menghapus data pengguna");
+      refetchUsers();
     },
   });
-
-  const handleDeleteCustomer = () => deleteCustomer({ id: customerId });
 
   return (
     <AlertDialog>
@@ -49,7 +47,7 @@ export const DeleteCustomerDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteCustomer}>
+          <AlertDialogAction onClick={() => deleteUser({ id: userId })}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -21,6 +21,7 @@ type EditCustomerFormProps = {
 export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
   const router = useRouter();
   const { toast } = useToast();
+
   const { data: customer, isLoading: isCustomerLoading } =
     api.customer.getById.useQuery(
       { id: customerId },
@@ -36,6 +37,12 @@ export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
     },
     resolver: zodResolver(updateCustomerFormSchema),
   });
+
+  useEffect(() => {
+    if (customer) {
+      form.reset({ ...customer, email: customer.email ?? "" });
+    }
+  }, [form, customer]);
 
   const { mutate: updateCustomer, isPending: isUpdateCustomerPending } =
     api.customer.update.useMutation({
@@ -57,12 +64,6 @@ export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
       id: customerId,
       request: values,
     });
-
-  useEffect(() => {
-    if (customer) {
-      form.reset({ ...customer, email: customer.email ?? "" });
-    }
-  }, [form, customer]);
 
   if (isCustomerLoading) {
     return <EditCustomerFormSkeleton />;

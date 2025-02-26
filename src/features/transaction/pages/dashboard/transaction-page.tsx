@@ -4,8 +4,8 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
-import { useUpdateQuery } from "@/hooks";
 import { api } from "@/utils/api";
+import { useRouter } from "next/router";
 import {
   TransactionLimit,
   TransactionPagination,
@@ -18,10 +18,30 @@ import { TransactionTable } from "../../tables/TransactionTable";
 import type { TransactionWithRelations } from "../../types";
 
 export const TransactionPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
-    TransactionSortParams,
-    TransactionOrderParams
-  >();
+  const router = useRouter();
+
+  const queryParams = {
+    search: router.query.search as string,
+    page: Number(router.query.page) || 1,
+    sort: (router.query.sort as TransactionSortParams) || undefined,
+    order: (router.query.order as TransactionOrderParams) || undefined,
+    limit: Number(router.query.limit) || 15,
+  };
+
+  const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
+    void router.push(
+      {
+        href: router.asPath,
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          ...newParams,
+        },
+      },
+      undefined,
+      { scroll: false },
+    );
+  };
 
   const { data: transactions, isLoading: isTransactionsLoading } =
     api.transaction.getAll.useQuery({

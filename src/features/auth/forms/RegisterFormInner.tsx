@@ -30,7 +30,9 @@ export const RegisterFormInner = ({
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Nama</FormLabel>
+            <FormLabel>
+              Nama <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan nama" {...field} />
             </FormControl>
@@ -43,9 +45,15 @@ export const RegisterFormInner = ({
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Email</FormLabel>
+            <FormLabel>
+              Email <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
-              <Input placeholder="Masukkan alamat email" {...field} />
+              <Input
+                type="email"
+                placeholder="Masukkan alamat email"
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -56,7 +64,9 @@ export const RegisterFormInner = ({
         name="password"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Password</FormLabel>
+            <FormLabel>
+              Password <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan password" {...field} />
             </FormControl>
@@ -69,7 +79,9 @@ export const RegisterFormInner = ({
         name="confirm_password"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Konfirmasi Password</FormLabel>
+            <FormLabel>
+              Konfirmasi Password <span className="text-red-500">*</span>
+            </FormLabel>
             <FormControl>
               <Input placeholder="Masukkan konfirmasi password" {...field} />
             </FormControl>

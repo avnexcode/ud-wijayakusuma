@@ -9,7 +9,8 @@ import { useParams } from "next/navigation";
 
 export const EditCustomerPage = () => {
   const params: { id: string } = useParams();
-  const customerId = params?.id;
+  const id = params?.id;
+
   return (
     <PageContainer>
       <SectionContainer padded>
@@ -17,7 +18,7 @@ export const EditCustomerPage = () => {
           title="Dashboard - Form Edit Pelanggan"
           description="Halaman ini digunakan untuk mengedit data pelanggan yang sudah ada. Pengguna dapat memperbarui informasi seperti nama, email, alamat, dan nomor telepon. Setelah melakukan perubahan, pengguna dapat menyimpan data yang diperbarui atau membatalkan perubahan jika diperlukan."
         >
-          <EditCustomerForm customerId={customerId} />
+          <EditCustomerForm customerId={id} />
         </DashboardSection>
       </SectionContainer>
     </PageContainer>
