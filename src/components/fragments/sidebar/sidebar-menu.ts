@@ -42,6 +42,11 @@ export const sidebarMenu = [
         url: "/dashboard/reset-password",
         icon: "KeyRound",
       },
+      {
+        title: "Pengguna",
+        url: "/dashboard/user",
+        icon: "User",
+      },
     ],
   },
 ];
