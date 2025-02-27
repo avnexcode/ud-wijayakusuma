@@ -45,8 +45,11 @@ export const updateSession = async (
   } = await supabase.auth.getUser();
 
   const isPublicRoute = PATHS.PUBLIC_ROUTES.includes(request.nextUrl.pathname);
-
-  const isProtectedRoute = protectedRoutes.includes(request.nextUrl.pathname);
+  const isProtectedRoute = protectedRoutes.some(
+    (route) =>
+      request.nextUrl.pathname === route ||
+      request.nextUrl.pathname.startsWith(`${route}/`),
+  );
 
   if (user && isPublicRoute) {
     const url = request.nextUrl.clone();
