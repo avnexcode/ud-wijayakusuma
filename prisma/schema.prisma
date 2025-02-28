@@ -125,8 +125,10 @@ model Transaction {
 }
 
 model PaymentRecord {
-    id     String @id @default(cuid())
-    amount String
+    id              String @id @default(cuid())
+    amount          String
+    note_image_name String
+    note_image_url  String
 
     transaction_id String
     transaction    Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade, onUpdate: Cascade)

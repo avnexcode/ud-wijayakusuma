@@ -104,7 +104,9 @@ export const CreateOrderFormInner = ({
         name="category"
         render={({ field: { onChange, value } }) => (
           <FormItem>
-            <FormLabel>Kategori Pesanan</FormLabel>
+            <FormLabel>
+              Kategori Pesanan <span className="text-red-500">*</span>
+            </FormLabel>
             <Select onValueChange={onChange} defaultValue={value}>
               <FormControl>
                 <SelectTrigger>
@@ -132,7 +134,9 @@ export const CreateOrderFormInner = ({
         name="sending_at"
         render={({ field }) => (
           <FormItem className="flex flex-col gap-1">
-            <FormLabel>Tanggal Pengiriman</FormLabel>
+            <FormLabel>
+              Tanggal Pengiriman <span className="text-red-500">*</span>
+            </FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>

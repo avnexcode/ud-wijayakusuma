@@ -1,3 +1,5 @@
+import { SUPABASE_BUCKET } from "@/lib/supabase/bucket";
+import { supabaseAdminClient } from "@/lib/supabase/server";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { errorFilter } from "@/server/filters";
 import {
@@ -36,7 +38,7 @@ export const paymentRecordRouter = createTRPCRouter({
     .input(createPaymentRecordRequest)
     .mutation(async ({ ctx, input }) => {
       const { db } = ctx;
-      await db.$transaction(async (tx) => {
+      return await db.$transaction(async (tx) => {
         try {
           const transactionExists = await tx.transaction.findUnique({
             where: { id: input.transaction_id },
@@ -55,8 +57,33 @@ export const paymentRecordRouter = createTRPCRouter({
               message: "Nominal pembayaran terlalu besar",
             });
           }
+
+          const timestamp = new Date().getTime().toString();
+          const fileName = `note-${input.transaction_id}.jpeg`;
+          const buffer = Buffer.from(input.note_image_url, "base64");
+
+          const { data, error } = await supabaseAdminClient.storage
+            .from(SUPABASE_BUCKET.NotePaymentRecord)
+            .upload(fileName, buffer, {
+              contentType: "image/jpeg",
+              upsert: true,
+            });
+
+          if (error) throw error;
+
+          const imageUrl = supabaseAdminClient.storage
+            .from(SUPABASE_BUCKET.NotePaymentRecord)
+            .getPublicUrl(data.path);
+
+          const noteImageUrl = imageUrl.data.publicUrl + "?t=" + timestamp;
+
           const paymentRecord = await tx.paymentRecord.create({
-            data: input,
+            data: {
+              amount: input.amount,
+              transaction_id: input.transaction_id,
+              note_image_url: noteImageUrl,
+              note_image_name: fileName,
+            },
           });
 
           const amountPaid =
@@ -115,8 +142,11 @@ export const paymentRecordRouter = createTRPCRouter({
             });
           }
 
-          const amountDifference =
-            Number(request.amount) - Number(existingPaymentRecord.amount);
+          let amountDifference = 0;
+          if (request.amount) {
+            amountDifference =
+              Number(request.amount) - Number(existingPaymentRecord.amount);
+          }
 
           const transaction = existingPaymentRecord.transaction;
           const newAmountPaid =
@@ -130,6 +160,32 @@ export const paymentRecordRouter = createTRPCRouter({
             });
           }
 
+          const updateData = { ...request };
+
+          delete updateData.note_image_url;
+
+          if (request.note_image_url) {
+            const timestamp = new Date().getTime().toString();
+            const fileName = `note-${transaction.id}.jpeg`;
+            const buffer = Buffer.from(request.note_image_url, "base64");
+
+            const { data, error } = await supabaseAdminClient.storage
+              .from(SUPABASE_BUCKET.NotePaymentRecord)
+              .upload(fileName, buffer, {
+                contentType: "image/jpeg",
+                upsert: true,
+              });
+
+            if (error) throw error;
+
+            const imageUrl = supabaseAdminClient.storage
+              .from(SUPABASE_BUCKET.NotePaymentRecord)
+              .getPublicUrl(data.path);
+
+            updateData.note_image_url =
+              imageUrl.data.publicUrl + "?t=" + timestamp;
+          }
+
           let transactionStatus: TransactionStatus;
           if (newAmountDue === 0) {
             transactionStatus = "PAID";
@@ -139,17 +195,19 @@ export const paymentRecordRouter = createTRPCRouter({
 
           const updatedPaymentRecord = await tx.paymentRecord.update({
             where: { id },
-            data: request,
+            data: updateData,
           });
 
-          await tx.transaction.update({
-            where: { id: existingPaymentRecord.transaction_id },
-            data: {
-              amount_paid: String(newAmountPaid),
-              amount_due: String(newAmountDue),
-              status: transactionStatus,
-            },
-          });
+          if (amountDifference !== 0) {
+            await tx.transaction.update({
+              where: { id: existingPaymentRecord.transaction_id },
+              data: {
+                amount_paid: String(newAmountPaid),
+                amount_due: String(newAmountDue),
+                status: transactionStatus,
+              },
+            });
+          }
 
           return updatedPaymentRecord;
         } catch (error) {
@@ -179,6 +237,19 @@ export const paymentRecordRouter = createTRPCRouter({
               message: `Riwayat pembayaran dengan ID: ${id} tidak ditemukan`,
             });
           }
+
+          // if (paymentRecordExists.note_image_url) {
+          //   const pathUrl = paymentRecordExists.note_image_url.split("?")[0];
+          //   const url = new URL(pathUrl!);
+          //   const pathSegments = url.pathname.split("/");
+          //   const fileName = pathSegments[pathSegments.length - 1];
+          //   await supabaseAdminClient.storage
+          //     .from(SUPABASE_BUCKET.NotePaymentRecord)
+          //     .remove([fileName!]);
+          // }
+          await supabaseAdminClient.storage
+            .from(SUPABASE_BUCKET.NotePaymentRecord)
+            .remove([paymentRecordExists.note_image_name]);
 
           const transaction = paymentRecordExists.transaction;
           const newAmountPaid =

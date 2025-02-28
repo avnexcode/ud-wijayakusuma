@@ -39,6 +39,7 @@ export const CreatePaymentRecordForm = ({
   const form = useForm<CreatePaymentRecordFormSchema>({
     defaultValues: {
       amount: "",
+      note_image_url: null,
     },
     resolver: zodResolver(createPaymentRecordFormSchema),
   });
@@ -51,6 +52,7 @@ export const CreatePaymentRecordForm = ({
       sonner.success("Berhasil menambahkan catatan pembayaran");
       refetchTransaction();
       setIsDialogOpen(false);
+      form.reset();
     },
     onError: (error) => {
       toast({
@@ -61,8 +63,28 @@ export const CreatePaymentRecordForm = ({
     },
   });
 
-  const onSubmit = (values: CreatePaymentRecordFormSchema) =>
-    createPaymentRecord({ ...values, transaction_id });
+  const onSubmit = (values: CreatePaymentRecordFormSchema) => {
+    if (values.note_image_url) {
+      const reader = new FileReader();
+
+      reader.onloadend = function () {
+        const result = reader.result as string;
+        const imageBase64 = result.substring(result.indexOf(",") + 1);
+
+        createPaymentRecord({
+          ...values,
+          note_image_url: imageBase64,
+          transaction_id,
+        });
+      };
+
+      reader.readAsDataURL(values.note_image_url);
+    } else {
+      form.setError("note_image_url", {
+        message: "Bukti pembayaran tidak boleh kosong",
+      });
+    }
+  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -75,7 +97,7 @@ export const CreatePaymentRecordForm = ({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription>

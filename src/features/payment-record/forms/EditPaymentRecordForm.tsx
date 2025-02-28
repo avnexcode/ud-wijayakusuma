@@ -35,6 +35,7 @@ export const EditPaymentRecordForm = ({
   const form = useForm<UpdatePaymentRecordFormSchema>({
     defaultValues: {
       amount: "",
+      note_image_url: null,
     },
     resolver: zodResolver(updatePaymentRecordFormSchema),
   });
@@ -62,6 +63,7 @@ export const EditPaymentRecordForm = ({
       sonner.success("Berhasil memperbarui riwayat pembayaran");
       setIsDialogOpen(false);
       refetchTransaction();
+      form.reset();
     },
     onError: (error) => {
       toast({
@@ -72,8 +74,30 @@ export const EditPaymentRecordForm = ({
     },
   });
 
-  const onSubmit = (values: UpdatePaymentRecordFormSchema) =>
-    updatePaymentRecord({ id: paymentRecordId, request: values });
+  const onSubmit = (values: UpdatePaymentRecordFormSchema) => {
+    if (values.note_image_url) {
+      const reader = new FileReader();
+
+      reader.onloadend = function () {
+        const result = reader.result as string;
+        const imageBase64 = result.substring(result.indexOf(",") + 1);
+
+        updatePaymentRecord({
+          id: paymentRecordId,
+          request: {
+            ...values,
+            note_image_url: imageBase64,
+          },
+        });
+      };
+
+      reader.readAsDataURL(values.note_image_url);
+    } else {
+      form.setError("note_image_url", {
+        message: "Bukti pembayaran tidak boleh kosong",
+      });
+    }
+  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

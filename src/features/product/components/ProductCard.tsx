@@ -33,7 +33,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <div className="space-y-2">
           <h3 className="text-lg font-medium text-muted-foreground">Harga</h3>
           <p className="text-xl font-semibold">
-            {convertCurrency(product?.price ?? "")}
+            {convertCurrency(product?.price ?? "0")}
           </p>
         </div>
 

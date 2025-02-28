@@ -53,7 +53,11 @@ export const RegisterForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end">
-        <Button form="register-form" disabled={isRegisterPending}>
+        <Button
+          form="register-form"
+          disabled={isRegisterPending}
+          className="w-[150px]"
+        >
           {!isRegisterPending ? (
             "Daftarkan"
           ) : (

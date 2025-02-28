@@ -17,7 +17,19 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
   transpilePackages: ["geist"],
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "bhigfselpfdwppgkypag.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
+  },
 };
 
 export default config;

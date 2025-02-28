@@ -79,7 +79,11 @@ export const LoginForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end">
-        <Button form="login-form" disabled={isLoginPending}>
+        <Button
+          form="login-form"
+          disabled={isLoginPending}
+          className="w-[150px]"
+        >
           {!isLoginPending ? (
             "Login"
           ) : (

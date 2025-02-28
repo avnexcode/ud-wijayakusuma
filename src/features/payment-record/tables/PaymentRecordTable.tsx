@@ -15,7 +15,9 @@ import { PaymentRecordTableBodySkeleton } from "../components/skeleton";
 import { EditPaymentRecordForm } from "../forms/EditPaymentRecordForm";
 import type { PaymentRecordWithRelations } from "../types";
 import { DeletePaymentRecordDialog } from "../components/action";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, ScanEye } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 type PaymentRecordTableProps = {
   paymentRecords?: PaymentRecord[] | PaymentRecordWithRelations[];
@@ -55,6 +57,13 @@ export const PaymentRecordTable = ({
                 {formatDate(paymentRecord.created_at)}
               </TableCell>
               <TableCell className="w-[100px] space-x-1 whitespace-nowrap">
+                <Link
+                  href={`/dashboard/payment-record/${paymentRecord.id}/detail`}
+                >
+                  <Button variant={"outline"} size={"sm"}>
+                    <ScanEye />
+                  </Button>
+                </Link>
                 <EditPaymentRecordForm
                   paymentRecordId={paymentRecord.id}
                   refetchTransaction={refetchTransaction}
