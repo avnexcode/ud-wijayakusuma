@@ -3,20 +3,21 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-type CustomerSearchProps = {
+type TableSearchProps = {
   initialSearch?: string;
   onSearch: (search: string) => void;
+  placeholder: string;
 };
 
-export const CustomerSearch = ({
+export const TableSearch = ({
   initialSearch = "",
   onSearch,
-}: CustomerSearchProps) => {
+  placeholder = "",
+}: TableSearchProps) => {
   const router = useRouter();
   const [search, setSearch] = useState(initialSearch);
   const debouncedSearch = useDebounce(search, 1000);
 
-  //
   useEffect(() => {
     const searchParam = router.query.search as string;
     if (searchParam !== undefined && searchParam !== search) {
@@ -51,7 +52,7 @@ export const CustomerSearch = ({
 
   return (
     <Input
-      placeholder="Cari pelanggan . . ."
+      placeholder={`Cari ${placeholder} . . .`}
       className="min-w-[300px]"
       value={search}
       onChange={(e) => setSearch(e.target.value)}

@@ -1,11 +1,11 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { CustomerService } from "@/server/features/customer";
 import { errorFilter } from "@/server/filters";
 import {
   createCustomerRequest,
   queryParams,
   updateCustomerRequest,
 } from "@/server/validations";
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const customerRouter = createTRPCRouter({
@@ -15,51 +15,11 @@ export const customerRouter = createTRPCRouter({
         params: queryParams,
       }),
     )
-    .query(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .query(async ({ input }) => {
       const { params } = input;
-      const { page, limit, search, sort, order } = params;
       try {
-        const skip = (page - 1) * limit;
-
-        const totalCount = await db.customer.count({
-          ...(search && {
-            where: {
-              OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { email: { contains: search, mode: "insensitive" } },
-              ],
-            },
-          }),
-        });
-
-        const customers = await db.customer.findMany({
-          take: limit,
-          skip,
-          ...(search && {
-            where: {
-              OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { email: { contains: search, mode: "insensitive" } },
-              ],
-            },
-          }),
-          orderBy: {
-            [sort]: order,
-          },
-        });
-
-        const lastPage = Math.ceil(totalCount / limit);
-
-        return {
-          data: customers,
-          meta: {
-            total: totalCount,
-            limit,
-            page,
-            last_page: lastPage,
-          },
-        };
+        const customers = await CustomerService.getAll(params);
+        return customers;
       } catch (error) {
         return errorFilter(error);
       }
@@ -67,20 +27,10 @@ export const customerRouter = createTRPCRouter({
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .query(async ({ input }) => {
       const { id } = input;
       try {
-        const customer = await db.customer.findUnique({
-          where: { id: id },
-        });
-
-        if (!customer) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Data pelanggan dengan id : ${id} tidak ditemukan`,
-          });
-        }
+        const customer = await CustomerService.getById(id);
 
         return customer;
       } catch (error) {
@@ -89,48 +39,11 @@ export const customerRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(createCustomerRequest)
-    .mutation(async ({ ctx, input }) => {
-      const { db } = ctx;
-      const { email, phone, name } = input;
+    .input(z.object({ request: createCustomerRequest }))
+    .mutation(async ({ input }) => {
+      const { request } = input;
       try {
-        const existingCustomerEmail = await db.customer.count({
-          where: { email },
-        });
-
-        if (existingCustomerEmail !== 0) {
-          throw new TRPCError({
-            code: "CONFLICT",
-            message: "Alamat email sudah digunakan pelanggan lain",
-          });
-        }
-
-        const existingCustomerPhone = await db.customer.count({
-          where: { phone },
-        });
-
-        if (existingCustomerPhone !== 0) {
-          throw new TRPCError({
-            code: "CONFLICT",
-            message: "Nomor HP sudah digunakan pelanggan lain",
-          });
-        }
-
-        const existingCustomerName = await db.customer.count({
-          where: { name },
-        });
-
-        if (existingCustomerName !== 0) {
-          throw new TRPCError({
-            code: "CONFLICT",
-            message: "Nama pelanggan sudah digunakan",
-          });
-        }
-
-        const customer = await db.customer.create({
-          data: input,
-        });
-
+        const customer = await CustomerService.create(request);
         return customer;
       } catch (error) {
         return errorFilter(error);
@@ -144,60 +57,10 @@ export const customerRouter = createTRPCRouter({
         request: updateCustomerRequest,
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .mutation(async ({ input }) => {
       const { id, request } = input;
-      const { email, phone, name } = request;
       try {
-        const existingCustomer = await ctx.db.customer.findUnique({
-          where: { id },
-        });
-
-        if (!existingCustomer) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Data pelanggan dengan id : ${id} tidak ditemukan`,
-          });
-        }
-
-        if (email && email !== existingCustomer.email) {
-          const emailExists = await db.customer.count({
-            where: { email },
-          });
-
-          if (emailExists !== 0) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "Alamat email sudah digunakan pelanggan lain",
-            });
-          }
-        }
-
-        if (phone && phone !== existingCustomer.phone) {
-          const phoneExists = await db.customer.count({ where: { phone } });
-          if (phoneExists !== 0) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "Nomor HP sudah digunakan pelanggan lain",
-            });
-          }
-        }
-
-        if (name && name !== existingCustomer.name) {
-          const nameExists = await db.customer.count({ where: { name } });
-          if (nameExists !== 0) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "Nama pelanggan sudah digunakan",
-            });
-          }
-        }
-
-        const customer = await ctx.db.customer.update({
-          where: { id },
-          data: request,
-        });
-
+        const customer = await CustomerService.update(id, request);
         return customer;
       } catch (error) {
         return errorFilter(error);
@@ -206,26 +69,11 @@ export const customerRouter = createTRPCRouter({
 
   delete: publicProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .mutation(async ({ input }) => {
       const { id } = input;
       try {
-        const existingCustomer = await db.customer.count({
-          where: { id },
-        });
-
-        if (existingCustomer === 0) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Data pelanggan dengan id : ${id} tidak ditemukan`,
-          });
-        }
-
-        const customer = await db.customer.delete({
-          where: { id },
-        });
-
-        return customer.id;
+        const customer = await CustomerService.delete(id);
+        return customer;
       } catch (error) {
         return errorFilter(error);
       }

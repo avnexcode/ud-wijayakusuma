@@ -14,7 +14,9 @@ import { CreateCustomerFormInner } from "./CreateCustomerFormInner";
 
 export const CreateCustomerForm = () => {
   const router = useRouter();
+
   const { toast } = useToast();
+
   const form = useForm<CreateCustomerFormSchema>({
     defaultValues: {
       name: "",
@@ -40,7 +42,8 @@ export const CreateCustomerForm = () => {
       },
     });
 
-  const onSubmit = (values: CreateCustomerFormSchema) => createCustomer(values);
+  const onSubmit = (values: CreateCustomerFormSchema) =>
+    createCustomer({ request: values });
 
   return (
     <Card className="border-none shadow-none">

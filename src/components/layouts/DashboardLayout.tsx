@@ -1,6 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Navbar } from "../fragments/navbar-dashboard";
-import { Sidebar } from "../fragments/sidebar";
+import { Navbar, Sidebar } from "../fragments";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;

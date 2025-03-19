@@ -18,13 +18,11 @@ import { CustomerTableBodySkeleton } from "../components/skeleton";
 type CustomerTableProps = {
   customers?: Customer[];
   isCustomersLoading: boolean;
-  refetchCustomers: () => void;
 };
 
 export const CustomerTable = ({
   customers = [],
   isCustomersLoading = false,
-  refetchCustomers,
 }: CustomerTableProps) => {
   return (
     <Table>
@@ -62,10 +60,7 @@ export const CustomerTable = ({
                       <SquarePen />
                     </Button>
                   </Link>
-                  <DeleteCustomerDialog
-                    customerId={customer.id}
-                    refetchCustomers={refetchCustomers}
-                  />
+                  <DeleteCustomerDialog customerId={customer.id} />
                 </TableCell>
               </TableRow>
             ),

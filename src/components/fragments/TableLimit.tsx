@@ -6,22 +6,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface CustomerLimitProps {
+interface TableLimitProps {
   currentLimit: number;
   onLimitChange: (limit: number) => void;
 }
 
-export const CustomerLimit = ({
+export const TableLimit = ({
   currentLimit,
   onLimitChange,
-}: CustomerLimitProps) => {
+}: TableLimitProps) => {
   return (
     <Select
       value={currentLimit.toString()}
       onValueChange={(value) => onLimitChange(Number(value))}
     >
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Customers per page" />
+        <SelectValue placeholder="Limit per page" />
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="15">Limit 15</SelectItem>

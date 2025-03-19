@@ -1,39 +1,41 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardSection,
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import {
-  CustomerLimit,
-  CustomerSearch,
   CustomerSort,
   type CustomerOrderParams,
   type CustomerSortParams,
 } from "../../components";
-import { CustomerPagination } from "../../components/CustomerPagination";
 import { CustomerTable } from "../../tables";
 
 export const CustomerPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     CustomerSortParams,
     CustomerOrderParams
   >();
 
-  const {
-    data: customers,
-    isLoading: isCustomersLoading,
-    refetch: refetchCustomers,
-  } = api.customer.getAll.useQuery({
-    params: {
-      ...queryParams,
-    },
-  });
+  const { data: customers, isLoading: isCustomersLoading } =
+    api.customer.getAll.useQuery(
+      {
+        params: {
+          ...queryParams,
+        },
+      },
+      { refetchOnWindowFocus: false },
+    );
 
   return (
     <PageContainer>
@@ -52,14 +54,15 @@ export const CustomerPage = () => {
                 </Button>
               </Link>
 
-              <CustomerSearch
+              <TableSearch
+                placeholder="pelanggan"
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
             </div>
 
             <div className="flex items-center gap-5">
-              <CustomerLimit
+              <TableLimit
                 currentLimit={queryParams.limit}
                 onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
               />
@@ -76,9 +79,8 @@ export const CustomerPage = () => {
             <CustomerTable
               customers={customers?.data}
               isCustomersLoading={isCustomersLoading}
-              refetchCustomers={refetchCustomers}
             />
-            <CustomerPagination
+            <TablePagination
               total={customers?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}

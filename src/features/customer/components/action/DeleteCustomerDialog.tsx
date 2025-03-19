@@ -16,17 +16,16 @@ import { toast } from "sonner";
 
 type DeleteCustomerDialogProps = {
   customerId: string;
-  refetchCustomers: () => void;
 };
 
 export const DeleteCustomerDialog = ({
   customerId,
-  refetchCustomers,
 }: DeleteCustomerDialogProps) => {
+  const apiUtils = api.useUtils().customer;
   const { mutate: deleteCustomer } = api.customer.delete.useMutation({
     onSuccess: () => {
       toast.success("Berhasil menghapus data pelanggan");
-      refetchCustomers();
+      void apiUtils.invalidate();
     },
   });
 

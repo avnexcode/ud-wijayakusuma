@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { TabNavigation } from "../elements/TabNavigation";
+import { TabNavigation } from "../elements";
 
 type DashboardProductSectionProps = {
   children: React.ReactNode;
