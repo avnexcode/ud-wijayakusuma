@@ -17,9 +17,10 @@ export const createOrderRequest = z.object({
   total: z.string().min(1).max(50),
   status: z.enum(orderStatus).default("PENDING"),
   category: z.enum(orderCategory).default("WHOLESALE"),
-  sending_at: z.coerce.date(),
-  customer_id: z.string().min(1),
-  product_id: z.string().min(1),
+  sendingAt: z.coerce.date(),
+  customerId: z.string().min(1),
+  productId: z.string().min(1),
+  transactionId: z.string().optional(),
 });
 
 export const updateOrderRequest = createOrderRequest.partial();

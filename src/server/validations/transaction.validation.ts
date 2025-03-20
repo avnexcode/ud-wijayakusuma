@@ -7,11 +7,14 @@ const transactionStatus = Object.values(TransactionStatus) as [
 ];
 
 export const createTransactionRequest = z.object({
-  total_amount: z.string().min(1),
-  amount_paid: z.string().min(1),
-  amount_due: z.string().min(1),
-  order_id: z.string().min(1),
-  status: z.enum(transactionStatus).default("UNPAID"),
+  totalAmount: z.string().min(1),
+  amountDue: z.string().min(1),
+  orderId: z.string().min(1),
 });
 
-export const updateTransactionRequest = createTransactionRequest.partial();
+export const updateTransactionRequest = createTransactionRequest
+  .partial()
+  .extend({
+    amountPaid: z.string().min(1).default("0").optional(),
+    status: z.enum(transactionStatus).default("UNPAID").optional(),
+  });

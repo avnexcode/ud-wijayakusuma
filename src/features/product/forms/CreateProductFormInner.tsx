@@ -69,7 +69,7 @@ export const CreateProductFormInner = ({
         )}
       />
       <CategorySelect<CreateProductFormSchema>
-        name="category_id"
+        name="categoryId"
         label="Kategori"
         required
       />

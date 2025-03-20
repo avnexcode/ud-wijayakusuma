@@ -1,12 +1,14 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
-import { customerRouter } from "./routers/customer";
-import { productRouter } from "./routers/product";
-import { categoryRouter } from "./routers/category";
-import { orderRouter } from "./routers/order";
-import { transactionRouter } from "./routers/transaction";
-import { paymentRecordRouter } from "./routers/payment-record";
-import { authRouter } from "./routers/auth";
-import { userRouter } from "./routers/user";
+import {
+  customerRouter,
+  productRouter,
+  categoryRouter,
+  orderRouter,
+  transactionRouter,
+  paymentRecordRouter,
+  authRouter,
+  userRouter,
+} from "./routers";
 
 /**
  * This is the primary router for your server.

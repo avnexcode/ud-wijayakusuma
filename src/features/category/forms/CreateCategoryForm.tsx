@@ -29,7 +29,8 @@ export const CreateCategoryForm = () => {
       },
     });
 
-  const onSubmit = (values: CreateCategoryFormSchema) => createCategory(values);
+  const onSubmit = (values: CreateCategoryFormSchema) =>
+    createCategory({ request: values });
 
   return (
     <Card className="border-none shadow-none">

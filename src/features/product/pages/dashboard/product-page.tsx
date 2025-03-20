@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardProductSection,
   DashboardSection,
@@ -11,9 +16,6 @@ import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import {
-  ProductLimit,
-  ProductPagination,
-  ProductSearch,
   ProductSort,
   type ProductOrderParams,
   type ProductSortParams,
@@ -26,15 +28,15 @@ export const ProductPage = () => {
     ProductOrderParams
   >();
 
-  const {
-    data: products,
-    isLoading: isProductsLoading,
-    refetch: refetchProducts,
-  } = api.product.getAll.useQuery({
-    params: {
-      ...queryParams,
-    },
-  });
+  const { data: products, isLoading: isProductsLoading } =
+    api.product.getAll.useQuery(
+      {
+        params: {
+          ...queryParams,
+        },
+      },
+      { refetchOnWindowFocus: false },
+    );
 
   return (
     <PageContainer>
@@ -53,14 +55,15 @@ export const ProductPage = () => {
                   </Button>
                 </Link>
 
-                <ProductSearch
+                <TableSearch
+                  placeholder="produk"
                   initialSearch={queryParams.search}
                   onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
                 />
               </div>
 
               <div className="flex items-center gap-5">
-                <ProductLimit
+                <TableLimit
                   currentLimit={queryParams.limit}
                   onLimitChange={(limit) =>
                     handleUpdateQuery({ limit, page: 1 })
@@ -75,19 +78,22 @@ export const ProductPage = () => {
                 />
               </div>
             </header>
+
             <main>
               <ProductTable
                 products={products?.data}
                 isProductsLoading={isProductsLoading}
-                refetchProducts={refetchProducts}
               />
-              <ProductPagination
+            </main>
+
+            <footer className="py-5">
+              <TablePagination
                 total={products?.meta.total ?? 0}
                 currentPage={queryParams.page}
                 limit={queryParams.limit}
                 onPageChange={(page) => handleUpdateQuery({ page })}
               />
-            </main>
+            </footer>
           </DashboardProductSection>
         </DashboardSection>
       </SectionContainer>

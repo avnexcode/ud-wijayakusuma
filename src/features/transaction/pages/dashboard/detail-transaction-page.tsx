@@ -37,7 +37,7 @@ export const DetailTransactionPage = () => {
             <CreatePaymentRecordForm
               isLoading={isTransactionLoading}
               isAddPaymentDisabled={transaction?.status === "PAID"}
-              transaction_id={id}
+              transactionId={id}
               refetchTransaction={refetchTransaction}
             />
             <PaymentRecordTable

@@ -1,12 +1,11 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { ProductService } from "@/server/features/product";
 import { errorFilter } from "@/server/filters";
 import {
   createProductRequest,
   queryParams,
   updateProductRequest,
 } from "@/server/validations";
-import { generateSlug } from "@/utils/slug-generator";
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const productRouter = createTRPCRouter({
@@ -16,52 +15,11 @@ export const productRouter = createTRPCRouter({
         params: queryParams,
       }),
     )
-    .query(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .query(async ({ input }) => {
       const { params } = input;
-      const { page, limit, search, sort, order } = params;
       try {
-        const skip = (page - 1) * limit;
-
-        const totalCount = await db.product.count({
-          ...(search && {
-            where: {
-              OR: [{ name: { contains: search, mode: "insensitive" } }],
-            },
-          }),
-        });
-
-        const products = await db.product.findMany({
-          take: limit,
-          skip,
-          ...(search && {
-            where: {
-              OR: [{ name: { contains: search, mode: "insensitive" } }],
-            },
-          }),
-          orderBy: {
-            [sort]: order,
-          },
-          include: {
-            category: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        });
-
-        const lastPage = Math.ceil(totalCount / limit);
-
-        return {
-          data: products,
-          meta: {
-            total: totalCount,
-            limit,
-            page,
-            last_page: lastPage,
-          },
-        };
+        const products = await ProductService.getAll(params);
+        return products;
       } catch (error) {
         return errorFilter(error);
       }
@@ -69,26 +27,10 @@ export const productRouter = createTRPCRouter({
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
+      const { id } = input;
       try {
-        const product = await ctx.db.product.findUnique({
-          where: { id: input.id },
-          include: {
-            category: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        });
-
-        if (!product) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Product  with ID ${input.id} not found`,
-          });
-        }
-
+        const product = await ProductService.getById(id);
         return product;
       } catch (error) {
         return errorFilter(error);
@@ -96,43 +38,11 @@ export const productRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(createProductRequest)
-    .mutation(async ({ ctx, input }) => {
+    .input(z.object({ request: createProductRequest }))
+    .mutation(async ({ input }) => {
+      const { request } = input;
       try {
-        const existingProduct = await ctx.db.product.count({
-          where: { name: input.name },
-        });
-
-        if (existingProduct !== 0) {
-          throw new TRPCError({
-            code: "CONFLICT",
-            message: "Product  with this name already exists",
-          });
-        }
-
-        let slug = generateSlug(input.name);
-
-        const existsSlug = await ctx.db.product.count({
-          where: {
-            slug: {
-              startsWith: slug,
-            },
-          },
-        });
-
-        if (existsSlug !== 0) {
-          slug = generateSlug(input.name, true);
-        }
-
-        const product = await ctx.db.product.create({
-          data: {
-            ...input,
-            slug,
-            created_at: new Date(),
-            updated_at: new Date(),
-          },
-        });
-
+        const product = await ProductService.create(request);
         return product;
       } catch (error) {
         return errorFilter(error);
@@ -146,40 +56,10 @@ export const productRouter = createTRPCRouter({
         request: updateProductRequest,
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
+      const { id, request } = input;
       try {
-        const existingProduct = await ctx.db.product.findUnique({
-          where: { id: input.id },
-        });
-
-        if (!existingProduct) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Product  with ID ${input.id} not found`,
-          });
-        }
-
-        if (input.request.name && input.request.name !== existingProduct.name) {
-          const nameExists = await ctx.db.product.count({
-            where: { name: input.request.name },
-          });
-
-          if (nameExists !== 0) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "Product  with this name already exists",
-            });
-          }
-        }
-
-        const product = await ctx.db.product.update({
-          where: { id: input.id },
-          data: {
-            ...input.request,
-            updated_at: new Date(),
-          },
-        });
-
+        const product = await ProductService.update(id, request);
         return product;
       } catch (error) {
         return errorFilter(error);
@@ -188,24 +68,11 @@ export const productRouter = createTRPCRouter({
 
   delete: publicProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ input }) => {
+      const { id } = input;
       try {
-        const existingProduct = await ctx.db.product.count({
-          where: { id: input.id },
-        });
-
-        if (existingProduct === 0) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Product  with ID ${input.id} not found`,
-          });
-        }
-
-        const product = await ctx.db.product.delete({
-          where: { id: input.id },
-        });
-
-        return product.id;
+        const product = await ProductService.delete(id);
+        return product;
       } catch (error) {
         return errorFilter(error);
       }

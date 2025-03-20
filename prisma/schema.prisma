@@ -18,9 +18,12 @@ model User {
     email    String        @unique @db.VarChar(150)
     provider LoginProvider @default(CREDENTIALS)
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([email])
+    @@index([createdAt])
     @@map("users")
 }
 
@@ -36,6 +39,7 @@ model Customer {
     updatedAt DateTime @updatedAt @map("updated_at")
 
     @@index([name])
+    @@index([email])
     @@index([createdAt])
     @@map("customers")
 }
@@ -47,13 +51,17 @@ model Product {
     price       String  @db.VarChar(50)
     description String? @db.Text
 
-    category_id String
-    category    Category @relation(fields: [category_id], references: [id], onDelete: Restrict)
+    categoryId String   @map("category_id")
+    category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
-    order      Order[]
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    orders Order[]
+
+    @@index([name])
+    @@index([categoryId])
+    @@index([createdAt])
     @@map("products")
 }
 
@@ -65,9 +73,11 @@ model Category {
 
     products Product[]
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([name])
+    @@index([createdAt])
     @@map("categories")
 }
 
@@ -88,18 +98,26 @@ model Order {
     total       String        @db.VarChar(50)
     status      OrderStatus   @default(PENDING)
     category    OrderCategory @default(RETAIL)
-    sending_at  DateTime
+    sendingAt   DateTime      @map("sending_at")
 
-    customer_id    String
-    product_id     String
-    transaction_id String?
-    customer       Customer     @relation(fields: [customer_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
-    product        Product      @relation(fields: [product_id], references: [id], onDelete: Restrict, onUpdate: Cascade)
-    transaction    Transaction?
+    customerId    String       @map("customer_id")
+    productId     String       @map("product_id")
+    transactionId String?      @map("transaction_id")
+    customer      Customer     @relation(fields: [customerId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+    product       Product      @relation(fields: [productId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+    transaction   Transaction?
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([label])
+    @@index([status])
+    @@index([category])
+    @@index([sendingAt])
+    @@index([customerId])
+    @@index([productId])
+    @@index([transactionId])
+    @@index([createdAt])
     @@map("orders")
 }
 
@@ -110,33 +128,35 @@ enum TransactionStatus {
 }
 
 model Transaction {
-    id           String            @id @default(cuid())
-    total_amount String
-    amount_paid  String?
-    amount_due   String?
-    status       TransactionStatus @default(UNPAID)
+    id          String            @id @default(cuid())
+    totalAmount String            @map("total_amount")
+    amountPaid  String?           @map("amount_paid")
+    amountDue   String?           @map("amount_due")
+    status      TransactionStatus @default(UNPAID)
 
-    order_id        String          @unique
-    order           Order           @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    orderId         String          @unique @map("order_id")
+    order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
     payment_records PaymentRecord[]
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
+    @@index([orderId])
+    @@index([createdAt])
     @@map("transactions")
 }
 
 model PaymentRecord {
-    id              String @id @default(cuid())
-    amount          String
-    note_image_name String
-    note_image_url  String
+    id            String @id @default(cuid())
+    amount        String
+    noteImageName String @map("note_image_name")
+    noteImageUrl  String @map("note_image_url")
 
-    transaction_id String
-    transaction    Transaction @relation(fields: [transaction_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    transactionId String      @map("transaction_id")
+    transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-    created_at DateTime @default(now())
-    updated_at DateTime @updatedAt
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
 
     @@map("payment_records")
 }

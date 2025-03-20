@@ -59,15 +59,15 @@ export const TransactionTable = ({
                 {transaction.order.label}
               </TableCell>
               <TableCell className="capitalize">
-                {convertCurrency(transaction.total_amount)}
+                {convertCurrency(transaction.totalAmount)}
               </TableCell>
               <TableCell className="capitalize">
-                {transaction.amount_paid
-                  ? convertCurrency(transaction.amount_paid ?? "")
+                {transaction.amountPaid
+                  ? convertCurrency(transaction.amountPaid ?? "")
                   : "-"}
               </TableCell>
               <TableCell className="capitalize">
-                {convertCurrency(transaction.amount_due ?? "")}
+                {convertCurrency(transaction.amountDue ?? "")}
               </TableCell>
               <TableCell className="capitalize">
                 {displayStatus(transaction.status)}

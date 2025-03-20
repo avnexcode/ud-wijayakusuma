@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server";
 import type {
   CreateCustomerRequest,
   UpdateCustomerRequest,
-} from "@/server/models/customer.model";
+} from "@/server/models";
 
 export class CustomerService {
   static getAll = async (params: QueryParams) => {

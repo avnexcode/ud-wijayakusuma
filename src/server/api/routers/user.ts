@@ -1,18 +1,14 @@
-import { supabaseAdminClient } from "@/lib/supabase/server";
+import { UserService } from "@/server/features/user/user.service";
 import { errorFilter } from "@/server/filters";
 import { queryParams } from "@/server/validations";
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
   getProfile: privateProcedure.query(async ({ ctx }) => {
-    const { db, user } = ctx;
+    const { user } = ctx;
     try {
-      const profile = await db.user.findUnique({
-        where: { id: user?.id },
-        select: { email: true },
-      });
+      const profile = await UserService.getById(user?.id ?? "");
       return profile;
     } catch (error) {
       return errorFilter(error);
@@ -21,48 +17,11 @@ export const userRouter = createTRPCRouter({
 
   getAll: publicProcedure
     .input(z.object({ params: queryParams }))
-    .query(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .query(async ({ input }) => {
       const { params } = input;
-      const { page, limit, search, sort, order } = params;
       try {
-        const skip = (page - 1) * limit;
-
-        const totalCount = await db.user.count({
-          ...(search && {
-            where: {
-              OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { email: { contains: search, mode: "insensitive" } },
-              ],
-            },
-          }),
-        });
-
-        const users = await db.user.findMany({
-          take: limit,
-          skip,
-          ...(search && {
-            where: {
-              OR: [{ name: { contains: search, mode: "insensitive" } }],
-            },
-          }),
-          orderBy: {
-            [sort]: order,
-          },
-        });
-
-        const lastPage = Math.ceil(totalCount / limit);
-
-        return {
-          data: users,
-          meta: {
-            total: totalCount,
-            limit,
-            page,
-            last_page: lastPage,
-          },
-        };
+        const users = await UserService.getAll(params);
+        return users;
       } catch (error) {
         return errorFilter(error);
       }
@@ -70,23 +29,13 @@ export const userRouter = createTRPCRouter({
 
   delete: privateProcedure
     .input(z.object({ id: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .mutation(async ({ input }) => {
       const { id } = input;
-      await db.$transaction(async (tx) => {
-        try {
-          const userExists = await tx.user.count({ where: { id } });
-          if (userExists === 0) {
-            throw new TRPCError({
-              code: "NOT_FOUND",
-              message: `Pengguna dengan ID : ${id} tidak ditemukan`,
-            });
-          }
-          await supabaseAdminClient.auth.admin.deleteUser(id);
-          await tx.user.delete({ where: { id } });
-        } catch (error) {
-          return errorFilter(error);
-        }
-      });
+      try {
+        const user = await UserService.delete(id);
+        return user;
+      } catch (error) {
+        return errorFilter(error);
+      }
     }),
 });

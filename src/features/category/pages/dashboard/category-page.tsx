@@ -26,15 +26,17 @@ export const CategoryPage = () => {
     CategoryOrderParams
   >();
 
-  const {
-    data: categories,
-    isLoading: isCategoriesLoading,
-    refetch: refetchCategories,
-  } = api.category.getAll.useQuery({
-    params: {
-      ...queryParams,
-    },
-  });
+  const { data: categories, isLoading: isCategoriesLoading } =
+    api.category.getAll.useQuery(
+      {
+        params: {
+          ...queryParams,
+        },
+      },
+      {
+        refetchOnWindowFocus: false,
+      },
+    );
 
   return (
     <PageContainer>
@@ -59,37 +61,38 @@ export const CategoryPage = () => {
                 />
               </div>
 
-              <div>
-                <div className="flex items-center gap-5">
-                  <CategoryLimit
-                    currentLimit={queryParams.limit}
-                    onLimitChange={(limit) =>
-                      handleUpdateQuery({ limit, page: 1 })
-                    }
-                  />
+              <div className="flex items-center gap-5">
+                <CategoryLimit
+                  currentLimit={queryParams.limit}
+                  onLimitChange={(limit) =>
+                    handleUpdateQuery({ limit, page: 1 })
+                  }
+                />
 
-                  <CategorySort
-                    currentSort={queryParams.sort}
-                    currentOrder={queryParams.order}
-                    onSortChange={(sort) => handleUpdateQuery({ sort })}
-                    onOrderChange={(order) => handleUpdateQuery({ order })}
-                  />
-                </div>
+                <CategorySort
+                  currentSort={queryParams.sort}
+                  currentOrder={queryParams.order}
+                  onSortChange={(sort) => handleUpdateQuery({ sort })}
+                  onOrderChange={(order) => handleUpdateQuery({ order })}
+                />
               </div>
             </header>
+
             <main>
               <CategoryTable
                 categories={categories?.data}
                 isCategoriesLoading={isCategoriesLoading}
-                refetchCategories={refetchCategories}
               />
+            </main>
+
+            <footer className="py-5">
               <CategoryPagination
                 total={categories?.meta.total ?? 0}
                 currentPage={queryParams.page}
                 limit={queryParams.limit}
                 onPageChange={(page) => handleUpdateQuery({ page })}
               />
-            </main>
+            </footer>
           </DashboardProductSection>
         </DashboardSection>
       </SectionContainer>

@@ -14,7 +14,7 @@ export const createProductFormSchema = z.object({
     .string()
     .max(255, { message: "Deskripsi tidak boleh lebih dari 255 karakter" })
     .optional(),
-  category_id: z.string().min(1, { message: "Kategori tidak boleh kosong" }),
+  categoryId: z.string().min(1, { message: "Kategori tidak boleh kosong" }),
 });
 
 export const updateProductFormSchema = createProductFormSchema.partial();

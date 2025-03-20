@@ -105,7 +105,7 @@ export const LobbyOrderTable = ({
               </TableCell>
               <TableCell className="flex items-center gap-2">
                 <CalendarIcon className="h-4 w-4" />
-                {formatDate(order.sending_at)}
+                {formatDate(order.sendingAt)}
               </TableCell>
               <TableCell>
                 <Link href={`/${order.id}/detail`}>

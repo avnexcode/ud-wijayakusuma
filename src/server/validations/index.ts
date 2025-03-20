@@ -1,4 +1,5 @@
 export * from "./api.validation";
+export * from "./auth.validation";
 export * from "./category.validation";
 export * from "./customer.validation";
 export * from "./order.validation";

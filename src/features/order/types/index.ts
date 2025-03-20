@@ -22,7 +22,7 @@ export type OrderWithRelations = Prisma.OrderGetPayload<{
     };
     transaction: {
       select: {
-        total_amount: true;
+        totalAmount: true;
       };
     };
   };
@@ -45,9 +45,9 @@ export type OrderWithAllRelations = Prisma.OrderGetPayload<{
     };
     transaction: {
       select: {
-        total_amount: true;
-        amount_due: true;
-        amount_paid: true;
+        totalAmount: true;
+        amountDue: true;
+        amountPaid: true;
         status: true;
       };
     };

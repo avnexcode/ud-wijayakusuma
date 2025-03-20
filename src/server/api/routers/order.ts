@@ -1,11 +1,11 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { OrderService } from "@/server/features/order";
 import { errorFilter } from "@/server/filters";
 import {
   createOrderRequest,
-  updateOrderRequest,
   queryParams,
+  updateOrderRequest,
 } from "@/server/validations";
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export const orderRouter = createTRPCRouter({
@@ -15,85 +15,11 @@ export const orderRouter = createTRPCRouter({
         params: queryParams,
       }),
     )
-    .query(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .query(async ({ input }) => {
       const { params } = input;
-      const { page, limit, search, sort, order } = params;
       try {
-        const skip = (page - 1) * limit;
-
-        const totalCount = await db.order.count({
-          ...(search && {
-            where: {
-              OR: [
-                { label: { contains: search, mode: "insensitive" } },
-                {
-                  customer: {
-                    name: { contains: search, mode: "insensitive" },
-                  },
-                  product: {
-                    name: { contains: search, mode: "insensitive" },
-                  },
-                },
-              ],
-            },
-          }),
-        });
-
-        const orders = await db.order.findMany({
-          take: limit,
-          skip,
-          ...(search && {
-            where: {
-              OR: [
-                { label: { contains: search, mode: "insensitive" } },
-                {
-                  customer: {
-                    name: { contains: search, mode: "insensitive" },
-                  },
-                  product: {
-                    name: { contains: search, mode: "insensitive" },
-                  },
-                },
-              ],
-            },
-          }),
-          orderBy: {
-            [sort]: order,
-          },
-          include: {
-            customer: {
-              select: {
-                name: true,
-                phone: true,
-                email: true,
-                address: true,
-              },
-            },
-            product: {
-              select: {
-                name: true,
-              },
-            },
-            transaction: {
-              select: {
-                total_amount: true,
-              },
-            },
-          },
-        });
-
-        const lastPage = Math.ceil(totalCount / limit);
-
-        return {
-          data: orders,
-          meta: {
-            total: totalCount,
-            limit,
-            page,
-            last_page: lastPage,
-          },
-        };
+        const orders = await OrderService.getAll(params);
+        return orders;
       } catch (error) {
         return errorFilter(error);
       }
@@ -101,45 +27,10 @@ export const orderRouter = createTRPCRouter({
 
   getById: publicProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const { db } = ctx;
+    .query(async ({ input }) => {
       const { id } = input;
-
       try {
-        const order = await db.order.findUnique({
-          where: { id },
-          include: {
-            customer: {
-              select: {
-                name: true,
-                phone: true,
-                email: true,
-                address: true,
-              },
-            },
-            product: {
-              select: {
-                name: true,
-              },
-            },
-            transaction: {
-              select: {
-                total_amount: true,
-                status: true,
-                amount_due: true,
-                amount_paid: true,
-              },
-            },
-          },
-        });
-
-        if (!order) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Data pesanan dengan id : ${id} tidak ditemukan`,
-          });
-        }
-
+        const order = await OrderService.getById(id);
         return order;
       } catch (error) {
         return errorFilter(error);
@@ -147,57 +38,15 @@ export const orderRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(createOrderRequest)
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.$transaction(async (db) => {
-        try {
-          const existingOrder = await db.order.count({
-            where: { label: input.label },
-          });
-
-          if (existingOrder !== 0) {
-            throw new TRPCError({
-              code: "CONFLICT",
-              message: "Label untuk pesanan ini sudah digunakan",
-            });
-          }
-
-          let order = await db.order.create({
-            data: {
-              ...input,
-              transaction_id: null,
-            },
-          });
-
-          const product = await db.product.findUnique({
-            where: { id: input.product_id },
-            select: {
-              price: true,
-            },
-          });
-
-          const totalAmount = Number(product?.price) * Number(order.total);
-
-          const transaction = await db.transaction.create({
-            data: {
-              order_id: order.id,
-              total_amount: String(totalAmount),
-              amount_due: String(totalAmount),
-            },
-          });
-
-          order = await db.order.update({
-            where: { id: order.id },
-            data: {
-              transaction_id: transaction.id,
-            },
-          });
-
-          return order;
-        } catch (error) {
-          return errorFilter(error);
-        }
-      });
+    .input(z.object({ request: createOrderRequest }))
+    .mutation(async ({ input }) => {
+      const { request } = input;
+      try {
+        const order = await OrderService.create(request);
+        return order;
+      } catch (error) {
+        return errorFilter(error);
+      }
     }),
 
   update: publicProcedure
@@ -207,117 +56,25 @@ export const orderRouter = createTRPCRouter({
         request: updateOrderRequest,
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.$transaction(async (db) => {
-        try {
-          const existingOrder = await db.order.findUnique({
-            where: { id: input.id },
-            include: {
-              transaction: true,
-            },
-          });
-
-          if (!existingOrder) {
-            throw new TRPCError({
-              code: "NOT_FOUND",
-              message: `Data pesanan dengan ID ${input.id} tidak ditemukan`,
-            });
-          }
-
-          if (
-            input.request.label &&
-            input.request.label !== existingOrder.label
-          ) {
-            const labelExists = await db.order.count({
-              where: { label: input.request.label },
-            });
-
-            if (labelExists !== 0) {
-              throw new TRPCError({
-                code: "CONFLICT",
-                message: "Label pesanan ini sudah digunakan",
-              });
-            }
-          }
-
-          const updatedOrder = await db.order.update({
-            where: { id: input.id },
-            data: {
-              ...input.request,
-              updated_at: new Date(),
-            },
-          });
-
-          if (input.request.product_id || input.request.total) {
-            const product = await db.product.findUnique({
-              where: {
-                id: input.request.product_id ?? existingOrder.product_id,
-              },
-              select: {
-                price: true,
-              },
-            });
-
-            if (!product) {
-              throw new TRPCError({
-                code: "NOT_FOUND",
-                message: "Data produk tidak ditemukan",
-              });
-            }
-
-            const transaction = await db.transaction.findUnique({
-              where: { order_id: input.id },
-            });
-
-            const newTotal = input.request.total ?? existingOrder.total;
-            const totalAmount = Number(product.price) * Number(newTotal);
-            const amountDue = totalAmount - Number(transaction?.amount_paid);
-
-            await db.transaction.update({
-              where: { id: existingOrder.transaction_id! },
-              data: {
-                total_amount: String(totalAmount),
-                amount_due: String(amountDue),
-                updated_at: new Date(),
-              },
-            });
-          }
-
-          return updatedOrder;
-        } catch (error) {
-          return errorFilter(error);
-        }
-      });
+    .mutation(async ({ input }) => {
+      const { id, request } = input;
+      try {
+        const order = await OrderService.update(id, request);
+        return order;
+      } catch (error) {
+        return errorFilter(error);
+      }
     }),
 
   delete: publicProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.$transaction(async (db) => {
-        try {
-          const existingOrder = await db.order.findUnique({
-            where: { id: input.id },
-          });
-
-          if (!existingOrder) {
-            throw new TRPCError({
-              code: "NOT_FOUND",
-              message: `Data pesanan tidak ditemukan`,
-            });
-          }
-
-          await db.transaction.delete({
-            where: { id: existingOrder.transaction_id! },
-          });
-
-          const order = await db.order.delete({
-            where: { id: input.id },
-          });
-
-          return order.id;
-        } catch (error) {
-          return errorFilter(error);
-        }
-      });
+    .mutation(async ({ input }) => {
+      const { id } = input;
+      try {
+        const order = await OrderService.delete(id);
+        return order;
+      } catch (error) {
+        return errorFilter(error);
+      }
     }),
 });

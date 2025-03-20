@@ -92,7 +92,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                 <span className="text-muted-foreground">
                   Tanggal Pengiriman:
                 </span>
-                <span>{formatDate(order?.sending_at)}</span>
+                <span>{formatDate(order?.sendingAt)}</span>
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                 <span className="text-muted-foreground">Transaksi:</span>
                 <span>
                   {order?.transaction
-                    ? `${convertCurrency(order.transaction.total_amount)} (${order.transaction.status === "UNPAID" ? "Belum Dibayar" : order.transaction.status === "PARTIALLY_PAID" ? "Dalam Cicilan" : "Dibayar"})`
+                    ? `${convertCurrency(order.transaction.totalAmount)} (${order.transaction.status === "UNPAID" ? "Belum Dibayar" : order.transaction.status === "PARTIALLY_PAID" ? "Dalam Cicilan" : "Dibayar"})`
                     : "Tidak tersedia"}
                 </span>
               </div>
@@ -133,21 +133,21 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
               <div>
                 <span className="text-muted-foreground">Total Tagihan:</span>
-                <p>{convertCurrency(order.transaction.total_amount)}</p>
+                <p>{convertCurrency(order.transaction.totalAmount)}</p>
               </div>
               <div>
                 <span className="text-muted-foreground">Sudah Dibayar:</span>
                 <p>
-                  {order.transaction.amount_paid
-                    ? convertCurrency(order.transaction.amount_paid)
+                  {order.transaction.amountPaid
+                    ? convertCurrency(order.transaction.amountPaid)
                     : "Rp 0"}
                 </p>
               </div>
               <div>
                 <span className="text-muted-foreground">Sisa Pembayaran:</span>
                 <p>
-                  {order.transaction.amount_due
-                    ? convertCurrency(order.transaction.amount_due)
+                  {order.transaction.amountDue
+                    ? convertCurrency(order.transaction.amountDue)
                     : "Rp 0"}
                 </p>
               </div>
@@ -169,11 +169,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         <div className="flex w-full flex-col items-center justify-end space-y-1 text-base md:flex-row md:space-x-4 md:space-y-0">
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Dibuat: {formatDate(order?.created_at)}
+            Dibuat: {formatDate(order?.createdAt)}
           </div>
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Diperbarui: {formatDate(order?.updated_at)}
+            Diperbarui: {formatDate(order?.updatedAt)}
           </div>
         </div>
       </CardFooter>

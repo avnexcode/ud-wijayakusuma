@@ -70,7 +70,7 @@ export const EditProductFormInner = ({
         )}
       />
       <CategorySelect<UpdateProductFormSchema>
-        name="category_id"
+        name="categoryId"
         label="Kategori"
         required
       />

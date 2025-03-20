@@ -17,7 +17,7 @@ export const CreateProductForm = () => {
     defaultValues: {
       name: "",
       price: "",
-      category_id: "",
+      categoryId: "",
       description: "",
     },
     resolver: zodResolver(createProductFormSchema),
@@ -31,7 +31,8 @@ export const CreateProductForm = () => {
       },
     });
 
-  const onSubmit = (values: CreateProductFormSchema) => createProduct(values);
+  const onSubmit = (values: CreateProductFormSchema) =>
+    createProduct({ request: values });
 
   return (
     <Card className="border-none shadow-none">

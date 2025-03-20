@@ -56,11 +56,11 @@ export const CategoryCard = ({ category }: CategoryCardProps) => {
         <div className="flex w-full flex-col items-center justify-end space-y-1 text-base md:flex-row md:space-x-4 md:space-y-0">
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Dibuat: {formatDate(category?.created_at)}
+            Dibuat: {formatDate(category?.createdAt)}
           </div>
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Diperbarui: {formatDate(category?.updated_at)}
+            Diperbarui: {formatDate(category?.updatedAt)}
           </div>
         </div>
       </CardFooter>

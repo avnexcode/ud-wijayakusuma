@@ -35,7 +35,7 @@ export const EditPaymentRecordForm = ({
   const form = useForm<UpdatePaymentRecordFormSchema>({
     defaultValues: {
       amount: "",
-      note_image_url: null,
+      noteImageUrl: null,
     },
     resolver: zodResolver(updatePaymentRecordFormSchema),
   });
@@ -75,7 +75,7 @@ export const EditPaymentRecordForm = ({
   });
 
   const onSubmit = (values: UpdatePaymentRecordFormSchema) => {
-    if (values.note_image_url) {
+    if (values.noteImageUrl) {
       const reader = new FileReader();
 
       reader.onloadend = function () {
@@ -86,14 +86,14 @@ export const EditPaymentRecordForm = ({
           id: paymentRecordId,
           request: {
             ...values,
-            note_image_url: imageBase64,
+            noteImageUrl: imageBase64,
           },
         });
       };
 
-      reader.readAsDataURL(values.note_image_url);
+      reader.readAsDataURL(values.noteImageUrl);
     } else {
-      form.setError("note_image_url", {
+      form.setError("noteImageUrl", {
         message: "Bukti pembayaran tidak boleh kosong",
       });
     }

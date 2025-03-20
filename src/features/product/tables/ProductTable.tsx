@@ -19,13 +19,11 @@ import type { ProductWithRelations } from "../types";
 type ProductTableProps = {
   products?: ProductWithRelations[];
   isProductsLoading: boolean;
-  refetchProducts: () => void;
 };
 
 export const ProductTable = ({
   products,
   isProductsLoading,
-  refetchProducts,
 }: ProductTableProps) => {
   return (
     <Table>
@@ -65,10 +63,7 @@ export const ProductTable = ({
                     <SquarePen />
                   </Button>
                 </Link>
-                <DeleteProductDialog
-                  productId={product.id}
-                  refetchProducts={refetchProducts}
-                />
+                <DeleteProductDialog productId={product.id} />
               </TableCell>
             </TableRow>
           ),

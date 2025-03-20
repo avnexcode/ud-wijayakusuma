@@ -18,13 +18,11 @@ import { CategoryTableBodySkeleton } from "../components/skeleton/CategoryTableS
 type CategoryTableProps = {
   categories?: Category[];
   isCategoriesLoading: boolean;
-  refetchCategories: () => void;
 };
 
 export const CategoryTable = ({
   categories,
   isCategoriesLoading,
-  refetchCategories,
 }: CategoryTableProps) => {
   return (
     <Table>
@@ -56,10 +54,7 @@ export const CategoryTable = ({
                     <SquarePen />
                   </Button>
                 </Link>
-                <DeleteCategoryDialog
-                  CategoryId={category.id}
-                  refetchCategories={refetchCategories}
-                />
+                <DeleteCategoryDialog categoryId={category.id} />
               </TableCell>
             </TableRow>
           ),

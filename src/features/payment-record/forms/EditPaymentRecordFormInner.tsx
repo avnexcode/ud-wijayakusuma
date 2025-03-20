@@ -29,7 +29,7 @@ export const EditPaymentRecordFormInner = ({
     inputFileRef.current?.click();
   };
 
-  const selectedImage = form.watch("note_image_url");
+  const selectedImage = form.watch("noteImageUrl");
 
   const selectedImagePreview = useMemo(() => {
     if (selectedImage) {
@@ -46,7 +46,7 @@ export const EditPaymentRecordFormInner = ({
     >
       <FormField
         control={form.control}
-        name="note_image_url"
+        name="noteImageUrl"
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         render={({ field: { value, onChange, ...field } }) => (
           <FormItem>

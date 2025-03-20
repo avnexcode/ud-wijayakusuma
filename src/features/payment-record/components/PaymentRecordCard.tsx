@@ -34,19 +34,19 @@ export const PaymentRecordCard = ({
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">ID Transaksi</h3>
-          <p>{paymentRecord?.transaction_id ?? "Tidak ada ID transaksi"}</p>
+          <p>{paymentRecord?.transactionId ?? "Tidak ada ID transaksi"}</p>
         </div>
 
         <Separator />
 
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Bukti Pembayaran</h3>
-          {paymentRecord?.note_image_url ? (
+          {paymentRecord?.noteImageUrl ? (
             <div className="relative w-full overflow-hidden rounded-md">
               <Image
                 width={500}
                 height={500}
-                src={`${paymentRecord.note_image_url}`}
+                src={`${paymentRecord.noteImageUrl}`}
                 alt="Bukti pembayaran"
                 style={{ width: "auto", height: "auto" }}
                 className="rounded-md object-contain"
@@ -72,11 +72,11 @@ export const PaymentRecordCard = ({
         <div className="flex w-full flex-col items-center justify-end space-y-1 text-base md:flex-row md:space-x-4 md:space-y-0">
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Dibuat: {formatDate(paymentRecord?.created_at)}
+            Dibuat: {formatDate(paymentRecord?.createdAt)}
           </div>
           <div className="flex items-center text-muted-foreground">
             <CalendarIcon className="mr-1 h-4 w-4" />
-            Diperbarui: {formatDate(paymentRecord?.updated_at)}
+            Diperbarui: {formatDate(paymentRecord?.updatedAt)}
           </div>
         </div>
       </CardFooter>

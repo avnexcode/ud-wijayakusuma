@@ -87,34 +87,34 @@ export const TransactionCard = ({
           <div>
             <p className="text-sm text-gray-500">Tanggal Dibuat</p>
             <p className="font-medium">
-              {formatDate(transaction.created_at, "dateTime")}
+              {formatDate(transaction.createdAt, "dateTime")}
             </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Terakhir Diperbarui</p>
             <p className="font-medium">
-              {formatDate(transaction.updated_at, "dateTime")}
+              {formatDate(transaction.updatedAt, "dateTime")}
             </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Total Yang Harus Dibayar</p>
             <p className="font-medium">
-              {convertCurrency(transaction.total_amount)}
+              {convertCurrency(transaction.totalAmount)}
             </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Jumlah Dibayar</p>
             <p className="font-medium">
-              {transaction.amount_paid
-                ? convertCurrency(transaction.amount_paid)
+              {transaction.amountPaid
+                ? convertCurrency(transaction.amountPaid)
                 : "-"}
             </p>
           </div>
           <div>
             <p className="text-sm text-gray-500">Sisa Pembayaran</p>
             <p className="font-medium">
-              {transaction.amount_due
-                ? convertCurrency(transaction.amount_due)
+              {transaction.amountDue
+                ? convertCurrency(transaction.amountDue)
                 : "-"}
             </p>
           </div>

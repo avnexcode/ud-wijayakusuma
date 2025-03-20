@@ -15,18 +15,18 @@ import { Trash } from "lucide-react";
 import { toast } from "sonner";
 
 type DeleteCategoryDialogProps = {
-  CategoryId: string;
-  refetchCategories: () => void;
+  categoryId: string;
 };
 
 export const DeleteCategoryDialog = ({
-  CategoryId,
-  refetchCategories,
+  categoryId,
 }: DeleteCategoryDialogProps) => {
+  const apiUtils = api.useUtils().category;
+
   const { mutate: deleteCategory } = api.category.delete.useMutation({
     onSuccess: () => {
       toast.success("Berhasil menghapus data kategori");
-      refetchCategories();
+      void apiUtils.invalidate();
     },
   });
   return (
@@ -46,7 +46,7 @@ export const DeleteCategoryDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => deleteCategory({ id: CategoryId })}>
+          <AlertDialogAction onClick={() => deleteCategory({ id: categoryId })}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

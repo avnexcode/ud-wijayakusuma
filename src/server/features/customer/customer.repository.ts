@@ -2,7 +2,7 @@ import { db } from "@/server/db";
 import type {
   CreateCustomerRequest,
   UpdateCustomerRequest,
-} from "@/server/models/customer.model";
+} from "@/server/models";
 import type { QueryParams } from "@/server/types/api";
 
 export class CustomerRepository {
@@ -10,16 +10,7 @@ export class CustomerRepository {
     const { page, limit, search, sort, order } = params;
     const skip = (page - 1) * limit;
 
-    const totalCount = await db.customer.count({
-      ...(search && {
-        where: {
-          OR: [
-            { name: { contains: search, mode: "insensitive" } },
-            { email: { contains: search, mode: "insensitive" } },
-          ],
-        },
-      }),
-    });
+    const totalCount = await this.countAllSearch(search);
 
     const customers = await db.customer.findMany({
       take: limit,
@@ -48,6 +39,21 @@ export class CustomerRepository {
         last_page: lastPage,
       },
     };
+  };
+
+  static countAllSearch = async (search?: string) => {
+    const customersCount = await db.customer.count({
+      ...(search && {
+        where: {
+          OR: [
+            { name: { contains: search, mode: "insensitive" } },
+            { email: { contains: search, mode: "insensitive" } },
+          ],
+        },
+      }),
+    });
+
+    return customersCount;
   };
 
   static findUniqueId = async (id: string) => {

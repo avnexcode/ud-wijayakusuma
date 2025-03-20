@@ -54,7 +54,7 @@ export const PaymentRecordTable = ({
               </TableCell>
               <TableCell className="flex w-[300px] items-center gap-2 capitalize">
                 <CalendarIcon className="h-4 w-4" />
-                {formatDate(paymentRecord.created_at)}
+                {formatDate(paymentRecord.createdAt)}
               </TableCell>
               <TableCell className="w-[100px] space-x-1 whitespace-nowrap">
                 <Link

@@ -16,19 +16,20 @@ import { toast } from "sonner";
 
 type DeleteProductDialogProps = {
   productId: string;
-  refetchProducts: () => void;
 };
 
 export const DeleteProductDialog = ({
   productId,
-  refetchProducts,
 }: DeleteProductDialogProps) => {
+  const apiUtils = api.useUtils().product;
+
   const { mutate: deleteProduct } = api.product.delete.useMutation({
     onSuccess: () => {
       toast.success("Berhasil menghapus data produk");
-      refetchProducts();
+      void apiUtils.invalidate();
     },
   });
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

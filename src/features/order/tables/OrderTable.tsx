@@ -58,11 +58,11 @@ export const OrderTable = ({
               <TableCell className="capitalize">{order.product.name}</TableCell>
               <TableCell className="capitalize">{order.total}</TableCell>
               <TableCell className="capitalize">
-                {convertCurrency(order.transaction?.total_amount ?? "")}
+                {convertCurrency(order.transaction?.totalAmount ?? "")}
               </TableCell>
               <TableCell className="flex items-center gap-2 capitalize">
                 <CalendarIcon className="h-4 w-4" />
-                {formatDate(order.sending_at)}
+                {formatDate(order.sendingAt)}
               </TableCell>
               <TableCell className="space-x-1">
                 <Link href={`/dashboard/order/${order.id}/detail`}>

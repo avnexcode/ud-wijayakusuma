@@ -32,7 +32,7 @@ export const EditProductForm = ({ productId }: EditProductFormProps) => {
     defaultValues: {
       name: "",
       price: "",
-      category_id: "",
+      categoryId: "",
       description: "",
     },
     resolver: zodResolver(updateProductFormSchema),

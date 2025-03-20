@@ -43,7 +43,8 @@ export const RegisterForm = () => {
       },
     });
 
-  const onSubmit = (values: RegisterFormSchema) => register(values);
+  const onSubmit = (values: RegisterFormSchema) =>
+    register({ request: values });
 
   return (
     <Card className="w-full border-none shadow-none">

@@ -18,9 +18,9 @@ export const CreateOrderForm = () => {
       label: "",
       description: "",
       total: "",
-      product_id: "",
-      customer_id: "",
-      sending_at: new Date(),
+      productId: "",
+      customerId: "",
+      sendingAt: new Date(),
       category: "WHOLESALE",
     },
     resolver: zodResolver(createOrderFormSchema),
@@ -34,7 +34,7 @@ export const CreateOrderForm = () => {
     });
 
   const onSubmit = (values: CreateOrderFormSchema) => {
-    createOrder({ ...values, sending_at: new Date(values.sending_at) });
+    createOrder({ request: values });
   };
 
   return (

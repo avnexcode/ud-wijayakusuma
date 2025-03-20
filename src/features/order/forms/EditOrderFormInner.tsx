@@ -64,12 +64,12 @@ export const EditOrderFormInner = ({
       />
       <div className="flex w-full items-center gap-5">
         <CustomerSelect<UpdateOrderFormSchema>
-          name="customer_id"
+          name="customerId"
           label="Pelanggan"
           required
         />
         <ProductSelect<UpdateOrderFormSchema>
-          name="product_id"
+          name="productId"
           label="Produk"
           required
         />
@@ -101,7 +101,7 @@ export const EditOrderFormInner = ({
       />
       <FormField
         control={form.control}
-        name="sending_at"
+        name="sendingAt"
         render={({ field }) => (
           <FormItem className="flex flex-col gap-1">
             <FormLabel>Tanggal Pengiriman</FormLabel>

@@ -24,12 +24,12 @@ import { CreatePaymentRecordFormInner } from "./CreatePaymentRecordFormInner";
 type CreatePaymentRecordFormProps = {
   isAddPaymentDisabled: boolean;
   isLoading: boolean;
-  transaction_id: string;
+  transactionId: string;
   refetchTransaction: () => void;
 };
 
 export const CreatePaymentRecordForm = ({
-  transaction_id,
+  transactionId,
   refetchTransaction,
   isAddPaymentDisabled,
   isLoading,
@@ -39,7 +39,7 @@ export const CreatePaymentRecordForm = ({
   const form = useForm<CreatePaymentRecordFormSchema>({
     defaultValues: {
       amount: "",
-      note_image_url: null,
+      noteImageUrl: null,
     },
     resolver: zodResolver(createPaymentRecordFormSchema),
   });
@@ -64,7 +64,7 @@ export const CreatePaymentRecordForm = ({
   });
 
   const onSubmit = (values: CreatePaymentRecordFormSchema) => {
-    if (values.note_image_url) {
+    if (values.noteImageUrl) {
       const reader = new FileReader();
 
       reader.onloadend = function () {
@@ -72,15 +72,17 @@ export const CreatePaymentRecordForm = ({
         const imageBase64 = result.substring(result.indexOf(",") + 1);
 
         createPaymentRecord({
-          ...values,
-          note_image_url: imageBase64,
-          transaction_id,
+          request: {
+            ...values,
+            noteImageUrl: imageBase64,
+            transactionId,
+          },
         });
       };
 
-      reader.readAsDataURL(values.note_image_url);
+      reader.readAsDataURL(values.noteImageUrl);
     } else {
-      form.setError("note_image_url", {
+      form.setError("noteImageUrl", {
         message: "Bukti pembayaran tidak boleh kosong",
       });
     }

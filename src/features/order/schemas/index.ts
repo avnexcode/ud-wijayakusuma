@@ -41,12 +41,12 @@ export const createOrderFormSchema = z.object({
     })
     .default("WHOLESALE"),
 
-  sending_at: z.coerce.date({
+  sendingAt: z.coerce.date({
     errorMap: () => ({ message: "Format tanggal pengiriman tidak valid" }),
   }),
 
-  customer_id: z.string().min(1, { message: "Pelanggan tidak boleh kosong" }),
+  customerId: z.string().min(1, { message: "Pelanggan tidak boleh kosong" }),
 
-  product_id: z.string().min(1, { message: "Produk tidak boleh kosong" }),
+  productId: z.string().min(1, { message: "Produk tidak boleh kosong" }),
 });
 export const updateOrderFormSchema = createOrderFormSchema.partial();
