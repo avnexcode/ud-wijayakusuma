@@ -19,6 +19,14 @@ import {
   TablePagination,
   TableSearch,
 } from "@/components/fragments";
+import { type GetServerSideProps } from "next";
+
+export const HomePageSSR: GetServerSideProps = async ({}) => {
+  return {
+    props: {},
+  };
+};
+
 export const HomePage = () => {
   const { queryParams, handleUpdateQuery } = useQueryParams<
     OrderSortParams,

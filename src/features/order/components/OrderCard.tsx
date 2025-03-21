@@ -22,7 +22,7 @@ import type { OrderWithAllRelations } from "../types";
 const formatOrderStatus = (status: OrderStatus) => {
   const statusMap: Record<OrderStatus, { label: string; className: string }> = {
     PENDING: { label: "Menunggu", className: "text-yellow-500" },
-    SUCCESS: { label: "Berhasil", className: "text-green-500" },
+    SUCCESS: { label: "Selesai", className: "text-green-500" },
   };
 
   return statusMap[status] || { label: status, className: "" };

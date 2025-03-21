@@ -79,7 +79,7 @@ export const LobbyOrderTable = ({
           render: (order, index) => (
             <TableRow>
               <TableCell>{index + 1}</TableCell>
-              <TableCell className="font-medium">
+              <TableCell className="font-medium capitalize">
                 {order.label}
                 {order.description && (
                   <p className="text-sm text-zinc-500">{order.description}</p>
