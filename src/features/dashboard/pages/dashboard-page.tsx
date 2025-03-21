@@ -4,8 +4,22 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { type GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+
+export const DashboardPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type DashboardPageProps = {
+  sidebarDefaultOpen: boolean;
+};
 
 export const DashboardPage = () => {
   const router = useRouter();
@@ -28,5 +42,10 @@ export const DashboardPage = () => {
 };
 
 DashboardPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DashboardPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

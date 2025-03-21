@@ -4,7 +4,21 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { type GetServerSideProps } from "next";
 import { CreateCustomerForm } from "../../forms/CreateCustomerForm";
+
+export const CreateCustomerPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type CreateCustomerPageProps = {
+  sidebarDefaultOpen: boolean;
+};
 
 export const CreateCustomerPage = () => {
   return (
@@ -22,5 +36,10 @@ export const CreateCustomerPage = () => {
 };
 
 CreateCustomerPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as CreateCustomerPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

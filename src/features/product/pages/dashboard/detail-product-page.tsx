@@ -5,14 +5,30 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { api } from "@/utils";
-import { useParams } from "next/navigation";
-import { ProductCardSkeleton } from "../../components/skeleton";
+import { type GetServerSideProps } from "next";
 import { ProductCard } from "../../components";
+import { ProductCardSkeleton } from "../../components/skeleton";
 
-export const DetailProductPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const DetailProductPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
 
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type DetailProductPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const DetailProductPage = ({ id }: DetailProductPageProps) => {
   const { data: product, isLoading: isProductLoading } =
     api.product.getById.useQuery({ id }, { enabled: !!id });
 
@@ -32,5 +48,10 @@ export const DetailProductPage = () => {
 };
 
 DetailProductPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DetailProductPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

@@ -5,13 +5,30 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { api } from "@/utils";
-import { useParams } from "next/navigation";
-import { OrderCardSkeleton } from "../../components/skeleton";
+import { type GetServerSideProps } from "next";
 import { OrderCard } from "../../components";
+import { OrderCardSkeleton } from "../../components/skeleton";
 
-export const DetailOrderPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const DetailOrderPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type DetailOrderPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const DetailOrderPage = ({ id }: DetailOrderPageProps) => {
   const { data: order, isLoading: isOrderLoading } = api.order.getById.useQuery(
     { id },
     { enabled: !!id },
@@ -32,5 +49,10 @@ export const DetailOrderPage = () => {
 };
 
 DetailOrderPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DetailOrderPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

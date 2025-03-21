@@ -4,15 +4,31 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
-import { useParams } from "next/navigation";
-import { CustomerCard } from "../../components";
 import { api } from "@/utils";
+import { type GetServerSideProps } from "next";
+import { CustomerCard } from "../../components";
 import { CustomerCardSkeleton } from "../../components/skeleton";
 
-export const DetailCustomerPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const DetailCustomerPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
 
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type DetailCustomerPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const DetailCustomerPage = ({ id }: DetailCustomerPageProps) => {
   const { data: customer, isLoading: isCustomerLoading } =
     api.customer.getById.useQuery({ id }, { enabled: !!id });
 
@@ -35,5 +51,10 @@ export const DetailCustomerPage = () => {
 };
 
 DetailCustomerPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DetailCustomerPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

@@ -4,8 +4,9 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
-import { useRouter } from "next/router";
+import { type GetServerSideProps } from "next";
 import {
   TransactionLimit,
   TransactionPagination,
@@ -17,31 +18,24 @@ import {
 import { TransactionTable } from "../../tables/TransactionTable";
 import type { TransactionWithRelations } from "../../types";
 
+export const TransactionPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type TransactionPageProps = {
+  sidebarDefaultOpen: boolean;
+};
+
 export const TransactionPage = () => {
-  const router = useRouter();
-
-  const queryParams = {
-    search: router.query.search as string,
-    page: Number(router.query.page) || 1,
-    sort: (router.query.sort as TransactionSortParams) || undefined,
-    order: (router.query.order as TransactionOrderParams) || undefined,
-    limit: Number(router.query.limit) || 15,
-  };
-
-  const handleUpdateQuery = (newParams: Partial<typeof queryParams>) => {
-    void router.push(
-      {
-        href: router.asPath,
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          ...newParams,
-        },
-      },
-      undefined,
-      { scroll: false },
-    );
-  };
+  const { queryParams, handleUpdateQuery } = useQueryParams<
+    TransactionSortParams,
+    TransactionOrderParams
+  >();
 
   const { data: transactions, isLoading: isTransactionsLoading } =
     api.transaction.getAll.useQuery({
@@ -102,5 +96,10 @@ export const TransactionPage = () => {
 };
 
 TransactionPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as TransactionPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

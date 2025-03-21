@@ -1,1 +1,4 @@
-export { EditCategoryPage as default } from "@/features/category/pages/dashboard";
+export {
+  EditCategoryPage as default,
+  EditCategoryPageSSR as getServerSideProps,
+} from "@/features/category/pages/dashboard";

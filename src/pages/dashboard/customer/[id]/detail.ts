@@ -1,1 +1,4 @@
-export { DetailCustomerPage as default } from "@/features/customer/pages/dashboard";
+export {
+  DetailCustomerPage as default,
+  DetailCustomerPageSSR as getServerSideProps,
+} from "@/features/customer/pages/dashboard";

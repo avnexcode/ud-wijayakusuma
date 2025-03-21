@@ -14,11 +14,11 @@ import {
   type OrderOrderParams,
   type OrderSortParams,
 } from "@/features/order/components";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils";
 import { LobbyOrderTable } from "../tables";
 export const HomePage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     OrderSortParams,
     OrderOrderParams
   >();

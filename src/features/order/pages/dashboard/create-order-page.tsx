@@ -4,7 +4,21 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { type GetServerSideProps } from "next";
 import { CreateOrderForm } from "../../forms/CreateOrderForm";
+
+export const CreateOrderPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type CreateOrderPageProps = {
+  sidebarDefaultOpen: boolean;
+};
 
 export const CreateOrderPage = () => {
   return (
@@ -22,5 +36,10 @@ export const CreateOrderPage = () => {
 };
 
 CreateOrderPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as CreateOrderPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

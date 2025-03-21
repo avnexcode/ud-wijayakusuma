@@ -5,17 +5,36 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { api } from "@/utils";
-import { useParams } from "next/navigation";
+import { type GetServerSideProps } from "next";
 import { PaymentRecordCard } from "../../components";
 import { PaymentRecordCardSkeleton } from "../../components/skeleton";
 import type { PaymentRecordWithRelations } from "../../types";
 
-export const DetailPaymentRecordPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const DetailPaymentRecordPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
 
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type DetailPaymentRecordPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const DetailPaymentRecordPage = ({
+  id,
+}: DetailPaymentRecordPageProps) => {
   const { data: paymentRecord, isLoading: isPaymentRecordLoading } =
     api.paymentRecord.getById.useQuery({ id }, { enabled: !!id });
+
   return (
     <PageContainer>
       <SectionContainer padded>
@@ -37,5 +56,10 @@ export const DetailPaymentRecordPage = () => {
 };
 
 DetailPaymentRecordPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DetailPaymentRecordPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

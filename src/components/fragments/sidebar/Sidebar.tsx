@@ -30,7 +30,10 @@ export function Sidebar() {
     <SidebarComponent collapsible="icon">
       <SidebarContent>
         <SidebarHeader className="text-nowrap py-4 text-center text-xl font-bold">
-          <Link href={"/"}>UD WIJAYAKUSUMA</Link>
+          <Link href={"/"} className="flex gap-3">
+            <span>UD</span>
+            <span>WIJAYAKUSUMA</span>
+          </Link>
         </SidebarHeader>
         {renderElements({
           of: sidebarMenu,

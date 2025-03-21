@@ -5,14 +5,30 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { api } from "@/utils";
-import { useParams } from "next/navigation";
+import { type GetServerSideProps } from "next";
 import { CategoryCard } from "../../components";
 import { CategoryCardSkeleton } from "../../components/skeleton";
 
-export const DetailCategoryPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const DetailCategoryPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
 
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type DetailCategoryPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const DetailCategoryPage = ({ id }: DetailCategoryPageProps) => {
   const { data: category, isLoading: isCategoryLoading } =
     api.category.getById.useQuery({ id }, { enabled: !!id });
 
@@ -35,5 +51,10 @@ export const DetailCategoryPage = () => {
 };
 
 DetailCategoryPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DetailCategoryPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

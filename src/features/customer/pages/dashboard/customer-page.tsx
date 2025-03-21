@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
+import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
   CustomerSort,
@@ -20,6 +21,19 @@ import {
   type CustomerSortParams,
 } from "../../components";
 import { CustomerTable } from "../../tables";
+
+export const CustomerPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type CustomerPageProps = {
+  sidebarDefaultOpen: boolean;
+};
 
 export const CustomerPage = () => {
   const { queryParams, handleUpdateQuery } = useQueryParams<
@@ -94,5 +108,10 @@ export const CustomerPage = () => {
 };
 
 CustomerPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as CustomerPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

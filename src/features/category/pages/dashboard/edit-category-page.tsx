@@ -4,12 +4,29 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
+import { type GetServerSideProps } from "next";
 import { EditCategoryForm } from "../../forms";
-import { useParams } from "next/navigation";
 
-export const EditCategoryPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const EditCategoryPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type EditCategoryPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const EditCategoryPage = ({ id }: EditCategoryPageProps) => {
   return (
     <PageContainer>
       <SectionContainer padded>
@@ -25,5 +42,10 @@ export const EditCategoryPage = () => {
 };
 
 EditCategoryPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as EditCategoryPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

@@ -1,1 +1,4 @@
-export { EditOrderPage as default } from "@/features/order/pages/dashboard";
+export {
+  EditOrderPage as default,
+  EditOrderPageSSR as getServerSideProps,
+} from "@/features/order/pages/dashboard";

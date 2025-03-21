@@ -1,1 +1,4 @@
-export { DetailOrderPage as default } from "@/features/order/pages/dashboard";
+export {
+  DetailOrderPage as default,
+  DetailOrderPageSSR as getServerSideProps,
+} from "@/features/order/pages/dashboard";

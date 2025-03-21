@@ -5,6 +5,20 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { CreateCategoryForm } from "../../forms";
+import { type GetServerSideProps } from "next";
+
+export const CreateCategoryPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type CreateCategoryPageProps = {
+  sidebarDefaultOpen: boolean;
+};
 
 export const CreateCategoryPage = () => {
   return (
@@ -22,5 +36,10 @@ export const CreateCategoryPage = () => {
 };
 
 CreateCategoryPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as CreateCategoryPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

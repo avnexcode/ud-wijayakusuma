@@ -5,9 +5,10 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
+import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
   OrderLimit,
@@ -19,8 +20,21 @@ import {
 } from "../../components";
 import { OrderTable } from "../../tables";
 
+export const OrderPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type OrderPageProps = {
+  sidebarDefaultOpen: boolean;
+};
+
 export const OrderPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     OrderSortParams,
     OrderOrderParams
   >();
@@ -95,5 +109,10 @@ export const OrderPage = () => {
 };
 
 OrderPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as OrderPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

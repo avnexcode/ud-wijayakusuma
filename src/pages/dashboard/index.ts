@@ -1,1 +1,4 @@
-export { DashboardPage as default } from "@/features/dashboard/pages";
+export {
+  DashboardPage as default,
+  DashboardPageSSR as getServerSideProps,
+} from "@/features/dashboard/pages";

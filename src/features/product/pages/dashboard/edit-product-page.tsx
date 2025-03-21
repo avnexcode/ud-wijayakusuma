@@ -4,13 +4,29 @@ import {
   PageContainer,
   SectionContainer,
 } from "@/components/layouts";
-import { useParams } from "next/navigation";
+import { type GetServerSideProps } from "next";
 import { EditProductForm } from "../../forms";
 
-export const EditProductPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const EditProductPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
 
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type EditProductPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const EditProductPage = ({ id }: EditProductPageProps) => {
   return (
     <PageContainer>
       <SectionContainer padded>
@@ -26,5 +42,10 @@ export const EditProductPage = () => {
 };
 
 EditProductPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as EditProductPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

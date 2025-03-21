@@ -11,9 +11,10 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
+import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
   ProductSort,
@@ -22,8 +23,21 @@ import {
 } from "../../components";
 import { ProductTable } from "../../tables";
 
+export const ProductPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type ProductPageProps = {
+  sidebarDefaultOpen: boolean;
+};
+
 export const ProductPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     ProductSortParams,
     ProductOrderParams
   >();
@@ -102,5 +116,10 @@ export const ProductPage = () => {
 };
 
 ProductPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as ProductPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

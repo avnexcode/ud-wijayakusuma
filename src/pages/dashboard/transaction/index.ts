@@ -1,1 +1,4 @@
-export { TransactionPage as default } from "@/features/transaction/pages/dashboard";
+export {
+  TransactionPage as default,
+  TransactionPageSSR as getServerSideProps,
+} from "@/features/transaction/pages/dashboard";

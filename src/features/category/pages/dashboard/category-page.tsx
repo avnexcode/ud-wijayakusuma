@@ -6,9 +6,10 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { CirclePlus } from "lucide-react";
+import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
   CategoryLimit,
@@ -20,8 +21,21 @@ import {
 } from "../../components";
 import { CategoryTable } from "../../tables";
 
+export const CategoryPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type CategoryPageProps = {
+  sidebarDefaultOpen: boolean;
+};
+
 export const CategoryPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     CategorySortParams,
     CategoryOrderParams
   >();
@@ -101,5 +115,10 @@ export const CategoryPage = () => {
 };
 
 CategoryPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as CategoryPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

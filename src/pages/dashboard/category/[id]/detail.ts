@@ -1,1 +1,4 @@
-export { DetailCategoryPage as default } from "@/features/category/pages/dashboard";
+export {
+  DetailCategoryPage as default,
+  DetailCategoryPageSSR as getServerSideProps,
+} from "@/features/category/pages/dashboard";

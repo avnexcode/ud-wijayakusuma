@@ -7,14 +7,30 @@ import {
 import { CreatePaymentRecordForm } from "@/features/payment-record/forms/CreatePaymentRecordForm";
 import { PaymentRecordTable } from "@/features/payment-record/tables";
 import { api } from "@/utils/api";
-import { useParams } from "next/navigation";
+import { type GetServerSideProps } from "next";
 import { TransactionCard } from "../../components/TransactionCard";
 import type { TransactionWithRelations } from "../../types";
 
-export const DetailTransactionPage = () => {
-  const params: { id: string } = useParams();
-  const id = params?.id;
+export const DetailTransactionPageSSR: GetServerSideProps = async ({
+  req,
+  params,
+}) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
 
+  const { id } = params as { id: string };
+
+  return {
+    props: { sidebarDefaultOpen, id },
+  };
+};
+
+type DetailTransactionPageProps = {
+  sidebarDefaultOpen: boolean;
+  id: string;
+};
+
+export const DetailTransactionPage = ({ id }: DetailTransactionPageProps) => {
   const {
     data: transaction,
     isLoading: isTransactionLoading,
@@ -53,5 +69,10 @@ export const DetailTransactionPage = () => {
 };
 
 DetailTransactionPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as DetailTransactionPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

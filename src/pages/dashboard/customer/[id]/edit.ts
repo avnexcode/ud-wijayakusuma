@@ -1,1 +1,4 @@
-export { EditCustomerPage as default } from "@/features/customer/pages/dashboard";
+export {
+  EditCustomerPage as default,
+  EditCustomerPageSSR as getServerSideProps,
+} from "@/features/customer/pages/dashboard";

@@ -1,1 +1,4 @@
-export { DetailPaymentRecordPage as default } from "@/features/payment-record/pages/dashboard";
+export {
+  DetailPaymentRecordPage as default,
+  DetailPaymentRecordPageSSR as getServerSideProps,
+} from "@/features/payment-record/pages/dashboard";

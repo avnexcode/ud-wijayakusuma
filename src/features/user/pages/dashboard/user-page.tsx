@@ -5,7 +5,7 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
-import { useUpdateQuery } from "@/hooks";
+import { useQueryParams } from "@/hooks";
 import { api } from "@/utils";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
@@ -19,7 +19,7 @@ import {
 import { UserTable } from "../../tables";
 
 export const UserPage = () => {
-  const { queryParams, handleUpdateQuery } = useUpdateQuery<
+  const { queryParams, handleUpdateQuery } = useQueryParams<
     UserSortParams,
     UserOrderParams
   >();
