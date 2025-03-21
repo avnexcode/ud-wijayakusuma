@@ -73,10 +73,13 @@ export const EditProductForm = ({ productId }: EditProductFormProps) => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end gap-5">
-        <Button onClick={() => router.back()}>Batal</Button>
+        <Button onClick={() => router.back()} className="w-[200px]">
+          Batal
+        </Button>
         <Button
           form="update-product--form"
           disabled={isUpdateProductPending || !form.formState.isDirty}
+          className="w-[200px]"
         >
           {!isUpdateProductPending ? (
             "Perbarui"

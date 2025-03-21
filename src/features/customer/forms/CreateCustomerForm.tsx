@@ -56,7 +56,11 @@ export const CreateCustomerForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end">
-        <Button form="create-customer-form" disabled={isCreateCustomerPending}>
+        <Button
+          form="create-customer-form"
+          disabled={isCreateCustomerPending}
+          className="w-[200px]"
+        >
           {!isCreateCustomerPending ? (
             "Tambahkan"
           ) : (

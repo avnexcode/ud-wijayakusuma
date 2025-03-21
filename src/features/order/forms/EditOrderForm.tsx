@@ -29,6 +29,7 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
       total: "",
       productId: "",
       customerId: "",
+      status: "PENDING",
       sendingAt: new Date(),
       category: "WHOLESALE",
     },
@@ -76,10 +77,13 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end gap-5">
-        <Button onClick={() => router.back()}>Batal</Button>
+        <Button onClick={() => router.back()} className="w-[200px]">
+          Batal
+        </Button>
         <Button
           form="update-order-form"
           disabled={isUpdateOrderPending || !form.formState.isDirty}
+          className="w-[200px]"
         >
           {!isUpdateOrderPending ? (
             "Perbarui"

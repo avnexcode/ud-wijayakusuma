@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardProductSection,
   DashboardSection,
@@ -12,9 +17,6 @@ import { CirclePlus } from "lucide-react";
 import { type GetServerSideProps } from "next";
 import Link from "next/link";
 import {
-  CategoryLimit,
-  CategoryPagination,
-  CategorySearch,
   CategorySort,
   type CategoryOrderParams,
   type CategorySortParams,
@@ -69,14 +71,15 @@ export const CategoryPage = () => {
                   </Button>
                 </Link>
 
-                <CategorySearch
+                <TableSearch
+                  placeholder="kategori"
                   initialSearch={queryParams.search}
                   onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
                 />
               </div>
 
               <div className="flex items-center gap-5">
-                <CategoryLimit
+                <TableLimit
                   currentLimit={queryParams.limit}
                   onLimitChange={(limit) =>
                     handleUpdateQuery({ limit, page: 1 })
@@ -100,7 +103,7 @@ export const CategoryPage = () => {
             </main>
 
             <footer className="py-5">
-              <CategoryPagination
+              <TablePagination
                 total={categories?.meta.total ?? 0}
                 currentPage={queryParams.page}
                 limit={queryParams.limit}

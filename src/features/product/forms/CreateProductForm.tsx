@@ -45,7 +45,11 @@ export const CreateProductForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end">
-        <Button form="create-product--form" disabled={isCreateProductPending}>
+        <Button
+          form="create-product--form"
+          disabled={isCreateProductPending}
+          className="w-[200px]"
+        >
           {!isCreateProductPending ? (
             "Tambahkan"
           ) : (

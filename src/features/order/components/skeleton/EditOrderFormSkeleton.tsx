@@ -37,8 +37,8 @@ export const EditOrderFormSkeleton = () => {
         </div>
       </CardContent>
       <CardFooter className="mt-10 place-content-end gap-5">
-        <Skeleton className="h-10 w-20" />
-        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-[200px]" />
+        <Skeleton className="h-10 w-[200px]" />
       </CardFooter>
     </Card>
   );

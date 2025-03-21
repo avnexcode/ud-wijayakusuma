@@ -80,10 +80,13 @@ export const EditCustomerForm = ({ customerId }: EditCustomerFormProps) => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end space-x-5">
-        <Button onClick={() => router.back()}>Batal</Button>
+        <Button onClick={() => router.back()} className="w-[200px]">
+          Batal
+        </Button>
         <Button
           form="update-customer-form"
           disabled={isUpdateCustomerPending || !form.formState.isDirty}
+          className="w-[200px]"
         >
           {!isUpdateCustomerPending ? (
             "Perbarui"

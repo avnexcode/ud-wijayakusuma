@@ -117,6 +117,7 @@ export const CreatePaymentRecordForm = ({
           <Button
             form="create-payment-record-form"
             disabled={isCreatePaymentRecordPending}
+            className="w-[200px]"
           >
             {!isCreatePaymentRecordPending ? (
               "Tambahkan"

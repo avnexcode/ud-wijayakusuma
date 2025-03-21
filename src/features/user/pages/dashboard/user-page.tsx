@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardSection,
   PageContainer,
@@ -10,8 +15,6 @@ import { api } from "@/utils";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
 import {
-  UserLimit,
-  UserSearch,
   UserSort,
   type UserOrderParams,
   type UserSortParams,
@@ -28,11 +31,14 @@ export const UserPage = () => {
     data: users,
     isLoading: isUsersLoading,
     refetch: refetchUsers,
-  } = api.user.getAll.useQuery({
-    params: {
-      ...queryParams,
+  } = api.user.getAll.useQuery(
+    {
+      params: {
+        ...queryParams,
+      },
     },
-  });
+    { refetchOnWindowFocus: false },
+  );
 
   return (
     <PageContainer>
@@ -50,14 +56,15 @@ export const UserPage = () => {
                 </Button>
               </Link>
 
-              <UserSearch
+              <TableSearch
+                placeholder="pengguna"
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
             </div>
 
             <div className="flex items-center gap-5">
-              <UserLimit
+              <TableLimit
                 currentLimit={queryParams.limit}
                 onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
               />
@@ -70,11 +77,23 @@ export const UserPage = () => {
               />
             </div>
           </header>
-          <UserTable
-            users={users?.data}
-            isUsersLoading={isUsersLoading}
-            refetchUsers={refetchUsers}
-          />
+
+          <main>
+            <UserTable
+              users={users?.data}
+              isUsersLoading={isUsersLoading}
+              refetchUsers={refetchUsers}
+            />
+          </main>
+
+          <footer className="py-5">
+            <TablePagination
+              total={users?.meta.total ?? 0}
+              currentPage={queryParams.page}
+              limit={queryParams.limit}
+              onPageChange={(page) => handleUpdateQuery({ page })}
+            />
+          </footer>
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

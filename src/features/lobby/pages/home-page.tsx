@@ -7,9 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  OrderLimit,
-  OrderPagination,
-  OrderSearch,
   OrderSort,
   type OrderOrderParams,
   type OrderSortParams,
@@ -17,6 +14,11 @@ import {
 import { useQueryParams } from "@/hooks";
 import { api } from "@/utils";
 import { LobbyOrderTable } from "../tables";
+import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
 export const HomePage = () => {
   const { queryParams, handleUpdateQuery } = useQueryParams<
     OrderSortParams,
@@ -24,11 +26,14 @@ export const HomePage = () => {
   >();
 
   const { data: orders, isLoading: isOrdersLoading } =
-    api.order.getAll.useQuery({
-      params: {
-        ...queryParams,
+    api.order.getAll.useQuery(
+      {
+        params: {
+          ...queryParams,
+        },
       },
-    });
+      { refetchOnWindowFocus: false },
+    );
 
   return (
     <PageContainer withHeader>
@@ -41,7 +46,8 @@ export const HomePage = () => {
           <CardContent>
             <header className="flex flex-col gap-y-5 py-10">
               <div className="flex items-center gap-x-5">
-                <OrderSearch
+                <TableSearch
+                  placeholder="pesanan"
                   initialSearch={queryParams.search}
                   onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
                 />
@@ -49,7 +55,7 @@ export const HomePage = () => {
 
               <div>
                 <div className="flex items-center gap-5">
-                  <OrderLimit
+                  <TableLimit
                     currentLimit={queryParams.limit}
                     onLimitChange={(limit) =>
                       handleUpdateQuery({ limit, page: 1 })
@@ -65,18 +71,22 @@ export const HomePage = () => {
                 </div>
               </div>
             </header>
+
             <main>
               <LobbyOrderTable
                 orders={orders?.data}
                 isOrdersLoading={isOrdersLoading}
               />
-              <OrderPagination
+            </main>
+
+            <footer className="py-5">
+              <TablePagination
                 total={orders?.meta.total ?? 0}
                 currentPage={queryParams.page}
                 limit={queryParams.limit}
                 onPageChange={(page) => handleUpdateQuery({ page })}
               />
-            </main>
+            </footer>
           </CardContent>
         </Card>
       </SectionContainer>

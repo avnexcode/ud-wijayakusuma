@@ -48,7 +48,11 @@ export const CreateOrderForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="place-content-end pt-10">
-        <Button form="create-order-form" disabled={isCreateOrderPending}>
+        <Button
+          form="create-order-form"
+          disabled={isCreateOrderPending}
+          className="w-[200px]"
+        >
           {!isCreateOrderPending ? (
             "Tambahkan"
           ) : (

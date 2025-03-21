@@ -1,4 +1,9 @@
 import {
+  TableLimit,
+  TablePagination,
+  TableSearch,
+} from "@/components/fragments";
+import {
   DashboardLayout,
   DashboardSection,
   PageContainer,
@@ -8,9 +13,6 @@ import { useQueryParams } from "@/hooks";
 import { api } from "@/utils/api";
 import { type GetServerSideProps } from "next";
 import {
-  TransactionLimit,
-  TransactionPagination,
-  TransactionSearch,
   TransactionSort,
   type TransactionOrderParams,
   type TransactionSortParams,
@@ -38,11 +40,14 @@ export const TransactionPage = () => {
   >();
 
   const { data: transactions, isLoading: isTransactionsLoading } =
-    api.transaction.getAll.useQuery({
-      params: {
-        ...queryParams,
+    api.transaction.getAll.useQuery(
+      {
+        params: {
+          ...queryParams,
+        },
       },
-    });
+      { refetchOnWindowFocus: false },
+    );
 
   return (
     <PageContainer>
@@ -53,7 +58,8 @@ export const TransactionPage = () => {
         >
           <header className="flex flex-col gap-y-5 py-10">
             <div className="flex items-center gap-x-5">
-              <TransactionSearch
+              <TableSearch
+                placeholder="transaksi"
                 initialSearch={queryParams.search}
                 onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
               />
@@ -61,7 +67,7 @@ export const TransactionPage = () => {
 
             <div>
               <div className="flex items-center gap-5">
-                <TransactionLimit
+                <TableLimit
                   currentLimit={queryParams.limit}
                   onLimitChange={(limit) =>
                     handleUpdateQuery({ limit, page: 1 })
@@ -77,18 +83,22 @@ export const TransactionPage = () => {
               </div>
             </div>
           </header>
+
           <main>
             <TransactionTable
               transactions={transactions?.data as TransactionWithRelations[]}
               isTransactionsLoading={isTransactionsLoading}
             />
-            <TransactionPagination
+          </main>
+
+          <footer className="py-5">
+            <TablePagination
               total={transactions?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}
               onPageChange={(page) => handleUpdateQuery({ page })}
             />
-          </main>
+          </footer>
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

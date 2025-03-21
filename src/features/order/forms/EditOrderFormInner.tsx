@@ -129,7 +129,6 @@ export const EditOrderFormInner = ({
                   mode="single"
                   selected={field.value}
                   onSelect={(date) => {
-                    console.log("Selected date:", date);
                     field.onChange(date);
                   }}
                   disabled={(date) =>
@@ -152,7 +151,7 @@ export const EditOrderFormInner = ({
             <Select onValueChange={onChange} defaultValue={value}>
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue placeholder={`Pilih status pesanan`} />
+                  <SelectValue placeholder={`Pilih kategori pesanan`} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
@@ -164,6 +163,31 @@ export const EditOrderFormInner = ({
                 </SelectItem>
                 <SelectItem value={OrderCategory.RETAIL} className="capitalize">
                   Ecer
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="status"
+        render={({ field: { onChange, value } }) => (
+          <FormItem>
+            <FormLabel>Status Pesanan</FormLabel>
+            <Select onValueChange={onChange} defaultValue={value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={`Pilih status pesanan`} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value={"PENDING"} className="capitalize">
+                  Menunggu
+                </SelectItem>
+                <SelectItem value={"SUCCESS"} className="capitalize">
+                  Selesai
                 </SelectItem>
               </SelectContent>
             </Select>

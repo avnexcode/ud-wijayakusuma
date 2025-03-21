@@ -43,7 +43,11 @@ export const CreateCategoryForm = () => {
         </Form>
       </CardContent>
       <CardFooter className="mt-10 place-content-end">
-        <Button form="create--category-form" disabled={isCreateCategoryPending}>
+        <Button
+          form="create--category-form"
+          disabled={isCreateCategoryPending}
+          className="w-[200px]"
+        >
           {!isCreateCategoryPending ? (
             "Tambahkan"
           ) : (

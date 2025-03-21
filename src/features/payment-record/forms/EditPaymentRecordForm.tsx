@@ -124,6 +124,7 @@ export const EditPaymentRecordForm = ({
           <Button
             form="update-payment-record-form"
             disabled={isUpdatePaymentRecordPending || !form.formState.isDirty}
+            className="w-[200px]"
           >
             {!isUpdatePaymentRecordPending ? (
               "Perbarui"
