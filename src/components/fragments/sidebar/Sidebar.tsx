@@ -46,7 +46,7 @@ export function Sidebar() {
             />
           ),
         })}
-        <SidebarGroupComponent className="absolute bottom-5 w-full">
+        <SidebarGroupComponent>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>

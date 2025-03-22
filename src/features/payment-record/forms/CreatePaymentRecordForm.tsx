@@ -113,7 +113,7 @@ export const CreatePaymentRecordForm = ({
             onSubmit={onSubmit}
           />
         </Form>
-        <DialogFooter className="mt-5">
+        <DialogFooter className="mt-10">
           <Button
             form="create-payment-record-form"
             disabled={isCreatePaymentRecordPending}

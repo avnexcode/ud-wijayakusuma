@@ -72,7 +72,10 @@ export const sidebarMenu: SidebarMenuType[] = [
         title: "Transaksi",
         url: "/dashboard/transaction",
         icon: "ArrowLeftRight",
-        active: ["/dashboard/transaction/:id/detail"],
+        active: [
+          "/dashboard/transaction/:id/detail",
+          "/dashboard/payment-record/:id/detail",
+        ],
       },
       {
         type: "Collapsible",

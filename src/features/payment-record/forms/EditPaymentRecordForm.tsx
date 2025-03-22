@@ -120,7 +120,7 @@ export const EditPaymentRecordForm = ({
             onSubmit={onSubmit}
           />
         </Form>
-        <DialogFooter>
+        <DialogFooter className="mt-10">
           <Button
             form="update-payment-record-form"
             disabled={isUpdatePaymentRecordPending || !form.formState.isDirty}
