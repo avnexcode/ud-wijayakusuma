@@ -6,8 +6,14 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { convertCurrency, formatDate } from "@/utils";
-import { CalendarIcon, MoveLeft } from "lucide-react";
+import {
+  convertCurrency,
+  formatDate,
+  handleDownload,
+  handlePrint,
+  processImageUrl,
+} from "@/utils";
+import { CalendarIcon, Download, MoveLeft, Printer } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import type { PaymentRecordWithRelations } from "../types";
@@ -20,7 +26,6 @@ export const PaymentRecordCard = ({
   paymentRecord,
 }: PaymentRecordCardProps) => {
   const router = useRouter();
-
   return (
     <Card className="w-full border-none shadow-none">
       <CardHeader className="space-y-1">
@@ -42,17 +47,39 @@ export const PaymentRecordCard = ({
         <div className="space-y-2">
           <h3 className="text-lg font-semibold">Bukti Pembayaran</h3>
           {paymentRecord?.noteImageUrl ? (
-            <div className="relative w-full overflow-hidden rounded-md">
-              <Image
-                width={500}
-                height={500}
-                src={`${paymentRecord.noteImageUrl}`}
-                alt="Bukti pembayaran"
-                style={{ width: "auto", height: "auto" }}
-                className="rounded-md object-contain"
-                priority
-              />
-            </div>
+            <>
+              <div className="relative w-full overflow-hidden rounded-md">
+                <Image
+                  width={500}
+                  height={500}
+                  src={processImageUrl(paymentRecord.noteImageUrl) ?? ""}
+                  alt="Bukti pembayaran"
+                  style={{ width: "auto", height: "auto" }}
+                  className="rounded-md object-contain"
+                  priority
+                />
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Button
+                  onClick={() => handlePrint(paymentRecord.noteImageUrl)}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <Printer size={16} />
+                  Cetak Bukti Pembayaran
+                </Button>
+                <Button
+                  onClick={() => handleDownload(paymentRecord.noteImageUrl)}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <Download size={16} />
+                  Unduh Bukti Pembayaran
+                </Button>
+              </div>
+            </>
           ) : (
             <p>Tidak ada bukti pembayaran</p>
           )}
