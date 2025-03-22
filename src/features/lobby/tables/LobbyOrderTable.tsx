@@ -1,4 +1,4 @@
-import { Badge, type BadgeVariants } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -10,10 +10,15 @@ import {
 } from "@/components/ui/table";
 import type { OrderWithRelations } from "@/features/order/types";
 import { formatDate, renderElements } from "@/utils";
-import { type OrderCategory, type OrderStatus } from "@prisma/client";
 import { CalendarIcon, ScanEye } from "lucide-react";
 import Link from "next/link";
 import { LobbyOrderTableBodySkeleton } from "../components/skeleton";
+import {
+  getCategoryBadge,
+  getCategoryLabel,
+  getStatusColor,
+  getStatusLabel,
+} from "../utils";
 
 type LobbyOrderTableProps = {
   orders?: OrderWithRelations[];
@@ -24,38 +29,6 @@ export const LobbyOrderTable = ({
   orders,
   isOrdersLoading,
 }: LobbyOrderTableProps) => {
-  const getStatusColor = (status: OrderStatus) => {
-    const colors: Record<OrderStatus, string> = {
-      PENDING: "bg-yellow-500",
-      SUCCESS: "bg-green-500",
-    };
-    return colors[status];
-  };
-
-  const getStatusLabel = (status: OrderStatus) => {
-    const labels: Record<OrderStatus, string> = {
-      PENDING: "Menunggu",
-      SUCCESS: "Selesai",
-    };
-    return labels[status];
-  };
-
-  const getCategoryBadge = (category: OrderCategory): BadgeVariants => {
-    const badges: Record<OrderCategory, string> = {
-      RETAIL: "default",
-      WHOLESALE: "secondary",
-    };
-    return badges[category] as BadgeVariants;
-  };
-
-  const getCategoryLabel = (category: OrderCategory) => {
-    const labels: Record<OrderCategory, string> = {
-      RETAIL: "Eceran",
-      WHOLESALE: "Grosir",
-    };
-    return labels[category];
-  };
-
   return (
     <Table>
       <TableHeader>

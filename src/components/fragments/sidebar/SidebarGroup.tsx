@@ -6,15 +6,12 @@ import {
 } from "@/components/ui/sidebar";
 import { renderElements } from "@/utils/render-elements";
 import { SidebarItem } from "./SidebarItem";
+import { type SidebarMenuItemType } from "./sidebar-menu";
 
 type SidebarGroupProps = {
   pathname: string;
   label: string;
-  menu: {
-    title: string;
-    url: string;
-    icon: string;
-  }[];
+  menu: SidebarMenuItemType[];
 };
 
 export const SidebarGroup = (props: SidebarGroupProps) => {
@@ -28,10 +25,13 @@ export const SidebarGroup = (props: SidebarGroupProps) => {
             keyExtractor: (menu) => menu.title,
             render: (menu) => (
               <SidebarItem
-                icon={menu.icon}
+                pathname={props.pathname}
+                type={menu.type}
                 title={menu.title}
                 url={menu.url}
-                pathname={props.pathname}
+                icon={menu.icon}
+                subMenu={menu.subMenu ?? []}
+                active={menu.active}
               />
             ),
           })}

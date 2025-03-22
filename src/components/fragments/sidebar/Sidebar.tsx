@@ -1,21 +1,21 @@
 import {
   Sidebar as SidebarComponent,
   SidebarContent,
+  SidebarGroup as SidebarGroupComponent,
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { supabase } from "@/lib/supabase/client";
 import { renderElements } from "@/utils/render-elements";
 import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import { sidebarMenu } from "./sidebar-menu";
 import { SidebarGroup } from "./SidebarGroup";
-import { SidebarGroup as SidebarGroupComponent } from "@/components/ui/sidebar";
-import Link from "next/link";
-import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "next/router";
-import { usePathname } from "next/navigation";
 
 export function Sidebar() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export function Sidebar() {
     <SidebarComponent collapsible="icon">
       <SidebarContent>
         <SidebarHeader className="text-nowrap py-4 text-center text-xl font-bold">
-          <Link href={"/"} className="flex gap-3">
+          <Link href={"/"} className="ml-0.5 flex items-center gap-3">
             <span>UD</span>
             <span>WIJAYAKUSUMA</span>
           </Link>

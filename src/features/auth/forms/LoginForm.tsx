@@ -82,7 +82,7 @@ export const LoginForm = () => {
         <Button
           form="login-form"
           disabled={isLoginPending}
-          className="w-[150px]"
+          className="w-[200px]"
         >
           {!isLoginPending ? (
             "Login"
