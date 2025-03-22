@@ -55,7 +55,7 @@ export const OrderPage = () => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pesanan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Pesanan"

@@ -31,7 +31,7 @@ export const DashboardPage = () => {
     }
   }, [router]);
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard">
       <SectionContainer padded>
         <DashboardSection title="Dashboard">
           <h1>Hello Dashboard</h1>

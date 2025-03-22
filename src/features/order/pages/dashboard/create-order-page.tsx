@@ -22,7 +22,7 @@ type CreateOrderPageProps = {
 
 export const CreateOrderPage = () => {
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pesanan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Form Tambah Pesanan"

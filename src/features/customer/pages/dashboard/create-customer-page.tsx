@@ -22,7 +22,7 @@ type CreateCustomerPageProps = {
 
 export const CreateCustomerPage = () => {
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pelanggan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Form Tambah Pelanggan"

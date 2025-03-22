@@ -35,7 +35,7 @@ export const DetailOrderPage = ({ id }: DetailOrderPageProps) => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pesanan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Detail Pesanan"

@@ -52,7 +52,7 @@ export const CustomerPage = () => {
     );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pelanggan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Pelanggan"

@@ -15,7 +15,7 @@ export const HeadMetaData: React.FC<{
 }) => {
   const defaultTitle = env.NEXT_PUBLIC_APP_NAME ?? "APP";
   const defaultTitleContent = title
-    ? title + " | " + defaultTitle
+    ? title + " - " + defaultTitle
     : defaultTitle;
 
   const baseUrl =

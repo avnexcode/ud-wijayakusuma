@@ -55,7 +55,7 @@ export const CategoryPage = () => {
     );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Kategori">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Kategori "

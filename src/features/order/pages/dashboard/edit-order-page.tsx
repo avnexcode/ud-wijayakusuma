@@ -25,7 +25,7 @@ type EditOrderPageProps = {
 
 export const EditOrderPage = ({ id }: EditOrderPageProps) => {
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pesanan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Form Edit Pesanan"

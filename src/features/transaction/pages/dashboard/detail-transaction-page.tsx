@@ -38,7 +38,7 @@ export const DetailTransactionPage = ({ id }: DetailTransactionPageProps) => {
   } = api.transaction.getById.useQuery({ id: id }, { enabled: !!id });
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Transaksi">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Detail Transaksi"

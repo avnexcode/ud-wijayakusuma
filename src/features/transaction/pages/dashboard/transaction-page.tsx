@@ -50,7 +50,7 @@ export const TransactionPage = () => {
     );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Transaksi">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard Transaksi"

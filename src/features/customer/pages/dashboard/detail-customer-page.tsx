@@ -33,7 +33,7 @@ export const DetailCustomerPage = ({ id }: DetailCustomerPageProps) => {
     api.customer.getById.useQuery({ id }, { enabled: !!id });
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pelanggan">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Detail Pelanggan"

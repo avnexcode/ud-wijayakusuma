@@ -33,7 +33,7 @@ export const DetailCategoryPage = ({ id }: DetailCategoryPageProps) => {
     api.category.getById.useQuery({ id }, { enabled: !!id });
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Kategori">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Detail Kategori"

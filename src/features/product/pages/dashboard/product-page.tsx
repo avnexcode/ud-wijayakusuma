@@ -53,7 +53,7 @@ export const ProductPage = () => {
     );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Produk">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Produk"

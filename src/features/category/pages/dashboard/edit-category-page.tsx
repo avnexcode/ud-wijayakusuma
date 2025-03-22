@@ -28,7 +28,7 @@ type EditCategoryPageProps = {
 
 export const EditCategoryPage = ({ id }: EditCategoryPageProps) => {
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Kategori">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Form Edit Kategori"

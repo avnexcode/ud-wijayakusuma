@@ -41,7 +41,7 @@ export const UserPage = () => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Pengguna">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Pengguna"

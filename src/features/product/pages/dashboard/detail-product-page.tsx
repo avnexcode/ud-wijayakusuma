@@ -33,7 +33,7 @@ export const DetailProductPage = ({ id }: DetailProductPageProps) => {
     api.product.getById.useQuery({ id }, { enabled: !!id });
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Produk">
       <SectionContainer padded>
         <DashboardSection title="Dashboard - Detail Produk">
           {isProductLoading ? (

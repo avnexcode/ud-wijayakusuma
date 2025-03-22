@@ -22,7 +22,7 @@ type CreateCategoryPageProps = {
 
 export const CreateCategoryPage = () => {
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Kategori">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Form Tambah Kategori"

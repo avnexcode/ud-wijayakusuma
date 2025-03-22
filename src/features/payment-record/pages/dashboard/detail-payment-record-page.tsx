@@ -36,7 +36,7 @@ export const DetailPaymentRecordPage = ({
     api.paymentRecord.getById.useQuery({ id }, { enabled: !!id });
 
   return (
-    <PageContainer>
+    <PageContainer title="Dashboard Riwayat Pembayaran">
       <SectionContainer padded>
         <DashboardSection
           title="Dashboard - Detail Riwayat Pembayaran"
