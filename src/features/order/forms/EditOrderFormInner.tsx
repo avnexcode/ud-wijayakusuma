@@ -24,7 +24,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CustomerSelect } from "@/features/customer/components";
 import { ProductSelect } from "@/features/product/components";
 import { cn } from "@/lib/utils";
-import { OrderCategory } from "@prisma/client";
+import { OrderCategory, OrderStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
@@ -41,6 +41,7 @@ export const EditOrderFormInner = ({
   onSubmit,
 }: EditOrderFormInnerProps) => {
   const form = useFormContext<UpdateOrderFormSchema>();
+
   return (
     <form
       id={formId}
@@ -145,10 +146,10 @@ export const EditOrderFormInner = ({
       <FormField
         control={form.control}
         name="category"
-        render={({ field: { onChange, value } }) => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>Kategori Pesanan</FormLabel>
-            <Select onValueChange={onChange} defaultValue={value}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder={`Pilih kategori pesanan`} />
@@ -173,20 +174,20 @@ export const EditOrderFormInner = ({
       <FormField
         control={form.control}
         name="status"
-        render={({ field: { onChange, value } }) => (
+        render={({ field }) => (
           <FormItem>
             <FormLabel>Status Pesanan</FormLabel>
-            <Select onValueChange={onChange} defaultValue={value}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder={`Pilih status pesanan`} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value={"PENDING"} className="capitalize">
+                <SelectItem value={OrderStatus.PENDING} className="capitalize">
                   Menunggu
                 </SelectItem>
-                <SelectItem value={"SUCCESS"} className="capitalize">
+                <SelectItem value={OrderStatus.SUCCESS} className="capitalize">
                   Selesai
                 </SelectItem>
               </SelectContent>

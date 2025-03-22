@@ -61,7 +61,12 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
 
   useEffect(() => {
     if (order) {
-      form.reset({ ...order, description: order.description ?? "" });
+      form.reset({
+        ...order,
+        description: order.description ?? "",
+        status: order.status,
+        category: order.category,
+      });
     }
   }, [form, order]);
 
