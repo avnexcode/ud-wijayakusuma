@@ -130,6 +130,7 @@ export const CustomerSelect = <T extends FieldValues>({
             <SelectContent>
               <SelectSearch
                 searchTerm={searchTerm}
+                totalPages={totalPages}
                 onSearchChange={handleSearchChange}
                 onClick={handleSearchInputClick}
               />

@@ -3,6 +3,7 @@ import { Search } from "lucide-react";
 
 type SelectSearchProps = {
   searchTerm: string;
+  totalPages: number;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: (e: React.MouseEvent) => void;
   onFocus?: (e: React.FocusEvent) => void;
@@ -11,11 +12,14 @@ type SelectSearchProps = {
 
 export const SelectSearch = ({
   searchTerm,
+  totalPages,
   onSearchChange,
   onClick,
   onFocus,
   onBlur,
 }: SelectSearchProps) => {
+  if (totalPages <= 1) return null;
+
   return (
     <div className="flex items-center border-b px-3 py-2" onClick={onClick}>
       <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
