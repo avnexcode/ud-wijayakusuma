@@ -101,18 +101,21 @@ export const CreatePaymentRecordForm = ({
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Apakah kamu sudah benar - benar yakin?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Tindakan ini akan menambahkan catatan pembayaran baru ke dalam
+            sistem. Pastikan semua data yang dimasukkan sudah benar sebelum
+            menyimpan.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <CreatePaymentRecordFormInner
-            formId="create-payment-record-form"
-            onSubmit={onSubmit}
-          />
-        </Form>
+        <div className="py-10">
+          <Form {...form}>
+            <CreatePaymentRecordFormInner
+              formId="create-payment-record-form"
+              onSubmit={onSubmit}
+            />
+          </Form>
+        </div>
         <DialogFooter className="mt-10">
           <Button
             form="create-payment-record-form"

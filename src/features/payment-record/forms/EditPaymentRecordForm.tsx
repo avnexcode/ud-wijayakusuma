@@ -106,20 +106,23 @@ export const EditPaymentRecordForm = ({
           <SquarePen />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>Apakah kamu sudah benar - benar yakin?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Tindakan ini akan memperbarui catatan pembayaran yang telah ada.
+            Perubahan akan disimpan secara permanen. Pastikan semua informasi
+            sudah sesuai sebelum menyimpan.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
-          <EditPaymentRecordFormInner
-            formId="update-payment-record-form"
-            onSubmit={onSubmit}
-          />
-        </Form>
+        <div className="py-10">
+          <Form {...form}>
+            <EditPaymentRecordFormInner
+              formId="update-payment-record-form"
+              onSubmit={onSubmit}
+            />
+          </Form>
+        </div>
         <DialogFooter className="mt-10">
           <Button
             form="update-payment-record-form"

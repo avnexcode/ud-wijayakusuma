@@ -39,10 +39,12 @@ export const DeleteProductDialog = ({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Apakah kamu sudah benar - benar yakin?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Tindakan ini tidak dapat dibatalkan. Ini akan menghapus data produk
+            Anda secara permanen dan menghapus data Anda dari server kami.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -38,10 +38,13 @@ export const DeleteCategoryDialog = ({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Apakah kamu sudah yakin?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Apakah kamu sudah benar - benar yakin?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Tindakan ini tidak dapat dibatalkan. Ini akan menghapus data
+            kategori Anda secara permanen dan menghapus data Anda dari server
+            kami.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
