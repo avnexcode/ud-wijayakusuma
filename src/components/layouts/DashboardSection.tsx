@@ -24,7 +24,7 @@ export const DashboardSection = forwardRef<
 
   return (
     <section className={cn(sectionClassName)}>
-      <header className="mb-20 space-y-3">
+      <header className="mb-20 h-[130px] space-y-3">
         <Heading size={"h3"}>{props.title}</Heading>
         {props.description && (
           <p className="text-base text-muted-foreground">

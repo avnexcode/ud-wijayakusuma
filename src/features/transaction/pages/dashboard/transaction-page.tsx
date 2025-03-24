@@ -56,16 +56,8 @@ export const TransactionPage = () => {
           title="Dashboard Transaksi"
           description="Halaman ini menampilkan daftar transaksi pembayaran yang dilakukan oleh pelanggan. Informasi yang tersedia meliputi ID transaksi, metode pembayaran, jumlah pembayaran, status pembayaran, dan waktu transaksi."
         >
-          <header className="flex flex-col gap-y-5 py-10">
+          <header className="flex max-w-4xl flex-col gap-y-5 pb-10">
             <div className="flex items-center gap-x-5">
-              <TableSearch
-                placeholder="transaksi"
-                initialSearch={queryParams.search}
-                onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
-              />
-            </div>
-
-            <div>
               <div className="flex items-center gap-5">
                 <TableLimit
                   currentLimit={queryParams.limit}
@@ -82,6 +74,12 @@ export const TransactionPage = () => {
                 />
               </div>
             </div>
+
+            <TableSearch
+              placeholder="transaksi"
+              initialSearch={queryParams.search}
+              onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
+            />
           </header>
 
           <main>

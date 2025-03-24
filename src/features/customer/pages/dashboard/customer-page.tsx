@@ -59,48 +59,54 @@ export const CustomerPage = () => {
           description="Halaman ini menampilkan daftar seluruh pelanggan yang terdaftar dalam sistem. Pengguna dapat melihat informasi dasar seperti nama, email, alamat, dan nomor telepon pelanggan. Selain itu, tersedia fitur pencarian, filter, dan tombol untuk menambahkan pelanggan baru atau melihat detail lebih lanjut."
           className="gap-y-5"
         >
-          <header className="flex flex-col gap-y-5 py-10">
+          <header className="flex max-w-4xl flex-col gap-y-5 pb-10">
             <div className="flex items-center gap-x-5">
-              <Link href={"/dashboard/customer/create"}>
-                <Button className="min-w-[150px]">
+              <Link href={"/dashboard/customer/create"} className="w-full">
+                <Button className="w-full">
                   <CirclePlus />
                   Tambahkan Pelanggan
                 </Button>
               </Link>
 
-              <TableSearch
-                placeholder="pelanggan"
-                initialSearch={queryParams.search}
-                onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
-              />
+              <div className="flex items-center gap-5">
+                <TableLimit
+                  currentLimit={queryParams.limit}
+                  onLimitChange={(limit) =>
+                    handleUpdateQuery({ limit, page: 1 })
+                  }
+                />
+
+                <CustomerSort
+                  currentSort={queryParams.sort}
+                  currentOrder={queryParams.order}
+                  onSortChange={(sort) => handleUpdateQuery({ sort })}
+                  onOrderChange={(order) => handleUpdateQuery({ order })}
+                />
+              </div>
             </div>
 
-            <div className="flex items-center gap-5">
-              <TableLimit
-                currentLimit={queryParams.limit}
-                onLimitChange={(limit) => handleUpdateQuery({ limit, page: 1 })}
-              />
-
-              <CustomerSort
-                currentSort={queryParams.sort}
-                currentOrder={queryParams.order}
-                onSortChange={(sort) => handleUpdateQuery({ sort })}
-                onOrderChange={(order) => handleUpdateQuery({ order })}
-              />
-            </div>
+            <TableSearch
+              placeholder="pelanggan"
+              initialSearch={queryParams.search}
+              onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
+            />
           </header>
+
           <main>
             <CustomerTable
               customers={customers?.data}
               isCustomersLoading={isCustomersLoading}
             />
+          </main>
+
+          <footer className="py-5">
             <TablePagination
               total={customers?.meta.total ?? 0}
               currentPage={queryParams.page}
               limit={queryParams.limit}
               onPageChange={(page) => handleUpdateQuery({ page })}
             />
-          </main>
+          </footer>
         </DashboardSection>
       </SectionContainer>
     </PageContainer>

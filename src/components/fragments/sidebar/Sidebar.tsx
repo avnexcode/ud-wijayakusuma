@@ -1,30 +1,17 @@
 import {
   Sidebar as SidebarComponent,
   SidebarContent,
-  SidebarGroup as SidebarGroupComponent,
-  SidebarGroupContent,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { supabase } from "@/lib/supabase/client";
 import { renderElements } from "@/utils/render-elements";
-import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
 import { sidebarMenu } from "./sidebar-menu";
+import { SidebarAction } from "./SidebarAction";
 import { SidebarGroup } from "./SidebarGroup";
 
 export function Sidebar() {
-  const router = useRouter();
   const pathname = usePathname();
-
-  const logout = async () => {
-    await supabase.auth.signOut();
-    void router.replace("/login");
-  };
 
   return (
     <SidebarComponent collapsible="icon">
@@ -46,18 +33,7 @@ export function Sidebar() {
             />
           ),
         })}
-        <SidebarGroupComponent>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="py-5" onClick={logout}>
-                  <LogOut />
-                  Logout
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroupComponent>
+        <SidebarAction />
       </SidebarContent>
     </SidebarComponent>
   );

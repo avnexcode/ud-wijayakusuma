@@ -61,23 +61,15 @@ export const OrderPage = () => {
           title="Dashboard - Pesanan"
           description="Halaman ini menampilkan daftar pesanan yang telah dibuat oleh pelanggan. Informasi yang ditampilkan meliputi nomor pesanan, nama pelanggan, status pesanan, total harga, dan tanggal pemesanan."
         >
-          <header className="flex flex-col gap-y-5 py-10">
+          <header className="flex max-w-4xl flex-col gap-y-5 pb-10">
             <div className="flex items-center gap-x-5">
-              <Link href={"/dashboard/order/create"}>
-                <Button className="min-w-[150px]">
+              <Link href={"/dashboard/order/create"} className="w-full">
+                <Button className="w-full">
                   <CirclePlus />
                   Buat Pesanan
                 </Button>
               </Link>
 
-              <TableSearch
-                placeholder="pesanan"
-                initialSearch={queryParams.search}
-                onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
-              />
-            </div>
-
-            <div>
               <div className="flex items-center gap-5">
                 <TableLimit
                   currentLimit={queryParams.limit}
@@ -94,6 +86,12 @@ export const OrderPage = () => {
                 />
               </div>
             </div>
+
+            <TableSearch
+              placeholder="pesanan"
+              initialSearch={queryParams.search}
+              onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
+            />
           </header>
 
           <main>

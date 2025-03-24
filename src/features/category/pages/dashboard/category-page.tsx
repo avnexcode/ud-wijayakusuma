@@ -62,37 +62,37 @@ export const CategoryPage = () => {
           description="Halaman ini menampilkan daftar semua kategori produk yang tersedia. Pengguna dapat menambah, mengedit, atau menghapus kategori untuk mengorganisir produk yang ada."
         >
           <DashboardProductSection>
-            <header className="flex flex-col gap-y-5 py-10">
+            <header className="flex max-w-4xl flex-col gap-y-5 pb-10">
               <div className="flex items-center gap-x-5">
-                <Link href={"/dashboard/category/create"}>
-                  <Button className="min-w-[150px]">
+                <Link href={"/dashboard/category/create"} className="w-full">
+                  <Button className="w-full">
                     <CirclePlus />
-                    Tambahkan Category
+                    Tambahkan Kategori
                   </Button>
                 </Link>
 
-                <TableSearch
-                  placeholder="kategori"
-                  initialSearch={queryParams.search}
-                  onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
-                />
+                <div className="flex items-center gap-5">
+                  <TableLimit
+                    currentLimit={queryParams.limit}
+                    onLimitChange={(limit) =>
+                      handleUpdateQuery({ limit, page: 1 })
+                    }
+                  />
+
+                  <CategorySort
+                    currentSort={queryParams.sort}
+                    currentOrder={queryParams.order}
+                    onSortChange={(sort) => handleUpdateQuery({ sort })}
+                    onOrderChange={(order) => handleUpdateQuery({ order })}
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center gap-5">
-                <TableLimit
-                  currentLimit={queryParams.limit}
-                  onLimitChange={(limit) =>
-                    handleUpdateQuery({ limit, page: 1 })
-                  }
-                />
-
-                <CategorySort
-                  currentSort={queryParams.sort}
-                  currentOrder={queryParams.order}
-                  onSortChange={(sort) => handleUpdateQuery({ sort })}
-                  onOrderChange={(order) => handleUpdateQuery({ order })}
-                />
-              </div>
+              <TableSearch
+                placeholder="kategori"
+                initialSearch={queryParams.search}
+                onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
+              />
             </header>
 
             <main>

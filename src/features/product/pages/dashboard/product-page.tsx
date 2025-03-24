@@ -60,37 +60,37 @@ export const ProductPage = () => {
           description="Halaman ini menampilkan daftar semua produk yang tersedia dalam sistem. Pengguna dapat melihat informasi seperti nama produk, kategori, harga, stok, dan status produk. Terdapat fitur pencarian, filter, dan tombol untuk menambah produk baru atau mengedit produk yang sudah ada."
         >
           <DashboardProductSection>
-            <header className="flex flex-col gap-y-5 py-10">
+            <header className="flex max-w-4xl flex-col gap-y-5 pb-10">
               <div className="flex items-center gap-x-5">
-                <Link href={"/dashboard/product/create"}>
-                  <Button className="min-w-[150px]">
+                <Link href={"/dashboard/product/create"} className="w-full">
+                  <Button className="w-full">
                     <CirclePlus />
                     Tambahkan Product
                   </Button>
                 </Link>
 
-                <TableSearch
-                  placeholder="produk"
-                  initialSearch={queryParams.search}
-                  onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
-                />
+                <div className="flex items-center gap-5">
+                  <TableLimit
+                    currentLimit={queryParams.limit}
+                    onLimitChange={(limit) =>
+                      handleUpdateQuery({ limit, page: 1 })
+                    }
+                  />
+
+                  <ProductSort
+                    currentSort={queryParams.sort}
+                    currentOrder={queryParams.order}
+                    onSortChange={(sort) => handleUpdateQuery({ sort })}
+                    onOrderChange={(order) => handleUpdateQuery({ order })}
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center gap-5">
-                <TableLimit
-                  currentLimit={queryParams.limit}
-                  onLimitChange={(limit) =>
-                    handleUpdateQuery({ limit, page: 1 })
-                  }
-                />
-
-                <ProductSort
-                  currentSort={queryParams.sort}
-                  currentOrder={queryParams.order}
-                  onSortChange={(sort) => handleUpdateQuery({ sort })}
-                  onOrderChange={(order) => handleUpdateQuery({ order })}
-                />
-              </div>
+              <TableSearch
+                placeholder="produk"
+                initialSearch={queryParams.search}
+                onSearch={(search) => handleUpdateQuery({ search, page: 1 })}
+              />
             </header>
 
             <main>
