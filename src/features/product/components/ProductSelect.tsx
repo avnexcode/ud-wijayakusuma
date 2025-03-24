@@ -15,10 +15,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getCategoryLabel } from "@/features/order/utils";
 import { useSelectParams } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { api } from "@/utils/api";
 import { renderElements } from "@/utils/render-elements";
+import { type OrderCategory } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext, type FieldValues, type Path } from "react-hook-form";
@@ -123,6 +125,7 @@ export const ProductSelect = <T extends FieldValues>({
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={`Pilih ${label.toLowerCase()}`}>
+                  ({getCategoryLabel(selectedProduct?.orderCategory)}) -{" "}
                   {selectedProduct?.name ?? `Pilih ${label.toLowerCase()}`}
                 </SelectValue>
               </SelectTrigger>
@@ -150,6 +153,7 @@ export const ProductSelect = <T extends FieldValues>({
                         value={product.id}
                         className="capitalize"
                       >
+                        ({getCategoryLabel(product.orderCategory)}) -{" "}
                         {product.name}
                       </SelectItem>
                     ),

@@ -45,11 +45,12 @@ model Customer {
 }
 
 model Product {
-    id          String  @id @default(cuid())
-    name        String  @db.VarChar(150)
-    slug        String  @unique
-    price       String  @db.VarChar(50)
-    description String? @db.Text
+    id            String        @id @default(cuid())
+    name          String        @db.VarChar(150)
+    slug          String        @unique
+    price         String        @db.VarChar(50)
+    description   String?       @db.Text
+    orderCategory OrderCategory @map("order_category")
 
     categoryId String   @map("category_id")
     category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)

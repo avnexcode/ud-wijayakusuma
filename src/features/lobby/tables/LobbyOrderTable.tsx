@@ -18,7 +18,7 @@ import {
   getCategoryLabel,
   getStatusColor,
   getStatusLabel,
-} from "../utils";
+} from "../../order/utils";
 
 type LobbyOrderTableProps = {
   orders?: OrderWithRelations[];

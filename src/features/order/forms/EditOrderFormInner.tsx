@@ -24,12 +24,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { CustomerSelect } from "@/features/customer/components";
 import { ProductSelect } from "@/features/product/components";
 import { cn } from "@/lib/utils";
-import { OrderCategory, OrderStatus } from "@prisma/client";
+import { inputHandle } from "@/utils";
+import { OrderStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import type { UpdateOrderFormSchema } from "../types";
-import { inputHandle } from "@/utils";
 
 type EditOrderFormInnerProps = {
   formId: string;
@@ -105,7 +105,9 @@ export const EditOrderFormInner = ({
         name="sendingAt"
         render={({ field }) => (
           <FormItem className="flex flex-col gap-1">
-            <FormLabel>Tanggal Pengiriman</FormLabel>
+            <FormLabel>
+              Tanggal Pengiriman <span className="text-red-500">*</span>
+            </FormLabel>
             <Popover>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -145,39 +147,17 @@ export const EditOrderFormInner = ({
       />
       <FormField
         control={form.control}
-        name="category"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Kategori Pesanan</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder={`Pilih kategori pesanan`} />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem
-                  value={OrderCategory.WHOLESALE}
-                  className="capitalize"
-                >
-                  Grosir
-                </SelectItem>
-                <SelectItem value={OrderCategory.RETAIL} className="capitalize">
-                  Ecer
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
         name="status"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Status Pesanan</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
+            <FormLabel>
+              Status Pesanan <span className="text-red-500">*</span>
+            </FormLabel>
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              value={field.value}
+            >
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder={`Pilih status pesanan`} />

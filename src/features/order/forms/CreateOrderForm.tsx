@@ -21,7 +21,7 @@ export const CreateOrderForm = () => {
       productId: "",
       customerId: "",
       sendingAt: new Date(),
-      category: "WHOLESALE",
+      // category: "WHOLESALE",
     },
     resolver: zodResolver(createOrderFormSchema),
   });

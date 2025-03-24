@@ -1,4 +1,10 @@
+import { OrderCategory } from "@prisma/client";
 import { z } from "zod";
+
+const orderCategory = Object.values(OrderCategory) as [
+  OrderCategory,
+  ...OrderCategory[],
+];
 
 export const createProductFormSchema = z.object({
   name: z
@@ -15,6 +21,11 @@ export const createProductFormSchema = z.object({
     .max(255, { message: "Deskripsi tidak boleh lebih dari 255 karakter" })
     .optional(),
   categoryId: z.string().min(1, { message: "Kategori tidak boleh kosong" }),
+  orderCategory: z
+    .enum(orderCategory, {
+      errorMap: () => ({ message: "Kategori pesanan tidak valid" }),
+    })
+    .default("WHOLESALE"),
 });
 
 export const updateProductFormSchema = createProductFormSchema.partial();

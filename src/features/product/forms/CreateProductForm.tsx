@@ -19,6 +19,7 @@ export const CreateProductForm = () => {
       price: "",
       categoryId: "",
       description: "",
+      orderCategory: "WHOLESALE",
     },
     resolver: zodResolver(createProductFormSchema),
   });

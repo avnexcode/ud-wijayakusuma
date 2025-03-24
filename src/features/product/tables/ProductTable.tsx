@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getCategoryLabel } from "@/features/order/utils";
 import { convertCurrency } from "@/utils/convert-currency";
 import { renderElements } from "@/utils/render-elements";
 import { ScanEye, SquarePen } from "lucide-react";
@@ -45,7 +46,9 @@ export const ProductTable = ({
           render: (product, index) => (
             <TableRow>
               <TableCell>{index + 1}</TableCell>
-              <TableCell className="capitalize">{product.name}</TableCell>
+              <TableCell className="capitalize">
+                ({getCategoryLabel(product.orderCategory)}) - {product.name}
+              </TableCell>
               <TableCell className="capitalize">
                 {convertCurrency(product.price)}
               </TableCell>

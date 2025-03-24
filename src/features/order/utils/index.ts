@@ -25,7 +25,8 @@ export const getCategoryBadge = (category: OrderCategory): BadgeVariants => {
   return badges[category] as BadgeVariants;
 };
 
-export const getCategoryLabel = (category: OrderCategory) => {
+export const getCategoryLabel = (category?: OrderCategory) => {
+  if (!category) return null;
   const labels: Record<OrderCategory, string> = {
     RETAIL: "Eceran",
     WHOLESALE: "Grosir",

@@ -1,1 +1,4 @@
-export { CreateUserPage as default } from "@/features/user/pages/dashboard";
+export {
+  CreateUserPage as default,
+  CreateUserPageSSR as getServerSideProps,
+} from "@/features/user/pages/dashboard";

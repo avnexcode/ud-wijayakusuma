@@ -11,6 +11,14 @@ import { Textarea } from "@/components/ui/textarea";
 import type { CreateProductFormSchema } from "../types";
 import { CategorySelect } from "@/features/category/components";
 import { inputHandle } from "@/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { OrderCategory } from "@prisma/client";
 
 type CreateProductFormInnerProps = {
   formId: string;
@@ -72,6 +80,36 @@ export const CreateProductFormInner = ({
         name="categoryId"
         label="Kategori"
         required
+      />
+      <FormField
+        control={form.control}
+        name="orderCategory"
+        render={({ field: { onChange, value } }) => (
+          <FormItem>
+            <FormLabel>
+              Kategori Pesanan <span className="text-red-500">*</span>
+            </FormLabel>
+            <Select onValueChange={onChange} defaultValue={value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={`Pilih status pesanan`} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem
+                  value={OrderCategory.WHOLESALE}
+                  className="capitalize"
+                >
+                  Grosir
+                </SelectItem>
+                <SelectItem value={OrderCategory.RETAIL} className="capitalize">
+                  Ecer
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
       />
       <FormField
         control={form.control}

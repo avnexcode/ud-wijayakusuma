@@ -8,10 +8,10 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { EditProductFormSkeleton } from "../components/skeleton";
 import { updateProductFormSchema } from "../schemas";
 import type { UpdateProductFormSchema } from "../types";
 import { EditProductFormInner } from "./EditProductFormInner";
-import { EditProductFormSkeleton } from "../components/skeleton";
 
 type EditProductFormProps = {
   productId: string;
@@ -19,6 +19,7 @@ type EditProductFormProps = {
 
 export const EditProductForm = ({ productId }: EditProductFormProps) => {
   const router = useRouter();
+
   const { data: product, isLoading: isProductLoading } =
     api.product.getById.useQuery(
       {
@@ -28,12 +29,14 @@ export const EditProductForm = ({ productId }: EditProductFormProps) => {
         enabled: !!productId,
       },
     );
+
   const form = useForm<UpdateProductFormSchema>({
     defaultValues: {
       name: "",
       price: "",
       categoryId: "",
       description: "",
+      orderCategory: "WHOLESALE",
     },
     resolver: zodResolver(updateProductFormSchema),
   });

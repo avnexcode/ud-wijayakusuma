@@ -1,4 +1,4 @@
-import { OrderCategory, OrderStatus } from "@prisma/client";
+import { OrderStatus } from "@prisma/client";
 import { z } from "zod";
 
 const orderStatus = Object.values(OrderStatus) as [
@@ -6,10 +6,10 @@ const orderStatus = Object.values(OrderStatus) as [
   ...OrderStatus[],
 ];
 
-const orderCategory = Object.values(OrderCategory) as [
-  OrderCategory,
-  ...OrderCategory[],
-];
+// const orderCategory = Object.values(OrderCategory) as [
+//   OrderCategory,
+//   ...OrderCategory[],
+// ];
 
 export const createOrderFormSchema = z.object({
   label: z
@@ -35,11 +35,11 @@ export const createOrderFormSchema = z.object({
     })
     .default("PENDING"),
 
-  category: z
-    .enum(orderCategory, {
-      errorMap: () => ({ message: "Kategori pesanan tidak valid" }),
-    })
-    .default("WHOLESALE"),
+  // category: z
+  //   .enum(orderCategory, {
+  //     errorMap: () => ({ message: "Kategori pesanan tidak valid" }),
+  //   })
+  //   .default("WHOLESALE"),
 
   sendingAt: z.coerce.date({
     errorMap: () => ({ message: "Format tanggal pengiriman tidak valid" }),

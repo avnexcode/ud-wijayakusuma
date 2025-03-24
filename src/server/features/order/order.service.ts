@@ -1,9 +1,9 @@
 import type { CreateOrderRequest, UpdateOrderRequest } from "@/server/models";
 import type { QueryParams } from "@/server/types/api";
-import { OrderRepository } from "./order.repository";
 import { TRPCError } from "@trpc/server";
-import { TransactionService } from "../transaction";
 import { ProductService } from "../product";
+import { TransactionService } from "../transaction";
+import { OrderRepository } from "./order.repository";
 
 export class OrderService {
   static getAll = async (params: QueryParams) => {
@@ -35,9 +35,12 @@ export class OrderService {
       });
     }
 
-    let order = await OrderRepository.insert(request);
-
     const product = await ProductService.getById(request.productId);
+
+    let order = await OrderRepository.insert({
+      ...request,
+      category: product.orderCategory,
+    });
 
     const totalAmount = Number(product?.price) * Number(order.total);
 
@@ -75,7 +78,7 @@ export class OrderService {
       }
     }
 
-    const order = await OrderRepository.update(id, request);
+    let order = await OrderRepository.update(id, request);
 
     if (request.productId || request.total) {
       const product = await ProductService.getById(
@@ -88,6 +91,11 @@ export class OrderService {
           message: "Data produk tidak ditemukan",
         });
       }
+
+      order = await OrderRepository.update(id, {
+        ...request,
+        category: product.orderCategory,
+      });
 
       const transaction = await TransactionService.getByOrderId(id);
 

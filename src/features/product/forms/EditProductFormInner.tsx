@@ -1,5 +1,3 @@
-import { useFormContext } from "react-hook-form";
-
 import {
   FormControl,
   FormField,
@@ -8,10 +6,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import type { UpdateProductFormSchema } from "../types";
 import { CategorySelect } from "@/features/category/components";
 import { inputHandle } from "@/utils";
+import { useFormContext } from "react-hook-form";
+import type { UpdateProductFormSchema } from "../types";
+import { OrderCategory } from "@prisma/client";
 
 type EditProductFormInnerProps = {
   formId: string;
@@ -73,6 +80,40 @@ export const EditProductFormInner = ({
         name="categoryId"
         label="Kategori"
         required
+      />
+      <FormField
+        control={form.control}
+        name="orderCategory"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              Kategori Pesanan <span className="text-red-500">*</span>
+            </FormLabel>
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              value={field.value}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder={`Pilih status pesanan`} />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem
+                  value={OrderCategory.WHOLESALE}
+                  className="capitalize"
+                >
+                  Grosir
+                </SelectItem>
+                <SelectItem value={OrderCategory.RETAIL} className="capitalize">
+                  Ecer
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
       />
       <FormField
         control={form.control}

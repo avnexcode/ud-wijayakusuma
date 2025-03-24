@@ -5,6 +5,20 @@ import {
   SectionContainer,
 } from "@/components/layouts";
 import { RegisterForm } from "@/features/auth/forms";
+import { type GetServerSideProps } from "next";
+
+export const CreateUserPageSSR: GetServerSideProps = async ({ req }) => {
+  const cookies = req.headers.cookie ?? "";
+  const sidebarDefaultOpen = cookies.includes("sidebar_state=true");
+
+  return {
+    props: { sidebarDefaultOpen },
+  };
+};
+
+type CreateUserPageProps = {
+  sidebarDefaultOpen: boolean;
+};
 
 export const CreateUserPage = () => {
   return (
@@ -22,5 +36,10 @@ export const CreateUserPage = () => {
 };
 
 CreateUserPage.getLayout = (page: React.ReactElement) => {
-  return <DashboardLayout>{page}</DashboardLayout>;
+  const pageProps = page.props as CreateUserPageProps;
+  return (
+    <DashboardLayout sidebarDefaultOpen={pageProps.sidebarDefaultOpen}>
+      {page}
+    </DashboardLayout>
+  );
 };

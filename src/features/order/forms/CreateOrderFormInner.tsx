@@ -13,23 +13,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CustomerSelect } from "@/features/customer/components";
 import { ProductSelect } from "@/features/product/components";
 import { cn } from "@/lib/utils";
-import { OrderCategory } from "@prisma/client";
+import { inputHandle } from "@/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import type { CreateOrderFormSchema } from "../types";
-import { inputHandle } from "@/utils";
 
 type CreateOrderFormInnerProps = {
   formId: string;
@@ -95,36 +87,6 @@ export const CreateOrderFormInner = ({
                 }}
               />
             </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="category"
-        render={({ field: { onChange, value } }) => (
-          <FormItem>
-            <FormLabel>
-              Kategori Pesanan <span className="text-red-500">*</span>
-            </FormLabel>
-            <Select onValueChange={onChange} defaultValue={value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder={`Pilih status pesanan`} />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem
-                  value={OrderCategory.WHOLESALE}
-                  className="capitalize"
-                >
-                  Grosir
-                </SelectItem>
-                <SelectItem value={OrderCategory.RETAIL} className="capitalize">
-                  Ecer
-                </SelectItem>
-              </SelectContent>
-            </Select>
             <FormMessage />
           </FormItem>
         )}
