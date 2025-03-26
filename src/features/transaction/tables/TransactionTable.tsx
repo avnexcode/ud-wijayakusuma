@@ -59,7 +59,7 @@ export const TransactionTable = ({
                 {transaction.order.label}
               </TableCell>
               <TableCell className="capitalize">
-                {convertCurrency(transaction.totalAmount)}
+                {convertCurrency(transaction.amount)}
               </TableCell>
               <TableCell className="capitalize">
                 {transaction.amountPaid

@@ -27,9 +27,11 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
       label: "",
       description: "",
       total: "",
+      discount: "NONE",
+      totalDiscount: "",
+      status: "PENDING",
       productId: "",
       customerId: "",
-      status: "PENDING",
       sendingAt: new Date(),
     },
     resolver: zodResolver(updateOrderFormSchema),
@@ -63,6 +65,8 @@ export const EditOrderForm = ({ orderId }: EditOrderFormProps) => {
       form.reset({
         ...order,
         description: order.description ?? "",
+        discount: order.discount ?? "NONE",
+        totalDiscount: order.totalDiscount ?? "",
       });
     }
   }, [form, order]);

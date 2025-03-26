@@ -44,11 +44,13 @@ export class OrderRepository {
         product: {
           select: {
             name: true,
+            orderCategory: true,
           },
         },
         transaction: {
           select: {
             totalAmount: true,
+            amount: true,
           },
         },
       },
@@ -106,11 +108,13 @@ export class OrderRepository {
         product: {
           select: {
             name: true,
+            orderCategory: true,
           },
         },
         transaction: {
           select: {
             totalAmount: true,
+            amount: true,
             status: true,
             amountDue: true,
             amountPaid: true,

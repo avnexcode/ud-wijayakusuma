@@ -92,14 +92,22 @@ enum OrderCategory {
     RETAIL // ecer
 }
 
+enum Discount {
+    NONE
+    PERCENTAGE
+    NOMINAL
+}
+
 model Order {
-    id          String        @id @default(cuid())
-    label       String        @unique @db.VarChar(100)
-    description String?       @db.Text
-    total       String        @db.VarChar(50)
-    status      OrderStatus   @default(PENDING)
-    category    OrderCategory @default(RETAIL)
-    sendingAt   DateTime      @map("sending_at")
+    id            String        @id @default(cuid())
+    label         String        @unique @db.VarChar(100)
+    description   String?       @db.Text
+    total         String        @db.VarChar(50)
+    status        OrderStatus   @default(PENDING)
+    category      OrderCategory @default(RETAIL)
+    sendingAt     DateTime      @map("sending_at")
+    discount      Discount?
+    totalDiscount String?       @map("total_discount")
 
     customerId    String       @map("customer_id")
     productId     String       @map("product_id")
@@ -131,6 +139,7 @@ enum TransactionStatus {
 model Transaction {
     id          String            @id @default(cuid())
     totalAmount String            @map("total_amount")
+    amount      String
     amountPaid  String?           @map("amount_paid")
     amountDue   String?           @map("amount_due")
     status      TransactionStatus @default(UNPAID)

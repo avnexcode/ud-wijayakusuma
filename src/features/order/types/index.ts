@@ -18,11 +18,13 @@ export type OrderWithRelations = Prisma.OrderGetPayload<{
     product: {
       select: {
         name: true;
+        orderCategory: true;
       };
     };
     transaction: {
       select: {
         totalAmount: true;
+        amount: true;
       };
     };
   };
@@ -41,10 +43,12 @@ export type OrderWithAllRelations = Prisma.OrderGetPayload<{
     product: {
       select: {
         name: true;
+        orderCategory: true;
       };
     };
     transaction: {
       select: {
+        amount: true;
         totalAmount: true;
         amountDue: true;
         amountPaid: true;

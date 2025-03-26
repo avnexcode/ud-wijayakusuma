@@ -25,7 +25,7 @@ import { CustomerSelect } from "@/features/customer/components";
 import { ProductSelect } from "@/features/product/components";
 import { cn } from "@/lib/utils";
 import { inputHandle } from "@/utils";
-import { OrderStatus } from "@prisma/client";
+import { Discount, OrderStatus } from "@prisma/client";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useFormContext } from "react-hook-form";
@@ -100,6 +100,59 @@ export const EditOrderFormInner = ({
           </FormItem>
         )}
       />
+      <div className="flex items-center gap-5">
+        <FormField
+          control={form.control}
+          name="totalDiscount"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Total Diskon</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Masukkan total diskon"
+                  {...field}
+                  onChange={(e) => {
+                    inputHandle("onChange", "number", e);
+                    field.onChange(e);
+                  }}
+                  onPaste={(e) => {
+                    inputHandle("onPaste", "number", e);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="discount"
+          render={({ field: { onChange, value } }) => (
+            <FormItem className="w-[300px]">
+              <FormLabel>Diskon</FormLabel>
+              <Select
+                onValueChange={onChange}
+                defaultValue={value}
+                value={value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder={"Pilih status pesanan"} />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={Discount.NONE}>
+                    Tidak ada diskon
+                  </SelectItem>
+                  <SelectItem value={Discount.NOMINAL}>Nominal</SelectItem>
+                  <SelectItem value={Discount.PERCENTAGE}>Persen</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
       <FormField
         control={form.control}
         name="sendingAt"

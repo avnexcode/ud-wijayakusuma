@@ -16,6 +16,8 @@ import { OrderTableBodySkeleton } from "../components/skeleton/OrderTableSkeleto
 import type { OrderWithRelations } from "../types";
 import { convertCurrency } from "@/utils/convert-currency";
 import { formatDate } from "@/utils";
+import { getCategoryLabel } from "../utils";
+import { cn } from "@/lib/utils";
 
 type OrderTableProps = {
   orders?: OrderWithRelations[];
@@ -55,10 +57,21 @@ export const OrderTable = ({
               <TableCell className="capitalize">
                 {order.customer.name}
               </TableCell>
-              <TableCell className="capitalize">{order.product.name}</TableCell>
+              <TableCell className="capitalize">
+                ({getCategoryLabel(order.product.orderCategory)}) -{" "}
+                {order.product.name}
+              </TableCell>
               <TableCell className="capitalize">{order.total}</TableCell>
               <TableCell className="capitalize">
-                {convertCurrency(order.transaction?.totalAmount ?? "")}
+                {order.transaction?.amount !==
+                  order.transaction?.totalAmount && (
+                  <>
+                    <span className={cn("line-through")}>
+                      {convertCurrency(order.transaction?.totalAmount ?? "")}
+                    </span>{" "}
+                  </>
+                )}
+                {convertCurrency(order.transaction?.amount ?? "")}
               </TableCell>
               <TableCell className="flex items-center gap-2 capitalize">
                 <CalendarIcon className="h-4 w-4" />

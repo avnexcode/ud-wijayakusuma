@@ -8,6 +8,7 @@ const transactionStatus = Object.values(TransactionStatus) as [
 
 export const createTransactionRequest = z.object({
   totalAmount: z.string().min(1),
+  amount: z.string().min(1),
   amountDue: z.string().min(1),
   orderId: z.string().min(1),
 });

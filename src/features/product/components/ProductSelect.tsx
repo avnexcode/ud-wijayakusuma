@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getCategoryLabel } from "@/features/order/utils";
 import { useSelectParams } from "@/hooks";
 import { cn } from "@/lib/utils";
+import { convertCurrency } from "@/utils";
 import { api } from "@/utils/api";
 import { renderElements } from "@/utils/render-elements";
 import { type OrderCategory } from "@prisma/client";
@@ -125,8 +126,9 @@ export const ProductSelect = <T extends FieldValues>({
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={`Pilih ${label.toLowerCase()}`}>
-                  ({getCategoryLabel(selectedProduct?.orderCategory)}) -{" "}
-                  {selectedProduct?.name ?? `Pilih ${label.toLowerCase()}`}
+                  {selectedProduct?.name ?? `Pilih ${label.toLowerCase()}`} (
+                  {getCategoryLabel(selectedProduct?.orderCategory)}) -{" "}
+                  {convertCurrency(selectedProduct?.price ?? "0")}
                 </SelectValue>
               </SelectTrigger>
             </FormControl>
@@ -153,8 +155,9 @@ export const ProductSelect = <T extends FieldValues>({
                         value={product.id}
                         className="capitalize"
                       >
-                        ({getCategoryLabel(product.orderCategory)}) -{" "}
-                        {product.name}
+                        {product.name} (
+                        {getCategoryLabel(product.orderCategory)}) -{" "}
+                        {convertCurrency(product.price)}
                       </SelectItem>
                     ),
                     fallback: (

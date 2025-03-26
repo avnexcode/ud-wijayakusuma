@@ -50,7 +50,7 @@ export const CreatePaymentRecordFormInner = ({
         render={({ field: { value, onChange, ...field } }) => (
           <FormItem>
             <FormLabel>
-              Upload Nota <span className="text-red-500">*</span>
+              Unggah Nota <span className="text-red-500">*</span>
             </FormLabel>
             <div className="flex flex-col gap-2">
               {selectedImagePreview && (

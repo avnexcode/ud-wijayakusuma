@@ -6,13 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { toast as sonner } from "sonner";
 import { createOrderFormSchema } from "../schemas";
 import type { CreateOrderFormSchema } from "../types";
 import { CreateOrderFormInner } from "./CreateOrderFormInner";
+import { useToast } from "@/hooks";
 
 export const CreateOrderForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<CreateOrderFormSchema>({
     defaultValues: {
       label: "",
@@ -20,16 +22,24 @@ export const CreateOrderForm = () => {
       total: "",
       productId: "",
       customerId: "",
+      discount: "NONE",
+      totalDiscount: "",
       sendingAt: new Date(),
-      // category: "WHOLESALE",
     },
     resolver: zodResolver(createOrderFormSchema),
   });
   const { mutate: createOrder, isPending: isCreateOrderPending } =
     api.order.create.useMutation({
       onSuccess: () => {
-        toast.success("Berhasil membuat pesanan baru");
+        sonner.success("Berhasil membuat pesanan baru");
         void router.replace("/dashboard/order");
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          variant: "destructive",
+          description: error.message,
+        });
       },
     });
 

@@ -64,7 +64,7 @@ export class PaymentRecordService {
     const amountPaid =
       Number(transactionExists.amountPaid) + Number(request.amount);
 
-    const amountDue = Number(transactionExists.totalAmount) - amountPaid;
+    const amountDue = Number(transactionExists.amount) - amountPaid;
 
     let transactionStatus: TransactionStatus;
 
@@ -94,7 +94,7 @@ export class PaymentRecordService {
 
     const transaction = existingPaymentRecord.transaction;
     const newAmountPaid = Number(transaction.amountPaid) + amountDifference;
-    const newAmountDue = Number(transaction.totalAmount) - newAmountPaid;
+    const newAmountDue = Number(transaction.amount) - newAmountPaid;
 
     if (newAmountDue < 0) {
       throw new TRPCError({
@@ -129,6 +129,7 @@ export class PaymentRecordService {
     }
 
     let transactionStatus: TransactionStatus;
+
     if (newAmountDue === 0) {
       transactionStatus = "PAID";
     } else {
@@ -171,7 +172,7 @@ export class PaymentRecordService {
     const transaction = paymentRecordExists.transaction;
     const newAmountPaid =
       Number(transaction.amountPaid) - Number(paymentRecordExists.amount);
-    const newAmountDue = Number(transaction.totalAmount) - newAmountPaid;
+    const newAmountDue = Number(transaction.amount) - newAmountPaid;
 
     let transactionStatus: TransactionStatus;
     if (newAmountPaid === 0) {

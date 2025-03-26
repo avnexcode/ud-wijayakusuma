@@ -11,7 +11,7 @@ export const TransactionStatusBadge = ({
   status: TransactionStatus;
 }) => {
   const statusColors = {
-    UNPAID: "bg-yellow-500",
+    UNPAID: "bg-red-500",
     PARTIALLY_PAID: "bg-yellow-500",
     PAID: "bg-green-500",
   };
@@ -98,9 +98,16 @@ export const TransactionCard = ({
           </div>
           <div>
             <p className="text-sm text-gray-500">Total Yang Harus Dibayar</p>
-            <p className="font-medium">
-              {convertCurrency(transaction.totalAmount)}
-            </p>
+            <div className="flex gap-3">
+              {transaction.totalAmount !== transaction.amount && (
+                <p className="font-medium line-through">
+                  {convertCurrency(transaction.totalAmount)}
+                </p>
+              )}
+              <p className="font-medium">
+                {convertCurrency(transaction.amount)}
+              </p>
+            </div>
           </div>
           <div>
             <p className="text-sm text-gray-500">Jumlah Dibayar</p>

@@ -51,7 +51,7 @@ export const EditPaymentRecordFormInner = ({
         render={({ field: { value, onChange, ...field } }) => (
           <FormItem>
             <FormLabel>
-              Upload Nota <span className="text-red-500">*</span>
+              Unggah Nota <span className="text-red-500">*</span>
             </FormLabel>
             <div className="flex flex-col gap-2">
               {selectedImagePreview && (
@@ -99,7 +99,7 @@ export const EditPaymentRecordFormInner = ({
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              Masukkan Nominal<span className="text-red-500">*</span>
+              Masukkan Nominal <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <Input

@@ -7,7 +7,7 @@ export const Navbar = () => {
   const { data: profile, isLoading: isProfileLoading } =
     api.user.getProfile.useQuery();
   return (
-    <nav className="flex w-full items-center justify-between px-2 py-3">
+    <nav className="sticky top-0 z-50 flex w-full items-center justify-between bg-background px-2 py-3">
       <div className="flex items-center gap-2">
         <SidebarTrigger className="" />
         <h1>Dashboard</h1>
