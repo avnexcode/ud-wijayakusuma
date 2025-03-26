@@ -119,6 +119,7 @@ export class OrderService {
       }
 
       const transaction = await TransactionService.getByOrderId(id);
+      let status = transaction.status;
 
       const amountPaid = Number(transaction?.amountPaid) || 0;
       const amountDue = amount - amountPaid;
@@ -136,19 +137,19 @@ export class OrderService {
       });
 
       if (amountDue === 0) {
-        await TransactionService.update(existingOrder.transactionId!, {
-          status: "PAID",
-          totalAmount: String(totalAmount),
-          amount: String(amount),
-          amountDue: String(amountDue),
-        });
+        status = "PAID";
+      } else if (amountPaid !== amount) {
+        status = "PARTIALLY_PAID";
       } else {
-        await TransactionService.update(existingOrder.transactionId!, {
-          totalAmount: String(totalAmount),
-          amount: String(amount),
-          amountDue: String(amountDue),
-        });
+        status = "UNPAID";
       }
+
+      await TransactionService.update(existingOrder.transactionId!, {
+        status,
+        totalAmount: String(totalAmount),
+        amount: String(amount),
+        amountDue: String(amountDue),
+      });
     }
 
     return order;
